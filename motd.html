@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJECT Z</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+    background:
+      radial-gradient(900px 500px at 50% -5%, rgba(170,70,255,.18), transparent 60%),
+      linear-gradient(180deg,#140821,#0a0412);
+    color:#e7dcff;
+    padding:18px 14px 32px;
+    -webkit-font-smoothing:antialiased;
+    text-align:center;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+
+  .rules-img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:12px;
+    box-shadow:0 0 40px rgba(150,60,230,.35);
+    border:1px solid rgba(170,90,255,.25);
+  }
+
+  .links{
+    display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+    margin:22px 0 6px;
+  }
+  .btn{
+    display:inline-block;text-decoration:none;
+    padding:11px 22px;border-radius:9px;
+    font-size:14px;font-weight:700;letter-spacing:.5px;
+    border:1px solid transparent;transition:.15s;
+  }
+  .btn.shop{background:linear-gradient(90deg,#8a2be2,#c154ff);color:#fff;}
+  .btn.dc{background:#2b2f5a;color:#cfd4ff;border-color:#3a3f74;}
+  .btn.vk{background:#13314f;color:#bfe0ff;border-color:#1c4a72;}
+  .btn:hover{filter:brightness(1.12);}
+
+  .foot{margin-top:16px;font-size:12px;color:#a98fce;}
+  .foot b{color:#c154ff;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <img class="rules-img" src="projectz_rules.png" alt="Правила сервера PROJECT Z">
+
+  <!-- Замени ссылки Discord / ВК на свои -->
+  <div class="links">
+    <a class="btn shop" href="https://projectz.site" target="_blank">МАГАЗИН VIP</a>
+    <a class="btn dc" href="#" target="_blank">DISCORD</a>
+    <a class="btn vk" href="#" target="_blank">ГРУППА ВК</a>
+  </div>
+
+  <div class="foot"><b>PROJECT Z</b> &nbsp;•&nbsp; IP: 46.174.52.8:27212 &nbsp;•&nbsp; projectz.site</div>
+
+</div>
+</body>
+</html>
