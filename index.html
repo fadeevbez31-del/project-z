@@ -1,117 +1,34 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PROJECT Z | Зомби сервер CS:S</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #090b0f;
-      color: #f5f5f5;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-header {
-    padding: 65px 20px 15px;
-    min-height: 340px;
-    background-image: url('/projectz_banner.png?v=2') !important;
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-bottom: 2px solid #a855f7;
-}
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(52px, 10vw, 100px);
-      color: #ff3535;
-      text-shadow: 0 0 35px #c00000;
-      letter-spacing: 5px;
-    }
-    h2 { color: #ff5555; }
-    p { line-height: 1.7; }
-    .subtitle { font-size: 22px; }
-    .section { padding: 45px 20px; }
-    .card {
-      max-width: 750px;
-      margin: 20px auto;
-      padding: 28px;
-      background: #171c25;
-      border: 1px solid #383f4d;
-      border-radius: 16px;
-      box-shadow: 0 0 25px #0008;
-    }
-    .button {
-      display: inline-block;
-      margin: 12px 6px;
-      padding: 16px 28px;
-      color: white;
-      background: #b51d1d;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 20px #a0000077;
-      transition: 0.2s;
-    }
-    .button:hover {
-      background: #f02c2c;
-      box-shadow: 0 0 30px #ff2424;
-      transform: translateY(-2px);
-    }
-    .ip {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ffcc66;
-      overflow-wrap: anywhere;
-    }
-    .modes { color: #7dff93; }
-    footer {
-      padding: 30px;
-      color: #999;
-      background: #08090c;
-    }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROJECT Z | Зомби сервер CS:S</title>
+<style>
+:root{--bg:#0b0911;--panel:#17121f;--purple:#b66bff;--border:#56316e;--text:#f1e9f8}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}a{color:inherit;text-decoration:none}.topbar{position:sticky;top:0;z-index:20;background:rgba(13,9,21,.96);border-bottom:1px solid #63358c;display:flex;align-items:center;gap:22px;justify-content:space-between;padding:15px clamp(16px,4vw,55px);box-shadow:0 6px 25px #0009}.brand{font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:2px;color:#e2b8ff;text-shadow:0 0 18px #a84dff88;white-space:nowrap}.connect{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #d19aff;border-radius:12px;padding:13px 19px;background:linear-gradient(120deg,#6526a0,#9b45e7,#6323a5);font-weight:800;font-size:14px;box-shadow:0 0 16px #b35cff99;animation:glow 2.3s ease-in-out infinite;white-space:nowrap}.connect:hover{filter:brightness(1.2);transform:translateY(-1px)}@keyframes glow{0%,100%{box-shadow:0 0 8px #ae55ff88}50%{box-shadow:0 0 27px #bc70ff,0 0 45px #8e31ec88}}.hero{height:clamp(220px,30vw,430px);background:#140c1c url('projectz_banner.png') center/cover no-repeat;border-bottom:2px solid var(--purple)}.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1400px;margin:auto;gap:24px;padding:26px 20px}.sidebar{background:#120e1b;border:1px solid var(--border);border-radius:15px;padding:15px;align-self:start;position:sticky;top:100px}.navbtn{width:100%;display:flex;align-items:center;gap:12px;text-align:left;color:#e7d9f5;background:#21192c;border:1px solid transparent;border-radius:9px;padding:14px;margin:5px 0;font-size:15px;cursor:pointer}.navbtn:hover,.navbtn.active{background:#512779;border-color:#a56ce3}.content{background:#15101e;border:1px solid #45255c;border-radius:16px;padding:clamp(20px,4vw,42px);min-height:380px}.section{display:none}.section.active{display:block}h1{color:#e2b8ff;margin-top:0}h2{color:#c891ff}.panel{padding:22px;background:#20192c;border:1px solid #4b3560;border-radius:12px;margin:18px 0;line-height:1.8}.ip{font-size:clamp(20px,3vw,29px);color:#ffd06b;font-weight:bold;letter-spacing:1px}.small{color:#c5b4d2}.cta{display:inline-block;padding:12px 18px;background:#7034aa;border-radius:9px;font-weight:bold;margin:8px 5px 8px 0}.cta:hover{background:#9552d0}footer{text-align:center;padding:26px;color:#9f8daf;border-top:1px solid #372245}@media(max-width:720px){.topbar{flex-wrap:wrap;justify-content:center;gap:12px}.connect{font-size:12px;padding:11px 13px}.layout{grid-template-columns:1fr;padding:12px;gap:12px}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.navbtn{margin:0;font-size:13px;padding:11px 7px}.hero{height:220px;background-position:center}.content{min-height:300px}}
+@media(prefers-reduced-motion:reduce){.connect{animation:none}}
+</style>
 </head>
 <body>
-
-  <header>
-    <h1 style="display:none;">PROJECT Z</h1>
-    <a class="button" style="position: relative; top: 30px; margin-top: 225px; width: 530px; max-width: 95%; padding: 40px 20px; font-size: 18px; border-radius: 12px;" href="steam://connect/46.174.52.8:27212">
-      🎮 ПОДКЛЮЧИТЬСЯ К СЕРВЕРУ
-    </a>
-  </header>
-
-  <section class="section">
-    <h2>🧟 О нашем сервере</h2>
-    <div class="card">
-      <p>Counter-Strike: Source</p>
-      <p class="modes">Zombie Escape | Zombie Mod</p>
-      <p class="ip">46.174.52.8:27212</p>
-      <p>Сражайся с зомби, строй баррикады и спасайся вместе с командой!</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2>💎 VIP-привилегии</h2>
-    <div class="card">
-      <p>Хочешь получить VIP на PROJECT Z?</p>
-      <p>Свяжись с администрацией через Telegram.</p>
-      <p>Список возможностей и цены узнавать в ТГ.</p>
-      <a class="button" href="https://t.me/AyavaskA31" target="_blank" rel="noopener noreferrer">💎 Как купить VIP</a>
-    </div>
-  </section>
-
-  <section class="section" id="contacts">
-    <h2>🌐 Наши сообщества</h2>
-    <div class="card">
-      <p>Telegram, ВКонтакте и Discord скоро появятся!</p>
-    </div>
-  </section>
-
-  <footer>
-    © PROJECT Z | 2026 Проект Зет
-  </footer>
-
-</body>
-</html>
+<header class="topbar"><div class="brand">☣ PROJECT Z</div><a class="connect" href="steam://connect/46.174.52.8:27212" title="Открыть сервер в Steam">🎮 ПОДКЛЮЧИТЬСЯ <span aria-hidden="true">✦</span></a></header>
+<div class="hero" role="img" aria-label="Баннер PROJECT Z"></div>
+<div class="layout">
+<nav class="sidebar" aria-label="Разделы сайта">
+<button class="navbtn active" data-target="home">⌂ &nbsp; Главная</button>
+<button class="navbtn" data-target="vip">💎 &nbsp; VIP-привилегии</button>
+<button class="navbtn" data-target="rules">📖 &nbsp; Правила сервера</button>
+<button class="navbtn" data-target="admins">🛡 &nbsp; Администрация</button>
+<button class="navbtn" data-target="maps">🗺 &nbsp; Карты</button>
+<button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
+</nav>
+<main class="content">
+<section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel"><h2>☣ О нашем сервере</h2><p>Сражайся с зомби, строй баррикады и спасайся вместе с командой!</p><div class="ip">46.174.52.8:27212</div><a class="cta" href="steam://connect/46.174.52.8:27212">🎮 Играть на сервере</a></div></section>
+<section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel"><p>Хочешь получить VIP на PROJECT Z?</p><p>Свяжись с администрацией через Telegram. Список возможностей и цену узнавай у администрации.</p><p class="small">Здесь можно разместить точный список VIP-функций и тарифов, когда они будут готовы.</p></div></section>
+<section id="rules" class="section"><h1>📖 Правила сервера</h1><div class="panel"><p>Ознакомься с правилами перед игрой.</p><p class="small">Здесь разместим твои утверждённые правила. Пока текст не добавлен, чтобы не публиковать выдуманные правила.</p></div></section>
+<section id="admins" class="section"><h1>🛡 Администрация</h1><div class="panel"><p>Раздел команды PROJECT Z.</p><p class="small">Здесь появятся ники администраторов и их роли.</p></div></section>
+<section id="maps" class="section"><h1>🗺 Карты сервера</h1><div class="panel"><p>Zombie Escape и Zombie Mod.</p><p class="small">Список установленных карт можно добавить позже.</p></div></section>
+<section id="contacts" class="section"><h1>✉ Контакты</h1><div class="panel"><p>По вопросам сервера, VIP и администрации обращайся к команде PROJECT Z.</p><p class="small">Добавь сюда свою ссылку Telegram или Discord.</p></div></section>
+</main></div><footer>© PROJECT Z — Counter-Strike: Source</footer>
+<script>
+const buttons=document.querySelectorAll('.navbtn');const sections=document.querySelectorAll('.section');function showSection(id){if(!document.getElementById(id))return;buttons.forEach(b=>{const active=b.dataset.target===id;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});sections.forEach(s=>s.classList.toggle('active',s.id===id));history.replaceState(null,'','#'+id)}buttons.forEach(b=>b.addEventListener('click',()=>showSection(b.dataset.target)));if(location.hash)showSection(location.hash.slice(1));
+</script>
+</body></html>
