@@ -18,7 +18,34 @@
     background-size: cover !important;
     background-repeat: no-repeat !important;
 }
-</style>
+.telegram-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.telegram-btn {
+    background: #7133a8;
+    color: white;
+    border: 1px solid #a45bff;
+    border-radius: 9px;
+    padding: 14px 25px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.telegram-btn:hover {
+    background: #9145d6;
+    box-shadow: 0 0 15px #a855f7, 0 0 25px #9333ea;
+    transform: translateY(-2px);
+}
+
+.telegram-label {
+    color: #d9b3ff;
+}</style>
 </head>
 <body>
 <header class="topbar"><div class="brand">☣ PROJECT Z</div><a class="connect" href="steam://connect/46.174.52.8:27212" title="Открыть сервер в Steam">🎮 ПОДКЛЮЧИТЬСЯ <span aria-hidden="true">✦</span></a></header>
@@ -164,7 +191,18 @@ Zombie Mod • Zombie Reloaded • Zombie Escape
 PROJECTZ — играй честно, уважай других и выживай!</p></div></section>
 <section id="admins" class="section"><h1>🛡 Администрация</h1><div class="panel"><p>Раздел команды PROJECT Z.</p><p class="small">1.Oxygen(Основатель)</p></div></section>
 <section id="maps" class="section"><h1>🗺 Карты сервера</h1><div class="panel"><p>Zombie Escape и Zombie Mod.</p><p class="small">Список установленных карт можно добавить позже.</p></div></section>
-<section id="contacts" class="section"><h1>✉ Контакты</h1><div class="panel"><p>По вопросам сервера, VIP и администрации обращайся к команде PROJECT Z.</p><p class="small">Добавь сюда свою ссылку Telegram или Discord.</p></div></section>
+<section id="contacts" class="section">
+<h1>✉ Контакты</h1>
+<div class="panel">
+<p>По вопросам сервера, VIP и администрации обращайся к команде PROJECT Z.</p>
+
+<div class="telegram-row">
+    <button class="telegram-btn" type="button">✈ Telegram</button>
+    <span class="telegram-label">(Администрация)</span>
+</div>
+
+</div>
+</section>
 </main></div><footer>© PROJECT Z — Counter-Strike: Source</footer>
 <script>
 const buttons=document.querySelectorAll('.navbtn');const sections=document.querySelectorAll('.section');function showSection(id){if(!document.getElementById(id))return;buttons.forEach(b=>{const active=b.dataset.target===id;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});sections.forEach(s=>s.classList.toggle('active',s.id===id));history.replaceState(null,'','#'+id)}buttons.forEach(b=>b.addEventListener('click',()=>showSection(b.dataset.target)));if(location.hash)showSection(location.hash.slice(1));
