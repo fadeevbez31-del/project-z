@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJECT Z</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+    background:
+      radial-gradient(900px 500px at 50% -5%, rgba(170,70,255,.18), transparent 60%),
+      linear-gradient(180deg,#140821,#0a0412);
+    color:#e7dcff;
+    padding:18px 14px 32px;
+    -webkit-font-smoothing:antialiased;
+    text-align:center;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+
+  .rules-img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:12px;
+    box-shadow:0 0 40px rgba(150,60,230,.35);
+    border:1px solid rgba(170,90,255,.25);
+  }
+
+  .links{
+    display:flex;justify-content:center;gap:14px;flex-wrap:wrap;
+    margin:22px 0 6px;
+  }
+  .btn{
+    position:relative;overflow:hidden;
+    display:inline-block;text-decoration:none;
+    padding:12px 26px;border-radius:10px;
+    font-size:14px;font-weight:800;letter-spacing:.6px;
+    color:#fff;border:1px solid rgba(255,255,255,.18);
+    transition:transform .15s,filter .15s;
+    animation:glow 1.8s ease-in-out infinite;
+  }
+  /* бегущий блик (мерцание) */
+  .btn:before{
+    content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);
+    transform:skewX(-20deg);
+    animation:shimmer 2.8s infinite;
+  }
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.18);}
+
+  .btn.shop{background:linear-gradient(90deg,#8a2be2,#c154ff);--gc:195,84,255;}
+  .btn.dc{background:linear-gradient(90deg,#4752c4,#5865F2);--gc:88,101,242;}
+  .btn.tg{background:linear-gradient(90deg,#1c92d2,#36c5f0);--gc:41,158,217;}
+
+  .btn:nth-child(2){animation-delay:.3s;}
+  .btn:nth-child(2):before{animation-delay:.4s;}
+  .btn:nth-child(3){animation-delay:.6s;}
+  .btn:nth-child(3):before{animation-delay:.8s;}
+
+  @keyframes glow{
+    0%,100%{box-shadow:0 0 6px rgba(var(--gc),.5),0 0 2px rgba(var(--gc),.6);}
+    50%{box-shadow:0 0 22px rgba(var(--gc),.95),0 0 44px rgba(var(--gc),.5);}
+  }
+  @keyframes shimmer{
+    0%{left:-130%;}
+    55%,100%{left:130%;}
+  }
+
+  .foot{margin-top:16px;font-size:12px;color:#a98fce;}
+  .foot b{color:#c154ff;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <img class="rules-img" src="projectz_rules.png" alt="Правила сервера PROJECT Z">
+
+  <div class="links">
+    <a class="btn shop" href="https://projectz.site" target="_blank">МАГАЗИН VIP</a>
+    <a class="btn dc" href="https://discord.gg/P9s94zXeW" target="_blank">DISCORD</a>
+    <a class="btn tg" href="https://t.me/AyavaskA31" target="_blank">ТЕЛЕГРАМ</a>
+  </div>
+
+  <div class="foot"><b>PROJECT Z</b> &nbsp;•&nbsp; IP: 46.174.52.8:27212 &nbsp;•&nbsp; projectz.site</div>
+
+</div>
+</body>
+</html>
