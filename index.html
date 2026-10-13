@@ -50,6 +50,41 @@
     text-decoration: none;
     text-align: center;
 }
+  .wishes-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.wishes-btn {
+    display: inline-block;
+    background: #ffffff;
+    color: #8734cc;
+    padding: 14px 25px;
+    border: 2px solid #b266ff;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wishes-btn:hover {
+    background: #ffffff;
+    color: #9333ea;
+    box-shadow:
+        0 0 15px #a855f7,
+        0 0 30px #9333ea;
+    transform: translateY(-2px);
+}
+
+.wishes-label {
+    color: #d9a3ff;
+    font-size: 15px;
+}
 </style>
 </head>
 <body>
@@ -61,7 +96,7 @@
 <button class="navbtn" data-target="vip">💎 &nbsp; VIP-привилегии</button>
 <button class="navbtn" data-target="rules">📖 &nbsp; Правила сервера</button>
 <button class="navbtn" data-target="admins">🛡 &nbsp; Администрация</button>
-<button class="navbtn" data-target="maps">🗺 &nbsp; Карты</button>
+<button class="navbtn" data-target="maps">🗺 &nbsp; Пожелания</button>
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
 </nav>
 <main class="content">
@@ -195,7 +230,25 @@ Zombie Mod • Zombie Reloaded • Zombie Escape
 
 PROJECTZ — играй честно, уважай других и выживай!</p></div></section>
 <section id="admins" class="section"><h1>🛡 Администрация</h1><div class="panel"><p>Раздел команды PROJECT Z.</p><p class="small"> 1.Oxygen(Основатель) </p></div></section>
-<section id="maps" class="section"><h1>🗺 Пожелания </h1><div class="panel"><p>Zombie Escape и Zombie Mod.</p><p class="small">Список установленных карт можно добавить позже.</p></div></section>
+<section id="maps" class="section">
+    <h1>🦇 Пожелания</h1>
+    <div class="panel">
+
+        <div class="wishes-row">
+            <a class="wishes-btn"
+               href="https://discord.gg/P9s94zXeW"
+               target="_blank"
+               rel="noopener noreferrer">
+                ПОЖЕЛАНИЯ
+            </a>
+            <span class="wishes-label">Пожелания/Жалобы</span>
+        </div>
+
+        <p>Zombie Escape и Zombie Mod.</p>
+        <p class="small">Список установленных карт можно добавить позже.</p>
+
+    </div>
+</section>
 <section id="contacts" class="section">
 <h1>✉ Контакты</h1>
 <div class="panel">
