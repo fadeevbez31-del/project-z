@@ -128,6 +128,35 @@
     font-weight: bold;
     margin-top: 30px;
 }
+
+.vip-list {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vip-list h2 {
+    color: #d6a3ff;
+    font-size: 23px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 12px #9333ea;
+}
+
+.vip-item {
+    background: #21172f;
+    border: 1px solid #56316e;
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: #f5eaff;
+    transition: 0.3s;
+}
+
+.vip-item:hover {
+    background: #35204d;
+    border-color: #bb66ff;
+    box-shadow: 0 0 15px #9333ea77;
+}
 </style>
 </head>
 <body>
@@ -144,19 +173,27 @@
 </nav>
 <main class="content">
 <section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel"><h2>☣ О нашем сервере</h2><p>Сражайся с зомби, строй баррикады и спасайся вместе с командой!</p><div class="ip">46.174.52.8:27212</div><a class="cta" href="steam://connect/46.174.52.8:27212">🎮 Играть на сервере</a></div></section>
-<section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel"><p>Хочешь получить VIP на PROJECT Z?</p><p>Свяжись с администрацией через Telegram. Список возможностей и цену узнавай у администрации.</p><p class="small">💎 VIP
-Общее для всех VIP:
-- +Здоровье — 120 HP (вместо 100)
-- +Броня — 100 брони на спавне
-- Регенерация HP в бою
-- Ночное зрение (NV)
-- Максимум денег — 16000 на раунд
-- Высокий прыжок
-- Ускорение передвижения
-- VIP-префикс [VIP] в чате + выбор цвета ника (!color)
-- Выбор личного скина — команда !skin (Люди: Вас, P.Diddy, ЗаяцGrl, Vergil; Зомби: Bolter)
-- Скин «Вас» выдаётся по умолчанию
-- Эксклюзивные ZR-классы (человек Vergil, зомби Bolter)</p></div></section>
+<section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div <div class="panel">
+        <p>Хочешь получить VIP на PROJECT Z?</p>
+        <p>Свяжись с администрацией через Telegram. Список возможностей и цену узнавай у администрации.</p>
+
+        <div class="vip-list">
+            <h2>💎 Общее для всех VIP:</h2>
+
+            <div class="vip-item">💜 +Здоровье — 120 HP (вместо 100)</div>
+            <div class="vip-item">💜 +Броня — 100 брони на спавне</div>
+            <div class="vip-item">💜 Регенерация HP в бою</div>
+            <div class="vip-item">💜 Ночное зрение (NV)</div>
+            <div class="vip-item">💜 Максимум денег — 16000 на раунд</div>
+            <div class="vip-item">💜 Высокий прыжок</div>
+            <div class="vip-item">💜 Ускорение передвижения</div>
+            <div class="vip-item">💜 VIP-префикс [VIP] в чате + выбор цвета ника (!color)</div>
+            <div class="vip-item">💜 Выбор личного скина — команда !skin (Люди: Вас, P.Diddy, ЗаяцGrl, Vergil; Зомби: Bolter)</div>
+            <div class="vip-item">💜 Скин «Вас» выдаётся по умолчанию</div>
+            <div class="vip-item">💜 Эксклюзивные ZR-классы (человек Vergil, зомби Bolter)</div>
+        </div>
+    </div>
+</section>
 <section id="rules" class="section"><h1>📖 Правила сервера</h1><div class="panel"><p>Ознакомься с правилами перед игрой.</p><p class="small">
   <div class="rules-list">
   <div class="rule-item">
