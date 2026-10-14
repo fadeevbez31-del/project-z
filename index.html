@@ -157,6 +157,60 @@
     border-color: #bb66ff;
     box-shadow: 0 0 15px #9333ea77;
 }
+.vip-prices {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #56316e;
+}
+
+.vip-prices h2 {
+    color: #d6a3ff;
+    font-size: 24px;
+    text-shadow: 0 0 12px #9333ea;
+}
+
+.price-description {
+    color: #c9b5d9;
+    margin-bottom: 20px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background: #21172f;
+    border: 1px solid #56316e;
+    border-radius: 10px;
+    padding: 17px 20px;
+    margin-bottom: 10px;
+    color: white;
+    transition: 0.3s;
+}
+
+.price-item:hover {
+    background: #35204d;
+    border-color: #bb66ff;
+    box-shadow: 0 0 18px #9333ea88;
+}
+
+.price-value {
+    color: #d6a3ff;
+    font-weight: bold;
+    text-shadow: 0 0 8px #9333ea;
+}
+
+.price-note {
+    color: #c9b5d9;
+    margin-top: 20px;
+}
+
+@media (max-width: 500px) {
+    .price-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 </style>
 </head>
 <body>
@@ -191,8 +245,37 @@
             <div class="vip-item">💜 Выбор личного скина — команда !skin (Люди: Вас, P.Diddy, ЗаяцGrl и т.д)</div>
             <div class="vip-item">💜 Скин «Вас» выдаётся по умолчанию</div>
             <div class="vip-item">💜 Эксклюзивные ZR-классы (человек Vergil, зомби Bolter)</div>
-                  <div class="vip-list">
-            <h2>💎 Общее для всех VIP:</h2>
+                  <div class="vip-list">                    
+<div class="vip-prices">
+    <h2>💰 Прайс на услуги</h2>
+    <p class="price-description">
+        🛒Стоимость привилегий на сервере PROJECT Z🛒
+    </p>
+  
+   <div class="price-item">
+        <span>👑 Скин(Любой Ваш)</span>
+        <span class="price-value">600 рублей.навсегда</span>
+    </div>
+
+    <div class="price-item">
+        <span>💳 VIP на 30 дней</span>
+        <span class="price-value">350 рублей</span>
+    </div>
+
+    <div class="price-item">
+        <span>💳 VIP на 90 дней</span>
+        <span class="price-value">800 рублей</span>
+    </div>
+
+    <div class="price-item">
+        <span>💳 VIP навсегда</span>
+        <span class="price-value">1000 рублей</span>
+    </div>
+
+    <p class="price-note">
+        Для покупки VIP свяжитесь с администрацией.
+    </p>
+</div>
         </div>
     </div>
 </section>
