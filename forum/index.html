@@ -18,7 +18,7 @@
 </main><footer>© PROJECT Z · Форум сообщества</footer>
 <script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-const supabase=createClient('https://zwodvueleicgjotkxca.supabase.co','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
+const supabase=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
 const $=id=>document.getElementById(id);let user=null,mode='login',pendingEmail='',view={type:'categories'},categories=[],profiles={};
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n}
 function msg(text,error=false){$('notice').replaceChildren(el('p',error?'error':'success',text));}
