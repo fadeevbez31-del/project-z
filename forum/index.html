@@ -8,7 +8,9 @@
 #otpPanel{border-color:#9b54d8;background:linear-gradient(135deg,#241333,#171020)}#otpCode{font-size:27px;text-align:center;letter-spacing:9px;font-weight:700;max-width:300px}#otpEmail{color:#d8a6ff}#nicknameRow.hidden{display:none!important}
 </style>
 </head>
-<body><header><h1>☣ PROJECT Z</h1><p>Форум сообщества Counter-Strike: Source · <a href="/">На главную</a></p></header>
+<body><header><a href="https://projectz.site/" class="logo-link">
+  <h1>☣ PROJECT Z</h1>
+</a><p>Форум сообщества Counter-Strike: Source · <a href="/">На главную</a></p></header>
 <main><div class="toolbar"><h2 id="heading">Форум</h2><div class="row" id="authBar"><button class="btn" id="showLogin">Войти / Регистрация</button></div></div>
 <div id="notice" role="status"></div>
 <section class="panel hidden" id="authPanel"><div class="row"><button class="btn secondary" id="loginTab">Вход</button><button class="btn secondary" id="signupTab">Регистрация</button></div><form id="authForm"><label id="nicknameRow" class="hidden">Ник на форуме<input id="nickname" maxlength="40" autocomplete="nickname"></label><label>Email<input type="email" id="email" required autocomplete="email"></label><label>Пароль<input type="password" id="password" required minlength="8" autocomplete="current-password"></label><button class="btn" id="authSubmit">Войти</button></form><p class="muted" id="authHint">Для регистрации выбери вкладку «Регистрация».</p></section>
