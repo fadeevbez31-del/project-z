@@ -226,7 +226,7 @@
 
 /* PROJECT Z: seamless banner with artwork extending beyond its bottom border */
 .hero{position:relative;isolation:isolate;overflow:visible;height:clamp(240px,22vw,370px);background:#100b17 !important;border-bottom:2px solid #9b55d6;z-index:2}
-.hero::before{content:"";position:absolute;pointer-events:none;left:0;top:50%;width:100%;height:auto;aspect-ratio:1931/768;transform:translateY(-50%);background:url('/projectz_banners_v7.png?v=20261016-7') center/100% 100% no-repeat;z-index:1;filter:drop-shadow(0 8px 12px #0009);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%)}
+.hero::before{content:"";position:absolute;pointer-events:none;left:0;top:50%;width:100%;height:auto;aspect-ratio:1931/768;transform:translateY(-50%);background:url('/projectz_banner_new.jpg?v=20261016-1') center/100% 100% no-repeat;z-index:1;filter:drop-shadow(0 8px 12px #0009);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%)}
 .hero::after{content:none}
 .layout{position:relative;z-index:3}
 @media(max-width:720px){.hero{height:200px;overflow:hidden}.hero::before{height:100%;aspect-ratio:auto;top:0;transform:none;background-size:cover;background-position:center;-webkit-mask-image:none;mask-image:none}}
