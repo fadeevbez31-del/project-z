@@ -248,7 +248,7 @@
 </nav>
 <main class="content">
 <section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel"><h2>☣ О нашем сервере</h2><p>Сражайся с зомби, строй баррикады и спасайся вместе с командой!</p><div class="ip">46.174.52.8:27212</div><a class="cta" href="steam://connect/46.174.52.8:27212">🎮 Играть на сервере</a></div></section>
-<section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div <div class="panel">
+<section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
   
         <p>Свяжись с администрацией через Telegram. Список возможностей и цену узнавай у администрации.</p>
@@ -506,8 +506,10 @@ async function loadBans(){
   const res=await fetch(BAN_API,{cache:'no-store'});
   if(!res.ok)throw new Error('HTTP '+res.status);
   const data=await res.json();
-  if(!Array.isArray(data))throw new Error('Неверный формат ответа');
-  banData=data;renderBans();
+  if(data && data.success === false)throw new Error(data.error || 'Ошибка API');
+  const bans = Array.isArray(data) ? data : data?.bans;
+  if(!Array.isArray(bans))throw new Error('Неверный формат ответа API');
+  banData=bans;renderBans();
  }catch(e){banRows.replaceChildren();banMessage.textContent='Не удалось загрузить баны. Проверь подключение API на MyArena. ('+e.message+')';}
 }
 document.getElementById('banSearch').addEventListener('input',renderBans);
