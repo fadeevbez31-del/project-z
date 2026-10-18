@@ -318,7 +318,7 @@ async function adminTab(tab){
   const tables=['profiles','forum_topics','forum_replies','forum_categories','forum_reports'];
   const names=['Пользователей','Тем','Ответов','Разделов','Жалоб'];
   const counts=await Promise.all(tables.map(table=>supabase.from(table).select('*',{count:'exact',head:true})));
-  for(let i=0;i<tables.length;i++{const {count,error}=counts[i];p.append(el('p','',names[i]+': '+(error?'нет доступа':count)))}
+  for(let i=0;i<tables.length;i++){const {count,error}=counts[i];p.append(el('p','',names[i]+': '+(error?'нет доступа':count)))}
  }else if(tab==='topics'){
   const p=section('Темы · последние 100');
   const {data,error}=await supabase.from('forum_topics').select('id,title,category_id,pinned,locked,views').order('created_at',{ascending:false}).limit(100);
