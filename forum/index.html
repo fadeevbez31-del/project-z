@@ -307,8 +307,8 @@ async function openAdminPanel(){
  if(!user||currentRole!=='admin')return msg('Доступ только для администраторов.',true);
  view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
  const tabs=el('div','row');$('content').append(tabs);
- const ownerOnlyTabs=['categories','requests','logs','confirmed'];
- for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','✅ Подтверждённые'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
+ const ownerOnlyTabs=['categories','requests','logs','confirmed','verified_profiles'];
+ for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','✅ Галочки профилей'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
   if(ownerOnlyTabs.includes(name)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')continue;
   adminButton(tabs,label,()=>adminTab(name));
  }
@@ -317,7 +317,7 @@ async function openAdminPanel(){
 }
 async function adminTab(tab){
  if(currentRole!=='admin')return;
- if(['categories','requests','logs','confirmed'].includes(tab)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
+ if(['categories','requests','logs','confirmed','verified_profiles'].includes(tab)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
  view={...view,type:'admin',adminTab:tab};
  document.querySelectorAll('[data-admin-tab]').forEach(n=>n.remove());
  const wrap=el('div');wrap.dataset.adminTab=tab;$('content').append(wrap);
@@ -421,10 +421,16 @@ async function adminTab(tab){
     for(const r of pendingTickets){const row=el('div','admin-entry');row.append(el('strong','','Заявка из обращений · '+new Date(r.created_at).toLocaleString('ru-RU')),el('p','muted','Автор: '+r.user_id),formattedText(r.body));
       adminButton(row,'Подтвердить',async()=>{const {error}=await supabase.rpc('forum_owner_review_support_verification',{p_ticket_id:r.id,p_approve:true});if(error)return err(error);msg('Заявка одобрена. Пользователю показана галочка для подтверждения профиля.');adminTab(tab)});
       adminButton(row,'Отклонить',async()=>{const {error}=await supabase.rpc('forum_owner_review_support_verification',{p_ticket_id:r.id,p_approve:false});if(error)return err(error);msg('Заявка отклонена.');adminTab(tab)});list.append(row)}
-    list.append(el('h3','','Профили с подтверждением'),el('p','muted','Мигающая галочка означает, что пользователь должен подтвердить её сам.'));
-    if(!verifiedProfiles.length)list.append(el('p','muted','Профилей с подтверждением пока нет.'));
-    for(const u of verifiedProfiles){const row=el('div','admin-entry');const name=el('strong','',u.nickname||u.id);const badge=el('span',u.verified_pending?'verification-pulse':'verified-badge',' ✓');badge.style.marginLeft='6px';name.append(badge);row.append(name,el('p','muted',u.verified_pending?'Ожидает подтверждения пользователя':'Статус: подтверждён'));if(u.verified)adminButton(row,'Снять галочку',async()=>{if(!confirm('Снять подтверждение у '+(u.nickname||u.id)+'? Его аккаунт и сообщения не будут удалены.'))return;const {error}=await supabase.rpc('forum_owner_remove_verification',{p_user_id:u.id});if(error){err(error);return}msg('Подтверждение снято');adminTab(tab)});list.append(row)}
-   };search.oninput=draw;draw();
+    };search.oninput=draw;draw();
+  }else if(tab==='verified_profiles'){
+   const p=section('Управление галочками профилей');
+   p.append(el('p','muted','Здесь можно снять или вернуть постоянную галочку подтверждённого профиля. Это не удаляет аккаунт, темы или сообщения.'));
+   const search=el('input');search.placeholder='Поиск по нику';p.append(search);
+   const list=el('div');p.append(list);
+   const {data,error}=await supabase.from('profiles').select('id,nickname,verified,verified_pending').or('verified.eq.true,verified_pending.eq.true').order('nickname').limit(500);
+   if(error)return err(error);
+   const draw=()=>{list.replaceChildren();const matches=(data||[]).filter(u=>(u.nickname||'').toLowerCase().includes(search.value.toLowerCase()));if(!matches.length){list.append(el('p','muted','Профилей с активной или ожидающей галочкой не найдено.'));return}for(const u of matches){const row=el('div','admin-entry');const name=el('strong','',u.nickname||u.id);const badge=el('span',u.verified_pending?'verification-pulse':'verified-badge',' ✓');badge.style.marginLeft='6px';name.append(badge);row.append(name,el('p','muted',u.verified_pending?'Ожидает подтверждения пользователя':u.verified?'Галочка активна':'Галочка не активна'));if(u.verified)adminButton(row,'Снять галочку',async()=>{if(!confirm('Снять галочку у '+(u.nickname||u.id)+'? Аккаунт и сообщения останутся.'))return;const {error}=await supabase.rpc('forum_owner_remove_verification',{p_user_id:u.id});if(error)return err(error);msg('Галочка снята');adminTab(tab)});else if(!u.verified_pending)adminButton(row,'Вернуть галочку',async()=>{if(!confirm('Вернуть галочку пользователю '+(u.nickname||u.id)+'?'))return;const {error}=await supabase.rpc('forum_owner_restore_verification',{p_user_id:u.id});if(error)return err(error);msg('Галочка возвращена');adminTab(tab)});list.append(row)}};
+   search.oninput=draw;draw();
   }else if(tab==='sourcebans'){
   const p=section('SourceBans · игровой сервер');
   p.append(el('p','muted','Игровые баны хранятся отдельно от блокировок форума. Для управления ими используйте SourceBans; форум не получает пароли MySQL.'));
