@@ -299,6 +299,7 @@ async function openAdminPanel(){
  for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
   adminButton(tabs,label,()=>adminTab(name));
  }
+ tabs.style.borderBottom='1px solid var(--line)';tabs.style.paddingBottom='14px';tabs.style.marginBottom='14px';
  await adminTab('stats');
 }
 async function adminTab(tab){
