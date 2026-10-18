@@ -73,24 +73,36 @@ function formattedText(source){
 }
 function formatToolbar(field){
  const bar=el('div','row format-toolbar');
- const apply=(start,end)=>{
-  const a=field.selectionStart,b=field.selectionEnd,chosen=field.value.slice(a,b);
-  const insert=start+chosen+end;
-  if(field.value.length+start.length+end.length>field.maxLength)return msg('Превышен лимит длины сообщения',true);
-  field.setRangeText(insert,a,b,'select');field.dispatchEvent(new Event('input',{bubbles:true}));field.focus();field.setSelectionRange(a+start.length,a+start.length+chosen.length);
- };
- const bold=el('button','btn secondary','Жирный');bold.type='button';bold.onclick=()=>apply('[b]','[/b]');bar.append(bold);
- const italic=el('button','btn secondary','Курсив');italic.type='button';italic.onclick=()=>apply('[i]','[/i]');bar.append(italic);
+ const editor=el('div','rich-editor');editor.contentEditable='true';editor.setAttribute('role','textbox');editor.setAttribute('aria-label','Текст сообщения');editor.dataset.placeholder=field.placeholder||'Напиши сообщение...';
+ editor.style.cssText='width:100%;min-height:125px;border:1px solid var(--line);border-radius:8px;background:#100a18;color:var(--text);padding:12px;outline:none;white-space:pre-wrap;overflow-wrap:anywhere;text-align:left';
+ field.style.display='none';field.required=false;
+ function serialize(node){
+  if(node.nodeType===3)return node.nodeValue||'';
+  if(node.nodeType!==1)return '';
+  const tag=node.tagName.toLowerCase();
+  if(tag==='br')return '\n';
+  let inner=Array.from(node.childNodes).map(serialize).join('');
+  if(tag==='b'||tag==='strong')return '[b]'+inner+'[/b]';
+  if(tag==='i'||tag==='em')return '[i]'+inner+'[/i]';
+  const color=node.style?.color;
+  if(color){const match=color.match(/\\d+/g);if(match?.length>=3){const hex='#'+match.slice(0,3).map(x=>Number(x).toString(16).padStart(2,'0')).join('');inner='[color='+hex+']'+inner+'[/color]'}}
+  const family=node.style?.fontFamily?.toLowerCase()||'';
+  const font=family.includes('mono')?'mono':family.includes('georgia')||family.includes('serif')&&!family.includes('sans')?'serif':family.includes('arial')?'sans':null;
+  if(font)inner='[font='+font+']'+inner+'[/font]';
+  return (tag==='div'||tag==='p')?inner+'\n':inner;
+ }
+ const sync=()=>{field.value=Array.from(editor.childNodes).map(serialize).join('').replace(/\n+$/,'');field.dispatchEvent(new Event('input',{bubbles:true}))};
+ editor.addEventListener('input',sync);
+ function cmd(name,value){editor.focus();document.execCommand(name,false,value);sync()}
+ const make=(label,name)=>{const b=el('button','btn secondary',label);b.type='button';b.onmousedown=e=>e.preventDefault();b.onclick=()=>cmd(name);bar.append(b)};
+ make('Жирный','bold');make('Курсив','italic');
  const font=el('select');font.setAttribute('aria-label','Шрифт');
- for(const [value,label] of [['','Шрифт'],['sans','Обычный'],['serif','С засечками'],['mono','Моноширинный']]){const option=el('option','',label);option.value=value;font.append(option)}
- font.onchange=()=>{if(font.value)apply('[font='+font.value+']','[/font]');font.value=''};bar.append(font);
- const color=el('input');color.type='color';color.value='#c98aff';color.title='Цвет текста';color.setAttribute('aria-label','Цвет текста');
- const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onclick=()=>apply('[color='+color.value+']','[/color]');bar.append(color,paint);
- const preview=el('div','panel formatted-preview');preview.style.cssText='width:100%;margin-top:8px;padding:12px;min-height:48px';
- const previewTitle=el('div','muted','Предпросмотр оформления:');
- const updatePreview=()=>{preview.replaceChildren(previewTitle,formattedText(field.value||'Здесь появится оформленный текст'))};
- field.addEventListener('input',updatePreview);
- bar.append(preview);updatePreview();
+ for(const [value,label] of [['','Шрифт'],['Arial','Обычный'],['Georgia','С засечками'],['Consolas','Моноширинный']]){const o=el('option','',label);o.value=value;font.append(o)}
+ font.onchange=()=>{if(font.value)cmd('fontName',font.value);font.value=''};bar.append(font);
+ const color=el('input');color.type='color';color.value='#c98aff';color.title='Цвет текста';
+ const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onmousedown=e=>e.preventDefault();paint.onclick=()=>cmd('foreColor',color.value);bar.append(color,paint);
+ bar.append(editor);bar.append(field);
+ field.richEditor=editor;
  return bar;
 }
 
@@ -246,7 +258,7 @@ for(const emoji of ['👍','❤️','🔥','💀']){const b=el('button','btn sec
 const fav=el('button','btn secondary','⭐ В избранное');fav.onclick=async()=>{if(await communityAction('favorite',{id:String(id)}))msg('Тема добавлена в избранное')};actions.append(fav);
 if(t.author_id===user.id||currentRole==='admin'){const edit=el('button','btn secondary','✏ Изменить тему');edit.onclick=async()=>{const body=prompt('Новый текст темы (без изменения вложений):',topicBody);if(body&&await communityAction('edit_topic',{id:String(id),body}))openTopic(id,categoryId)};actions.append(edit)}
 const {data:reacts}=await supabase.from('forum_reactions').select('emoji').eq('topic_id',String(id));if(reacts?.length)panel.append(el('p','muted','Реакции: '+reacts.map(x=>x.emoji).join(' ')));
-}const replies=el('section','panel');replies.append(el('h3','','Ответы'+(t.locked?' · 🔒 Тема закрыта':'')));$('content').append(replies);const {data:items,error:re}=await supabase.from('forum_replies').select('id,body,author_id,created_at').eq('topic_id',id).order('created_at');if(re)return err(re);for(const r of items||[]){const p=el('div','post');const authorButton=el('button','btn secondary','Автор ответа');authorButton.onclick=()=>openProfile(r.author_id);p.append(authorButton,el('span','muted',' '+new Date(r.created_at).toLocaleString('ru-RU')),formattedText(r.body));if(canDelete(r.author_id,categoryId))p.append(deleteButton('Удалить ответ',async()=>{const {data,error}=await supabase.from('forum_replies').delete().eq('id',r.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Ответ удалён');await openTopic(id,categoryId)}));if(user&&(r.author_id===user.id||currentRole==='admin')){const edit=el('button','btn secondary','✏ Редактировать');edit.onclick=async()=>{const body=prompt('Новый текст ответа',r.body);if(body&&await communityAction('edit_reply',{id:String(r.id),body}))openTopic(id,categoryId)};p.append(edit)}replies.append(p)}if(user&&(!t.locked||currentRole==='admin')){const form=el('form');const field=el('textarea');field.required=true;field.maxLength=15000;field.placeholder='Напиши ответ...';const submit=el('button','btn','Ответить');form.append(formatToolbar(field),field,submit);form.onsubmit=async e=>{e.preventDefault();submit.disabled=true;const {error}=await supabase.from('forum_replies').insert({topic_id:id,author_id:user.id,body:field.value.trim()});submit.disabled=false;if(error)return err(error);msg('Ответ добавлен');openTopic(id,categoryId)};replies.append(form)}else replies.append(el('p','muted',t.locked?'Тема закрыта для ответов.':'Войди, чтобы ответить.'));if(user){const report=el('button','btn secondary','🚩 Пожаловаться');report.onclick=async()=>{const reason=prompt('Опиши нарушение (не менее 5 символов):');if(!reason||reason.trim().length<5)return;const {error}=await supabase.from('forum_reports').insert({reporter_id:user.id,topic_id:String(id),reason:reason.trim().slice(0,1000)});if(error)return err(error);msg('Жалоба отправлена администрации')};panel.append(report)}}
+}const replies=el('section','panel');replies.append(el('h3','','Ответы'+(t.locked?' · 🔒 Тема закрыта':'')));$('content').append(replies);const {data:items,error:re}=await supabase.from('forum_replies').select('id,body,author_id,created_at').eq('topic_id',id).order('created_at');if(re)return err(re);for(const r of items||[]){const p=el('div','post');const authorButton=el('button','btn secondary','Автор ответа');authorButton.onclick=()=>openProfile(r.author_id);p.append(authorButton,el('span','muted',' '+new Date(r.created_at).toLocaleString('ru-RU')),formattedText(r.body));if(canDelete(r.author_id,categoryId))p.append(deleteButton('Удалить ответ',async()=>{const {data,error}=await supabase.from('forum_replies').delete().eq('id',r.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Ответ удалён');await openTopic(id,categoryId)}));if(user&&(r.author_id===user.id||currentRole==='admin')){const edit=el('button','btn secondary','✏ Редактировать');edit.onclick=async()=>{const body=prompt('Новый текст ответа',r.body);if(body&&await communityAction('edit_reply',{id:String(r.id),body}))openTopic(id,categoryId)};p.append(edit)}replies.append(p)}if(user&&(!t.locked||currentRole==='admin')){const form=el('form');const field=el('textarea');field.required=true;field.maxLength=15000;field.placeholder='Напиши ответ...';const submit=el('button','btn','Ответить');form.append(formatToolbar(field),field,submit);form.onsubmit=async e=>{e.preventDefault();submit.disabled=true;const {error}=await supabase.from('forum_replies').insert({topic_id:id,author_id:user.id,body:field.value.trim()});submit.disabled=false;if(error)return err(error);msg('Ответ добавлен');openTopic(id,categoryId)};replies.append(form)}else replies.append(el('p','muted',t.locked?'Тема закрыта для ответов.':'Войди, чтобы ответить.'));if(user){const report=el('button','btn secondary','🚩 Пожаловаться');report.style.cssText='display:block;margin-top:18px';report.onclick=async()=>{const reason=prompt('Опиши нарушение (не менее 5 символов):');if(!reason||reason.trim().length<5)return;report.disabled=true;const {error}=await supabase.from('forum_support_tickets').insert({user_id:user.id,body:'🚩 Жалоба на тему «'+t.title+'» (ID '+id+'): '+reason.trim().slice(0,1000)});report.disabled=false;if(error)return err(error);msg('Жалоба отправлена в раздел «Жалобы / вопросы»');await refreshSupportCount()};panel.append(report)}}
 async function adminAction(action,data){
  const {error}=await supabase.rpc('forum_admin_action',{p_action:action,p_data:data});
  if(error){err(error);return false}
