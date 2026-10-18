@@ -7,9 +7,14 @@ begin;
 do $$
 declare v_id uuid; v_count integer;
 begin
- select count(*), min(id) into v_count,v_id
+ select count(*) into v_count
  from auth.users where lower(email)=lower('007.s2@mail.ru')
    and email_confirmed_at is not null;
+ if v_count = 1 then
+   select id into v_id from auth.users
+   where lower(email)=lower('007.s2@mail.ru')
+     and email_confirmed_at is not null;
+ end if;
  if v_count <> 1 then
    raise exception 'Нужен один зарегистрированный и подтверждённый аккаунт 007.s2@mail.ru; найдено: %',v_count;
  end if;
