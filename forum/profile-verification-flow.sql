@@ -96,4 +96,59 @@ $$;
 REVOKE ALL ON FUNCTION public.forum_confirm_verification() FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.forum_confirm_verification() TO authenticated;
 
+
+-- Older applications may have been submitted through the general support form.
+-- Keep those tickets out of the complaints inbox and review them here instead.
+CREATE OR REPLACE FUNCTION public.forum_owner_review_support_verification(
+  p_ticket_id bigint,
+  p_approve boolean
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $
+DECLARE
+  v_owner uuid;
+  v_actor uuid := (SELECT auth.uid());
+  v_user uuid;
+BEGIN
+  SELECT id INTO v_owner
+  FROM auth.users
+  WHERE lower(email) = '007.s2@mail.ru'
+    AND email_confirmed_at IS NOT NULL
+  LIMIT 1;
+  IF v_actor IS NULL OR v_actor IS DISTINCT FROM v_owner THEN
+    RAISE EXCEPTION 'Only the PROJECT Z owner can review verification applications'
+      USING ERRCODE = '42501';
+  END IF;
+
+  SELECT user_id INTO v_user
+  FROM public.forum_support_tickets
+  WHERE id = p_ticket_id
+    AND status = 'open'
+    AND body ILIKE '%заявка на модерацию%'
+  FOR UPDATE;
+  IF v_user IS NULL THEN
+    RAISE EXCEPTION 'Application ticket not found or already reviewed';
+  END IF;
+
+  UPDATE public.forum_support_tickets SET status = 'closed' WHERE id = p_ticket_id;
+  IF p_approve THEN
+    UPDATE public.profiles SET verified_pending = true, verified = false WHERE id = v_user;
+    INSERT INTO public.forum_notifications(user_id, actor_id, body)
+    VALUES (v_user, v_actor, 'Ваша заявка одобрена. Откройте «Мой профиль» и нажмите «Подтвердить» рядом с ником, чтобы активировать галочку.');
+  ELSE
+    UPDATE public.profiles SET verified_pending = false WHERE id = v_user;
+    INSERT INTO public.forum_notifications(user_id, actor_id, body)
+    VALUES (v_user, v_actor, 'Ваша заявка на подтверждение профиля отклонена администрацией проекта.');
+  END IF;
+  INSERT INTO public.forum_admin_log(actor_id, action, target, details)
+  VALUES (v_actor, 'support_verification_review', v_user::text,
+          jsonb_build_object('ticket_id', p_ticket_id, 'approved', p_approve));
+END;
+$;
+REVOKE ALL ON FUNCTION public.forum_owner_review_support_verification(bigint, boolean) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.forum_owner_review_support_verification(bigint, boolean) TO authenticated;
+
 COMMIT;
