@@ -308,7 +308,7 @@ async function openAdminPanel(){
  view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
  const tabs=el('div','row');$('content').append(tabs);
  const ownerOnlyTabs=['categories','requests','logs','confirmed','verified_profiles'];
- for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','✅ Галочки профилей'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
+ for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','🧟 Администраторы сервера'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
   if(ownerOnlyTabs.includes(name)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')continue;
   adminButton(tabs,label,()=>adminTab(name));
  }
@@ -402,8 +402,11 @@ async function adminTab(tab){
   const {data,error}=await supabase.from('forum_admin_log').select('actor_id,action,target,created_at').order('created_at',{ascending:false}).limit(100);if(error)return err(error);
   for(const x of data||[])p.append(el('p','muted',new Date(x.created_at).toLocaleString('ru-RU')+' · '+x.action+' · '+(x.target||'')+' · '+(x.actor_id||'')));
   }else if(tab==='confirmed'){
-   const p=section('Подтверждения профилей');
-   p.append(el('p','muted','Здесь рассматриваются заявки. После одобрения пользователь должен подтвердить галочку в своём профиле.'));
+   const p=section('');
+   const headingRow=el('div','row');headingRow.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px';
+   headingRow.append(el('h3','','Подтверждения профилей'));
+   adminButton(headingRow,'🧟 Администраторы сервера',()=>adminTab('verified_profiles'));
+   p.append(headingRow,el('p','muted','Здесь рассматриваются заявки. После одобрения пользователь должен подтвердить галочку в своём профиле.'));
    const search=el('input');search.placeholder='Поиск по нику или тексту заявки';p.append(search);
    const list=el('div');p.append(list);
    const {data:requests,error:requestsError}=await supabase.from('forum_requests').select('id,author_id,body,steam_id,status,created_at').eq('kind','vip').eq('steam_id','Заявка на модерацию').eq('status','open').order('created_at',{ascending:false}).limit(100);
@@ -423,8 +426,9 @@ async function adminTab(tab){
       adminButton(row,'Отклонить',async()=>{const {error}=await supabase.rpc('forum_owner_review_support_verification',{p_ticket_id:r.id,p_approve:false});if(error)return err(error);msg('Заявка отклонена.');adminTab(tab)});list.append(row)}
     };search.oninput=draw;draw();
   }else if(tab==='verified_profiles'){
-   const p=section('Управление галочками профилей');
-   p.append(el('p','muted','Здесь можно снять или вернуть постоянную галочку подтверждённого профиля. Это не удаляет аккаунт, темы или сообщения.'));
+   const p=section('Администраторы сервера');
+   p.append(el('p','muted','Управление подтверждёнными профилями: можно снять или вернуть галочку. Изменение не удаляет аккаунт, темы или сообщения.'));
+   adminButton(p,'← Назад к подтверждениям профилей',()=>adminTab('confirmed'));
    const search=el('input');search.placeholder='Поиск по нику';p.append(search);
    const list=el('div');p.append(list);
    const {data,error}=await supabase.from('profiles').select('id,nickname,verified,verified_pending').order('nickname').limit(500);
