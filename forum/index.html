@@ -65,25 +65,31 @@ async function uploadForumFile(file){
   return {name:file.name,size:file.size,url:data.publicUrl};
 }
 function attachmentHtml(a){
-  if(!a?.url)return null;
+  if(!a || !a.url)return null;
   const box=el('div','panel');
-  box.style.marginTop='14px';box.style.padding='12px';
-  const link=el('a','', '📎 '+a.name+' ('+formatFileSize(a.size||0)+')');
-  link.href=a.url;link.target='_blank';link.rel='noopener noreferrer';
-  const isImage = /\\.(png|jpe?g|gif|webp|avif|bmp|svg)$/i.test(a.name||'') || /^image\\//i.test(a.type||'');
+  box.style.marginTop='14px';
+  box.style.padding='12px';
+  const link=el('a','', '📎 '+(a.name||'Файл')+' ('+formatFileSize(a.size||0)+')');
+  link.href=a.url;
+  link.target='_blank';
+  link.rel='noopener noreferrer';
+  const name=String(a.name||'').toLowerCase();
+  const isImage=['.png','.jpg','.jpeg','.gif','.webp','.avif','.bmp','.svg'].some(ext=>name.endsWith(ext));
   if(isImage){
-    const preview=el('img','');
+    const preview=el('img');
     preview.src=a.url;
-    preview.alt=a.name||'Прикреплённое изображение';
+    preview.alt=a.name||'Изображение';
     preview.loading='lazy';
     preview.style.cssText='display:block;max-width:100%;max-height:650px;width:auto;height:auto;object-fit:contain;border-radius:9px;margin:0 auto;';
-    const imageLink=el('a','');
-    imageLink.href=a.url;imageLink.target='_blank';imageLink.rel='noopener noreferrer';
-    imageLink.append(preview);
-    box.append(imageLink);
-    preview.onerror=()=>{imageLink.remove();box.append(link)};
+    const imageLink=el('a');
+    imageLink.href=a.url;
+    imageLink.target='_blank';
+    imageLink.rel='noopener noreferrer';
+    imageLink.appendChild(preview);
+    box.appendChild(imageLink);
+    preview.onerror=function(){imageLink.replaceWith(link);};
   }else{
-    box.append(link);
+    box.appendChild(link);
   }
   return box;
 }
