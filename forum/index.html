@@ -52,11 +52,25 @@ p,.muted,.post,.content,.formatted-text{overflow-wrap:anywhere}
  #topicFileName{flex:1 1 100%}
 }
 
-#maintenanceOverlay{position:fixed;inset:240px 0 0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(11,9,17,.98);text-align:center}
-#maintenanceOverlay .maintenance-card{max-width:680px;width:100%;padding:32px;border:1px solid #7e42a5;border-radius:16px;background:#171020;box-shadow:0 0 35px #a855f733}
-#maintenanceOverlay h2{color:#d6a2ff;margin-top:0}
-#maintenanceOverlay p{line-height:1.7;color:var(--muted,#c9b8d9)}
-@media(max-width:700px){#maintenanceOverlay{inset-top:260px;top:260px;padding:12px}#maintenanceOverlay .maintenance-card{padding:20px}}
+#maintenanceOverlay{position:fixed;inset:0;z-index:9999;overflow:auto;display:flex;flex-direction:column;align-items:stretch;background:radial-gradient(ellipse at 50% 45%,#261039 0%,#0b0711 70%);text-align:center}
+#maintenanceOverlay .maintenance-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,5vw,60px);background:#0d0914;border-bottom:1px solid #6f2e9d}
+#maintenanceOverlay .maintenance-brand{font-weight:900;letter-spacing:3px;color:#e2b8ff;font-size:clamp(21px,3vw,32px)}
+#maintenanceOverlay .maintenance-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#maintenanceOverlay .maintenance-links span{padding:9px 13px;border:1px solid #4b2a63;border-radius:9px;background:#171020;color:#eadcf7;font-size:13px;font-weight:700}
+#maintenanceOverlay .maintenance-ticker{overflow:hidden;white-space:nowrap;border-top:1px solid #ed3ce8;border-bottom:1px solid #ed3ce8;background:#180b22;color:#ff64ed;font-weight:900;letter-spacing:.5px;text-shadow:0 0 9px #ff37e6;padding:12px 0;box-shadow:0 0 18px #d927e544}
+#maintenanceOverlay .maintenance-ticker-track{display:inline-flex;gap:24px;min-width:max-content;animation:maintenanceScroll 24s linear infinite}
+#maintenanceOverlay .maintenance-ticker-track span{display:inline-block}
+@keyframes maintenanceScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+#maintenanceOverlay .maintenance-hero{margin:24px clamp(14px,2.5vw,36px) 0;min-height:150px;height:clamp(150px,20vw,245px);display:grid;place-items:center;border:1px solid #5d2b7d;border-radius:16px;background:linear-gradient(90deg,#100817bb,#16091dcc),url('/projectz_banner_new.jpg?v=20261016-3') center/cover no-repeat;box-shadow:inset 0 0 55px #12051f}
+#maintenanceOverlay .maintenance-hero-title{font-size:clamp(34px,7vw,76px);font-weight:1000;letter-spacing:clamp(3px,1vw,12px);color:#f0d8ff;text-shadow:0 0 16px #a855f7}
+#maintenanceOverlay .maintenance-hero-subtitle{letter-spacing:clamp(2px,.6vw,7px);font-size:clamp(11px,2vw,17px);font-weight:800;color:#e2c9f6}
+#maintenanceOverlay .maintenance-card{max-width:1280px;width:calc(100% - clamp(28px,10vw,160px));margin:24px auto 30px;padding:clamp(24px,4vw,44px);border:1px solid #a03fe0;border-radius:18px;background:linear-gradient(145deg,#160f22ee,#100b18f2);box-shadow:0 0 35px #a855f744}
+#maintenanceOverlay .maintenance-icon{font-size:42px;color:#bd63ff;text-shadow:0 0 18px #a855f7}
+#maintenanceOverlay h2{margin:8px 0 18px;color:#d8a6ff;font-size:clamp(25px,4vw,38px)}
+#maintenanceOverlay p{line-height:1.7;color:#eee1f8;font-size:clamp(15px,2vw,21px);margin:8px 0}
+#maintenanceOverlay .maintenance-extra{color:#cbb7da;font-size:clamp(13px,1.5vw,17px)}
+#maintenanceOverlay .maintenance-footer{padding:22px;color:#b9a2cc}
+@media(max-width:650px){#maintenanceOverlay .maintenance-header{flex-direction:column}#maintenanceOverlay .maintenance-hero{margin-top:14px;height:150px}#maintenanceOverlay .maintenance-card{margin-top:14px;margin-bottom:18px}}
 </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
@@ -80,15 +94,18 @@ function deleteButton(label,handler){const b=el('button','btn secondary',label);
 function isMaintenanceOwner(){return String(user?.email||'').trim().toLowerCase()===OWNER_EMAIL}
 function renderMaintenanceOverlay(){
  let overlay=$('maintenanceOverlay');
- if(!maintenanceEnabled||isMaintenanceOwner()){
+ if(!maintenanceEnabled||currentRole==='admin'||isMaintenanceOwner()){
   overlay?.remove();return;
  }
- if(!overlay){overlay=el('div');overlay.id='maintenanceOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');document.body.append(overlay)}
- overlay.replaceChildren();
- const card=el('section','maintenance-card');
- card.append(el('h2','','⚠ Технические работы'),el('p','',maintenanceMessage),el('p','muted','Мы обновляем PROJECT Z, чтобы сделать работу сайта стабильнее. Пожалуйста, загляните немного позже.'));
- const refresh=el('button','btn secondary','↻ Проверить снова');refresh.onclick=async()=>{refresh.disabled=true;await loadMaintenanceStatus();refresh.disabled=false};
- card.append(refresh);overlay.append(card);
+ if(!overlay){
+  overlay=el('div');overlay.id='maintenanceOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
+  overlay.innerHTML='<header class="maintenance-header"><div class="maintenance-brand">☣ PROJECT Z</div><div class="maintenance-links"><span>⌂ На главную</span><span>▣ Форум</span><span>♙ Пользователи</span><span>▣ Правила</span></div></header><div class="maintenance-ticker" aria-label="Идут технические работы"><div class="maintenance-ticker-track"></div></div><section class="maintenance-hero"><div><div class="maintenance-hero-title">PROJECT Z</div><div class="maintenance-hero-subtitle">ФОРУМ СООБЩЕСТВА</div></div></section><section class="maintenance-card"><div class="maintenance-icon">⚙</div><h2>Идут технические работы!</h2><p class="maintenance-message"></p><p class="maintenance-extra">Пожалуйста, зайдите позже. Мы уже работаем над улучшениями!</p></section><div class="maintenance-ticker" aria-label="Идут технические работы"><div class="maintenance-ticker-track"></div></div><footer class="maintenance-footer">© PROJECT Z · Форум сообщества</footer>';
+  const tickerText='⚠ ИДУТ ТЕХ. РАБОТЫ!';
+  overlay.querySelectorAll('.maintenance-ticker-track').forEach(track=>{for(let i=0;i<24;i++){const item=el('span','',tickerText);track.append(item)}});
+  document.body.append(overlay);
+ }
+ const message=overlay.querySelector('.maintenance-message');
+ if(message)message.textContent=maintenanceMessage||'В данный момент форум временно недоступен.';
 }
 async function loadMaintenanceStatus(){
  try{
