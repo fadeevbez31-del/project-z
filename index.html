@@ -573,7 +573,7 @@ async function checkProjectMaintenance(){
   const brand=document.createElement('div');brand.className='pz-brand';brand.textContent='☣ PROJECT Z';
   const actions=document.createElement('div');actions.className='pz-maintenance-actions';
   const connect=document.createElement('a');connect.className='pz-maintenance-action';connect.href='steam://connect/46.174.52.8:27212';connect.textContent='🎮 Подключиться';
-  const login=document.createElement('a');login.className='pz-maintenance-action pz-maintenance-login';login.href='/forum/?login=1';login.textContent='🔑 Войти';
+  const login=document.createElement('a');login.className='pz-maintenance-action pz-maintenance-login';login.href='/forum/?login=1';login.textContent='Вход';
   actions.append(connect,login);header.append(brand,actions);
   const makeTicker=()=>{const ticker=document.createElement('div');ticker.className='pz-ticker';const track=document.createElement('div');track.className='pz-ticker-track';for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}ticker.append(track);return ticker};
   const hero=document.createElement('div');hero.className='pz-maintenance-hero';
