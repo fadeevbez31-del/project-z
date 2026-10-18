@@ -28,7 +28,31 @@
         0 0 20px #9333ea,
         0 0 35px #7e22ce;
 }
- .admin-entry{border-top:1px solid var(--line);padding:13px 0}.admin-entry strong{overflow-wrap:anywhere} \n.formatted-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.format-toolbar{margin:8px 0}.format-toolbar select{width:auto;max-width:180px;background:#24172f;color:#f3eafb;border:1px solid #59416d;border-radius:8px;padding:9px}.format-toolbar input[type=color]{width:42px;height:38px;padding:3px;margin:0;cursor:pointer}.format-toolbar .btn{padding:8px 12px}\n .topic h3, .category h3, #heading {font-weight:800} .formatted-text strong{font-weight:800}.formatted-preview{flex-basis:100%;white-space:pre-wrap;overflow-wrap:anywhere} </style>
+ .admin-entry{border-top:1px solid var(--line);padding:13px 0}.admin-entry strong{overflow-wrap:anywhere} \n.formatted-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.format-toolbar{margin:8px 0}.format-toolbar select{width:auto;max-width:180px;background:#24172f;color:#f3eafb;border:1px solid #59416d;border-radius:8px;padding:9px}.format-toolbar input[type=color]{width:42px;height:38px;padding:3px;margin:0;cursor:pointer}.format-toolbar .btn{padding:8px 12px}\n .topic h3, .category h3, #heading {font-weight:800} .formatted-text strong{font-weight:800}.formatted-preview{flex-basis:100%;white-space:pre-wrap;overflow-wrap:anywhere} 
+/* Layout safety: keep controls and labels separated, including on narrow screens. */
+main,#content,.panel,.category,.topic{min-width:0}
+button,.btn{max-width:100%;line-height:1.4;white-space:normal;overflow-wrap:anywhere;vertical-align:middle}
+.row{gap:10px 12px;align-items:center}
+.row>*{min-width:0}
+label{line-height:1.45;margin-bottom:6px}
+label input,label textarea,label select{margin-top:8px;margin-bottom:0}
+input,textarea,select{max-width:100%;min-width:0}
+.panel h3,.category h3,.topic h3,#heading{line-height:1.4;overflow-wrap:anywhere}
+p,.muted,.post,.content,.formatted-text{overflow-wrap:anywhere}
+#topicForm>label{margin-bottom:15px}
+#topicForm>.row{margin-top:14px!important;padding-top:2px;row-gap:12px}
+#topicFileName{flex:1 1 150px;overflow-wrap:anywhere}
+#topicForm button[type="submit"]{margin-top:3px}
+@media(max-width:600px){
+ main{margin:16px auto;padding:0 12px}
+ .panel,.category,.topic{padding:14px}
+ .toolbar{align-items:flex-start}
+ .row{gap:8px}
+ #topicForm>.row{align-items:flex-start}
+ #topicFileName{flex:1 1 100%}
+}
+
+</style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
   <h1>☣ PROJECT Z</h1>
