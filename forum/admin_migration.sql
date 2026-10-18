@@ -43,10 +43,38 @@ begin
  end if;
  return new;
 end;$$;
+create or replace function public.forum_guard_profile_insert()
+returns trigger language plpgsql security definer set search_path = ''
+as $
+begin
+ if auth.uid() is not null and new.role is distinct from 'player'
+ then raise exception 'New profiles must start as player'; end if;
+ return new;
+end;$;
+drop trigger if exists forum_guard_profile_insert_trigger on public.profiles;
+create trigger forum_guard_profile_insert_trigger before insert on public.profiles
+for each row execute function public.forum_guard_profile_insert();
 drop trigger if exists forum_guard_profile_role_trigger on public.profiles;
 create trigger forum_guard_profile_role_trigger before update on public.profiles
 for each row execute function public.forum_guard_profile_role();
 
+-- Allow admins to read records even if existing user-only RLS policies are restrictive.
+alter table public.profiles enable row level security;
+drop policy if exists forum_admin_read_profiles on public.profiles;
+create policy forum_admin_read_profiles on public.profiles for select to authenticated
+using ((select public.forum_is_admin()));
+alter table public.forum_topics enable row level security;
+drop policy if exists forum_admin_read_topics on public.forum_topics;
+create policy forum_admin_read_topics on public.forum_topics for select to authenticated
+using ((select public.forum_is_admin()));
+alter table public.forum_categories enable row level security;
+drop policy if exists forum_admin_read_categories on public.forum_categories;
+create policy forum_admin_read_categories on public.forum_categories for select to authenticated
+using ((select public.forum_is_admin()));
+alter table public.forum_replies enable row level security;
+drop policy if exists forum_admin_read_replies on public.forum_replies;
+create policy forum_admin_read_replies on public.forum_replies for select to authenticated
+using ((select public.forum_is_admin()));
 alter table public.forum_reports enable row level security;
 alter table public.forum_bans enable row level security;
 alter table public.forum_admin_log enable row level security;
@@ -65,6 +93,7 @@ using ((select public.forum_is_admin()));
 grant select,insert on public.forum_reports to authenticated;
 grant select on public.forum_bans,public.forum_admin_log to authenticated;
 grant usage,select on sequence public.forum_reports_id_seq to authenticated;
+grant select on public.profiles,public.forum_topics,public.forum_categories,public.forum_replies to authenticated;
 
 -- Protect sensitive topic/category fields even if an old RLS policy allows UPDATE.
 create or replace function public.forum_guard_topic_flags()
@@ -93,15 +122,15 @@ create trigger forum_guard_category_visibility_trigger before update on public.f
 for each row execute function public.forum_guard_category_visibility();
 
 -- Count once per browser session in UI; increments are not a unique-person metric.
-create or replace function public.increment_topic_views(topic_id text)
+create or replace function public.forum_increment_topic_views(topic_id text)
 returns void language plpgsql security definer set search_path = ''
 as $$
 begin
  perform set_config('app.forum_view_increment','allowed',true);
  update public.forum_topics set views = views + 1 where id::text = topic_id;
 end;$$;
-revoke all on function public.increment_topic_views(text) from public;
-grant execute on function public.increment_topic_views(text) to anon,authenticated;
+revoke all on function public.forum_increment_topic_views(text) from public;
+grant execute on function public.forum_increment_topic_views(text) to anon,authenticated;
 
 -- Only admin role can execute writes. All actions are whitelisted, never dynamic SQL.
 create or replace function public.forum_admin_action(p_action text,p_data jsonb default '{}'::jsonb)
