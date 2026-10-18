@@ -176,7 +176,21 @@ async function adminTab(tab){
   if(error)return err(error);
   const draw=()=>{list.replaceChildren();for(const u of (data||[]).filter(x=>(x.nickname||'').toLowerCase().includes(search.value.toLowerCase()))){
    const row=el('div','admin-entry');row.append(el('strong','',u.nickname||u.id),el('p','muted','Роль: '+(u.role||'player')));
-   adminButton(row,'Изменить роль',async()=>{const role=prompt('Новая роль: player, vip, moderator, admin',u.role||'player');if(role&&await adminAction('user_role',{user_id:u.id,role:role.trim()}))adminTab(tab)});
+   const isOwner=user?.email?.toLowerCase()==='007.s2@mail.ru';
+   if(isOwner && u.id!==user.id){
+     if(u.role==='admin'){
+       adminButton(row,'🔒 Забрать админку',async()=>{
+         if(!confirm('Забрать админку у '+(u.nickname||u.id)+'?'))return;
+         if(await adminAction('user_role',{user_id:u.id,role:'player'}))adminTab(tab);
+       });
+     }else{
+       adminButton(row,'👑 Выдать админку',async()=>{
+         if(!confirm('Выдать админку пользователю '+(u.nickname||u.id)+'?'))return;
+         if(await adminAction('user_role',{user_id:u.id,role:'admin'}))adminTab(tab);
+       });
+     }
+   }
+   adminButton(row,'Изменить роль',async()=>{const role=prompt('Новая роль: player, vip, moderator'+(isOwner?', admin':''),u.role||'player');if(role&&await adminAction('user_role',{user_id:u.id,role:role.trim()}))adminTab(tab)});
    adminButton(row,'Заблокировать',async()=>{const reason=prompt('Причина блокировки');if(reason&&await adminAction('user_ban',{user_id:u.id,reason}))adminTab(tab)});
    list.append(row);
   }};search.oninput=draw;draw();
