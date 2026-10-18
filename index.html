@@ -234,7 +234,10 @@
 #pzMaintenanceWall .pz-maintenance-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,5vw,60px);background:#0d0914;border-bottom:1px solid #6f2e9d}
 #pzMaintenanceWall .pz-brand{font-weight:900;letter-spacing:3px;color:#e2b8ff;font-size:clamp(21px,3vw,32px)}
 #pzMaintenanceWall .pz-header-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-#pzMaintenanceWall .pz-header-links span{padding:9px 13px;border:1px solid #4b2a63;border-radius:9px;background:#171020;color:#eadcf7;font-size:13px;font-weight:700}
+#pzMaintenanceWall .pz-maintenance-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#pzMaintenanceWall .pz-maintenance-action{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border:1px solid #a855f7;border-radius:9px;background:linear-gradient(120deg,#6526a0,#8b35cf);color:#fff;text-decoration:none;font-size:13px;font-weight:800;white-space:nowrap}
+#pzMaintenanceWall .pz-maintenance-action:hover{filter:brightness(1.15)}
+#pzMaintenanceWall .pz-maintenance-login{background:#21192c;border-color:#6f4b8d}
 #pzMaintenanceWall .pz-ticker{overflow:hidden;white-space:nowrap;border-top:1px solid #ed3ce8;border-bottom:1px solid #ed3ce8;background:#180b22;color:#ff64ed;font-weight:900;letter-spacing:.5px;text-shadow:0 0 9px #ff37e6;padding:12px 0;box-shadow:0 0 18px #d927e544}
 #pzMaintenanceWall .pz-ticker-track{display:inline-flex;gap:24px;min-width:max-content;animation:pzMaintenanceScroll 24s linear infinite}
 #pzMaintenanceWall .pz-ticker-track span{display:inline-block}
@@ -568,11 +571,10 @@ async function checkProjectMaintenance(){
   wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
   const header=document.createElement('div');header.className='pz-maintenance-header';
   const brand=document.createElement('div');brand.className='pz-brand';brand.textContent='☣ PROJECT Z';
-  const nav=document.createElement('div');nav.className='pz-header-links';
-  ['⌂ На главную','▣ Форум','♟ Пользователи','▣ Правила'].forEach(label=>{const item=document.createElement('span');item.textContent=label;nav.append(item)});
-  const accountLinks=document.createElement('div');accountLinks.className='pz-header-links';
-  ['♙ Войти','♙ Регистрация'].forEach(label=>{const item=document.createElement('span');item.textContent=label;accountLinks.append(item)});
-  header.append(brand,nav,accountLinks);
+  const actions=document.createElement('div');actions.className='pz-maintenance-actions';
+  const connect=document.createElement('a');connect.className='pz-maintenance-action';connect.href='steam://connect/46.174.52.8:27212';connect.textContent='🎮 Подключиться';
+  const login=document.createElement('a');login.className='pz-maintenance-action pz-maintenance-login';login.href='/forum/?login=1';login.textContent='🔑 Войти';
+  actions.append(connect,login);header.append(brand,actions);
   const makeTicker=()=>{const ticker=document.createElement('div');ticker.className='pz-ticker';const track=document.createElement('div');track.className='pz-ticker-track';for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}ticker.append(track);return ticker};
   const hero=document.createElement('div');hero.className='pz-maintenance-hero';
   const heroText=document.createElement('div');const heroTitle=document.createElement('div');heroTitle.className='pz-hero-title';heroTitle.textContent='PROJECT Z';const heroSub=document.createElement('div');heroSub.className='pz-hero-subtitle';heroSub.textContent='ФОРУМ СООБЩЕСТВА';heroText.append(heroTitle,heroSub);hero.append(heroText);
