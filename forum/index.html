@@ -296,14 +296,18 @@ async function openAdminPanel(){
  if(!user||currentRole!=='admin')return msg('Доступ только для администраторов.',true);
  view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
  const tabs=el('div','row');$('content').append(tabs);
+ const ownerOnlyTabs=['requests','logs'];
  for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
+  if(ownerOnlyTabs.includes(name)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')continue;
   adminButton(tabs,label,()=>adminTab(name));
  }
  tabs.style.borderBottom='1px solid var(--line)';tabs.style.paddingBottom='14px';tabs.style.marginBottom='14px';
  await adminTab('stats');
 }
 async function adminTab(tab){
- if(currentRole!=='admin')return;view={...view,type:'admin',adminTab:tab};
+ if(currentRole!=='admin')return;
+ if(['requests','logs'].includes(tab)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')return msg('Доступ к журналу и заявкам разрешён только 007.s2@mail.ru.',true);
+ view={...view,type:'admin',adminTab:tab};
  document.querySelectorAll('[data-admin-tab]').forEach(n=>n.remove());
  const wrap=el('div');wrap.dataset.adminTab=tab;$('content').append(wrap);
  const oldContent=$('content');
@@ -313,7 +317,8 @@ async function adminTab(tab){
   const p=section('Статистика форума');
   const tables=['profiles','forum_topics','forum_replies','forum_categories','forum_reports'];
   const names=['Пользователей','Тем','Ответов','Разделов','Жалоб'];
-  const counts=await Promise.all(tables.map(table=>supabase.from(table).select('*',{count:'exact',head:true})));\n  for(let i=0;i<tables.length;i++){const {count,error}=counts[i];p.append(el('p','',names[i]+': '+(error?'нет доступа':count)))}
+  const counts=await Promise.all(tables.map(table=>supabase.from(table).select('*',{count:'exact',head:true})));
+  for(let i=0;i<tables.length;i++{const {count,error}=counts[i];p.append(el('p','',names[i]+': '+(error?'нет доступа':count)))}
  }else if(tab==='topics'){
   const p=section('Темы · последние 100');
   const {data,error}=await supabase.from('forum_topics').select('id,title,category_id,pinned,locked,views').order('created_at',{ascending:false}).limit(100);
