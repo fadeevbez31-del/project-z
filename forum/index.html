@@ -199,7 +199,7 @@ async function openSupportInbox(archive=false){
  $('content').replaceChildren(back(archive?'В админ-панель':'На форум',archive?openAdminPanel:loadCategories));renderEditor();
  const {data,error}=await supabase.from('forum_support_tickets').select('id,user_id,body,image_url,status,created_at,admin_reply').eq('status',archive?'closed':'open').order('created_at',{ascending:false}).limit(100);
  if(error)return err(error);
- const visibleTickets=(data||[]).filter(t=>archive||!(/заявка на модерацию/i.test(t.body||'')));
+ const visibleTickets=(data||[]).filter(t=>!(/заявка на модерацию/i.test(t.body||'')));
  if(!visibleTickets.length)$('content').append(el('p','muted',archive?'В архиве пока нет обращений.':'Новых обращений нет.'));
  for(const t of visibleTickets){
   const p=el('section','panel');const heading=el('div','row');heading.style.cssText='display:flex;align-items:flex-start;justify-content:space-between;gap:12px';
@@ -241,7 +241,7 @@ async function openSupportInbox(archive=false){
 
 async function refreshSupportCount(){
  if(!user||currentRole!=='admin')return;
- const {count,error}=await supabase.from('forum_support_tickets').select('*',{head:true,count:'exact'}).eq('status','open');
+ const {count,error}=await supabase.from('forum_support_tickets').select('*',{head:true,count:'exact'}).eq('status','open').not('body','ilike','%заявка на модерацию%');
  const b=$('supportInboxBtn');if(b&&!error)b.textContent='📨 Жалобы / вопросы'+(count?' ('+count+')':'');
 }
 function openSupportForm(){
