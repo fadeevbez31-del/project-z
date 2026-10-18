@@ -104,7 +104,7 @@ function formatToolbar(field){
  for(const [value,label] of [['','Шрифт'],['Arial','Обычный'],['Georgia','С засечками'],['Consolas','Моноширинный']]){const o=el('option','',label);o.value=value;font.append(o)}
  font.onchange=()=>{if(font.value)cmd('fontName',font.value);font.value=''};bar.append(font);
  const color=el('input');color.type='color';color.value='#c98aff';color.title='Цвет текста';
- const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onmousedown=e=>e.preventDefault();paint.onclick=()=>cmd('foreColor',color.value);bar.append(color,paint);
+ const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onmousedown=e=>e.preventDefault();paint.onclick=()=>{if(!savedRange){editor.focus();const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(editor);range.collapse(false);selection.removeAllRanges();selection.addRange(range);savedRange=range.cloneRange()}cmd('foreColor',color.value);editor.focus()};color.onchange=()=>paint.click();bar.append(color,paint);
  bar.append(preview,editor);field.richEditor=editor;sync();return bar;
 }
 
