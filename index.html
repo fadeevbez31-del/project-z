@@ -577,7 +577,7 @@ async function checkProjectMaintenance(){
   actions.append(connect,login);header.append(brand,actions);
   const makeTicker=()=>{const ticker=document.createElement('div');ticker.className='pz-ticker';const track=document.createElement('div');track.className='pz-ticker-track';for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}ticker.append(track);return ticker};
   const hero=document.createElement('div');hero.className='pz-maintenance-hero';
-  const heroText=document.createElement('div');const heroTitle=document.createElement('div');heroTitle.className='pz-hero-title';heroTitle.textContent='PROJECT Z';const heroSub=document.createElement('div');heroSub.className='pz-hero-subtitle';heroSub.textContent='ФОРУМ СООБЩЕСТВА';heroText.append(heroTitle,heroSub);hero.append(heroText);
+  const heroText=document.createElement('div');const heroTitle=document.createElement('div');heroTitle.className='pz-hero-title';heroTitle.textContent='PROJECT Z';heroText.append(heroTitle);hero.append(heroText);
   const card=document.createElement('section');card.className='pz-maintenance-card';
   const icon=document.createElement('div');icon.className='pz-maintenance-icon';icon.textContent='⚙';
   const title=document.createElement('h2');title.textContent='Идут технические работы!';
