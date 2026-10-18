@@ -85,7 +85,7 @@ function formatToolbar(field){
   if(tag==='b'||tag==='strong')return '[b]'+inner+'[/b]';
   if(tag==='i'||tag==='em')return '[i]'+inner+'[/i]';
   const color=node.style?.color;
-  if(color){const match=color.match(/\\d+/g);if(match?.length>=3){const hex='#'+match.slice(0,3).map(x=>Number(x).toString(16).padStart(2,'0')).join('');inner='[color='+hex+']'+inner+'[/color]'}}
+  if(color){const match=color.match(/\d+/g);if(match?.length>=3){const hex='#'+match.slice(0,3).map(x=>Number(x).toString(16).padStart(2,'0')).join('');inner='[color='+hex+']'+inner+'[/color]'}}
   const family=node.style?.fontFamily?.toLowerCase()||'';
   const font=family.includes('mono')?'mono':family.includes('georgia')||family.includes('serif')&&!family.includes('sans')?'serif':family.includes('arial')?'sans':null;
   if(font)inner='[font='+font+']'+inner+'[/font]';
@@ -108,7 +108,7 @@ function formatToolbar(field){
 
 function msg(text,error=false){$('notice').replaceChildren(el('p',error?'error':'success',text));}
 function err(e){msg(e?.message||'Произошла ошибка',true)}
-$('topicBody').before(formatToolbar($('topicBody')));
+const topicField=$('topicBody');const topicParent=topicField.parentNode;topicParent.insertBefore(formatToolbar(topicField),topicParent.firstChild);
 const MAX_FILE_SIZE=10*1024*1024;
 function formatFileSize(bytes){if(bytes<1024)return bytes+' Б';if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' КБ';return (bytes/1024/1024).toFixed(1)+' МБ'}
 async function uploadForumFile(file){
