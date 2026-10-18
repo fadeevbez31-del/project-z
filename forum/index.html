@@ -230,7 +230,7 @@ async function adminTab(tab){
        });
      }
    }
-   adminButton(row,'Изменить роль',async()=>{const role=prompt('Новая роль: player, vip, moderator'+(isOwner?', admin':''),u.role||'player');if(role&&await adminAction('user_role',{user_id:u.id,role:role.trim()}))adminTab(tab)});
+   if(u.role!=='admin')adminButton(row,'Изменить роль',async()=>{const role=prompt('Новая роль: player, vip, moderator',u.role||'player');if(!role)return;const next=role.trim().toLowerCase();if(!['player','vip','moderator'].includes(next))return msg('Недопустимая роль',true);if(await adminAction('user_role',{user_id:u.id,role:next}))adminTab(tab)});
    adminButton(row,'Заблокировать',async()=>{const reason=prompt('Причина блокировки');if(reason&&await adminAction('user_ban',{user_id:u.id,reason}))adminTab(tab)});
    list.append(row);
   }};search.oninput=draw;draw();
