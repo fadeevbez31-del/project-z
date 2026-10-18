@@ -107,7 +107,7 @@ RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = ''
-AS $
+AS $$
 DECLARE
   v_owner uuid;
   v_actor uuid := (SELECT auth.uid());
@@ -147,7 +147,7 @@ BEGIN
   VALUES (v_actor, 'support_verification_review', v_user::text,
           jsonb_build_object('ticket_id', p_ticket_id, 'approved', p_approve));
 END;
-$;
+$$;
 REVOKE ALL ON FUNCTION public.forum_owner_review_support_verification(bigint, boolean) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.forum_owner_review_support_verification(bigint, boolean) TO authenticated;
 
@@ -158,7 +158,7 @@ RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = ''
-AS $
+AS $$
 DECLARE
   v_owner uuid;
   v_actor uuid := (SELECT auth.uid());
@@ -191,7 +191,7 @@ BEGIN
   VALUES (v_actor, 'verification_restored', p_user_id::text,
           jsonb_build_object('nickname', v_nickname));
 END;
-$;
+$$;
 
 REVOKE ALL ON FUNCTION public.forum_owner_restore_verification(uuid) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.forum_owner_restore_verification(uuid) TO authenticated;
