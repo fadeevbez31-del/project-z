@@ -547,26 +547,40 @@ import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
 const maintenanceClient=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
 async function checkProjectMaintenance(){
  try{
-  const {data,error}=await maintenanceClient.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
+  const {data:setting,error}=await maintenanceClient.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
   if(error)return;
-  const {data:sessionData}=await maintenanceClient.auth.getSession();
-  const activeUser=sessionData?.session?.user;
-  let isSiteAdmin=String(activeUser?.email||'').trim().toLowerCase()==='007.s2@mail.ru';
-  if(activeUser?.id&&!isSiteAdmin){
-   const {data:profile}=await maintenanceClient.from('profiles').select('role').eq('id',activeUser.id).maybeSingle();
-   isSiteAdmin=profile?.role==='admin';
+  if(!setting?.maintenance_enabled){document.getElementById('pzMaintenanceWall')?.remove();return}
+  const {data:{session}}=await maintenanceClient.auth.getSession();
+  const account=session?.user||null;
+  let role='';
+  if(account?.id){
+   const {data:profile}=await maintenanceClient.from('profiles').select('role').eq('id',account.id).maybeSingle();
+   role=String(profile?.role||'').toLowerCase();
   }
-  if(!data?.maintenance_enabled||isSiteAdmin){document.getElementById('pzMaintenanceWall')?.remove();return}
+  const isAdmin=String(account?.email||'').trim().toLowerCase()==='007.s2@mail.ru'||role==='admin';
+  if(isAdmin){document.getElementById('pzMaintenanceWall')?.remove();return}
   let wall=document.getElementById('pzMaintenanceWall');
-  if(!wall){
-   wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
-   wall.innerHTML='<header class="pz-maintenance-header"><div class="pz-brand">☣ PROJECT Z</div><div class="pz-header-links"><span>⌂ На главную</span><span>▣ Форум</span><span>♙ Пользователи</span><span>▣ Правила</span></div></header><div class="pz-ticker" aria-label="Идут технические работы"><div class="pz-ticker-track"></div></div><section class="pz-maintenance-hero"><div><div class="pz-hero-title">PROJECT Z</div><div class="pz-hero-subtitle">ФОРУМ СООБЩЕСТВА</div></div></section><section class="pz-maintenance-card"><div class="pz-maintenance-icon">⚙</div><h2>Идут технические работы!</h2><p class="pz-maintenance-message"></p><p class="pz-maintenance-extra">Пожалуйста, зайдите позже. Мы уже работаем над улучшениями!</p></section><div class="pz-ticker" aria-label="Идут технические работы"><div class="pz-ticker-track"></div></div><footer class="pz-maintenance-footer">© PROJECT Z · Форум сообщества</footer>';
-   const tickerText='⚠ ИДУТ ТЕХ. РАБОТЫ!';
-   wall.querySelectorAll('.pz-ticker-track').forEach(track=>{for(let i=0;i<12;i++){const item=document.createElement('span');item.textContent=tickerText;track.append(item)}for(let i=0;i<12;i++){const item=document.createElement('span');item.textContent=tickerText;track.append(item)}});
-   document.body.append(wall);
-  }
-  const message=wall.querySelector('.pz-maintenance-message');
-  if(message)message.textContent=data.maintenance_message||'В данный момент сайт временно недоступен.';
+  if(!wall){wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true')}
+  wall.replaceChildren();
+  const header=document.createElement('div');header.className='pz-maintenance-header';
+  const brand=document.createElement('div');brand.className='pz-brand';brand.textContent='☣ PROJECT Z';
+  const nav=document.createElement('div');nav.className='pz-header-links';
+  ['⌂ На главную','▣ Форум','♟ Пользователи','▣ Правила'].forEach(label=>{const item=document.createElement('span');item.textContent=label;nav.append(item)});
+  const accountLinks=document.createElement('div');accountLinks.className='pz-header-links';
+  ['♙ Войти','♙ Регистрация'].forEach(label=>{const item=document.createElement('span');item.textContent=label;accountLinks.append(item)});
+  header.append(brand,nav,accountLinks);
+  const makeTicker=()=>{const ticker=document.createElement('div');ticker.className='pz-ticker';const track=document.createElement('div');track.className='pz-ticker-track';for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}ticker.append(track);return ticker};
+  const hero=document.createElement('div');hero.className='pz-maintenance-hero';
+  const heroText=document.createElement('div');const heroTitle=document.createElement('div');heroTitle.className='pz-hero-title';heroTitle.textContent='PROJECT Z';const heroSub=document.createElement('div');heroSub.className='pz-hero-subtitle';heroSub.textContent='ФОРУМ СООБЩЕСТВА';heroText.append(heroTitle,heroSub);hero.append(heroText);
+  const card=document.createElement('section');card.className='pz-maintenance-card';
+  const icon=document.createElement('div');icon.className='pz-maintenance-icon';icon.textContent='⚙';
+  const title=document.createElement('h2');title.textContent='Идут технические работы!';
+  const message=document.createElement('p');message.textContent=setting.maintenance_message||'В данный момент сайт временно недоступен.';
+  const extra=document.createElement('p');extra.className='pz-maintenance-extra';extra.textContent='Пожалуйста, зайдите позже. Мы уже работаем над улучшениями!';
+  card.append(icon,title,message,extra);
+  const footer=document.createElement('div');footer.className='pz-maintenance-footer';footer.textContent='© PROJECT Z — Counter-Strike: Source';
+  wall.append(header,makeTicker(),hero,card,makeTicker(),footer);
+  if(!wall.isConnected)document.body.append(wall);
  }catch(e){console.warn('Не удалось проверить режим технических работ.',e)}
 }
 checkProjectMaintenance();
