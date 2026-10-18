@@ -77,10 +77,10 @@ const OWNER_EMAIL='007.s2@mail.ru';let maintenanceEnabled=false,maintenanceMessa
 const restrictedCategoryIds=[1,6];
 function canDelete(authorId,categoryId){return !!user&&(currentRole==='admin'||(user.id===authorId&&!restrictedCategoryIds.includes(Number(categoryId))))}
 function deleteButton(label,handler){const b=el('button','btn secondary',label);b.style.marginRight='10px';b.style.borderColor='#ad537e';b.onclick=async e=>{e.stopPropagation();if(!confirm('Удалить без возможности восстановления?'))return;b.disabled=true;try{await handler()}finally{b.disabled=false}};return b}
-function isProjectOwner(){return String(user?.email||'').trim().toLowerCase()===OWNER_EMAIL}
+function isMaintenanceOwner(){return String(user?.email||'').trim().toLowerCase()===OWNER_EMAIL}
 function renderMaintenanceOverlay(){
  let overlay=$('maintenanceOverlay');
- if(!maintenanceEnabled||isProjectOwner()){
+ if(!maintenanceEnabled||isMaintenanceOwner()){
   overlay?.remove();return;
  }
  if(!overlay){overlay=el('div');overlay.id='maintenanceOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');document.body.append(overlay)}
@@ -107,7 +107,7 @@ async function loadMaintenanceStatus(){
  }
 }
 async function setMaintenanceMode(enabled){
- if(!user||!isProjectOwner())throw new Error('Управление техническими работами доступно только 007.s2@mail.ru.');
+ if(!user||!isMaintenanceOwner())throw new Error('Управление техническими работами доступно только 007.s2@mail.ru.');
  const {data,error}=await supabase.from('forum_site_settings').update({maintenance_enabled:!!enabled,updated_at:new Date().toISOString()}).eq('id',1).select('maintenance_enabled,maintenance_message').maybeSingle();
  if(error)throw error;
  if(!data)throw new Error('Настройка не обновлена. Проверь SQL-политику владельца в Supabase.');
@@ -398,7 +398,7 @@ async function adminTab(tab){
  const section=(title)=>{const p=el('section','panel');p.append(el('h3','',title));wrap.append(p);return p};
  const addAction=(parent,label,action,data)=>adminButton(parent,label,async()=>{if(await adminAction(action,data))adminTab(tab)});
  if(tab==='maintenance'){
-  if(!isProjectOwner())return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
+  if(!isMaintenanceOwner())return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
   const p=section('❗ Управление техническими работами');
   p.append(el('p','muted','Включение режима технических работ временно закрывает форум и главную страницу для посетителей. Аккаунт владельца проекта сохраняет доступ к панели управления.'));
   const status=el('div','panel',maintenanceEnabled?'⚠ Технические работы ВКЛЮЧЕНЫ':'✓ Технические работы выключены');
