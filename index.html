@@ -560,8 +560,12 @@ async function checkProjectMaintenance(){
   const isAdmin=String(account?.email||'').trim().toLowerCase()==='007.s2@mail.ru'||role==='admin';
   if(isAdmin){document.getElementById('pzMaintenanceWall')?.remove();return}
   let wall=document.getElementById('pzMaintenanceWall');
-  if(!wall){wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true')}
-  wall.replaceChildren();
+  if(wall){
+   const currentMessage=wall.querySelector('.pz-maintenance-message');
+   if(currentMessage)currentMessage.textContent=setting.maintenance_message||'В данный момент сайт временно недоступен.';
+   return;
+  }
+  wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
   const header=document.createElement('div');header.className='pz-maintenance-header';
   const brand=document.createElement('div');brand.className='pz-brand';brand.textContent='☣ PROJECT Z';
   const nav=document.createElement('div');nav.className='pz-header-links';
@@ -575,7 +579,7 @@ async function checkProjectMaintenance(){
   const card=document.createElement('section');card.className='pz-maintenance-card';
   const icon=document.createElement('div');icon.className='pz-maintenance-icon';icon.textContent='⚙';
   const title=document.createElement('h2');title.textContent='Идут технические работы!';
-  const message=document.createElement('p');message.textContent=setting.maintenance_message||'В данный момент сайт временно недоступен.';
+  const message=document.createElement('p');message.className='pz-maintenance-message';message.textContent=setting.maintenance_message||'В данный момент сайт временно недоступен.';
   const extra=document.createElement('p');extra.className='pz-maintenance-extra';extra.textContent='Пожалуйста, зайдите позже. Мы уже работаем над улучшениями!';
   card.append(icon,title,message,extra);
   const footer=document.createElement('div');footer.className='pz-maintenance-footer';footer.textContent='© PROJECT Z — Counter-Strike: Source';
