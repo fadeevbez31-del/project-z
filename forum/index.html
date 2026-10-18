@@ -402,6 +402,7 @@ async function openCommunity(section='home'){
  const nav=el('div','row');$('content').append(nav);
  for(const [label,slug] of [['⭐ Избранное','favorites'],['🔔 Уведомления','notifications'],['🔎 Поиск','search'],['🏆 Рейтинг','leaderboard'],['🎖 Достижения','achievements'],['📨 Задать вопрос / жалобу','support']]){
  nav.append(communityNav(label,()=>openCommunity(slug)))}
+ nav.style.borderBottom='1px solid var(--line)';nav.style.paddingBottom='14px';nav.style.marginBottom='14px';
  const p=el('section','panel');$('content').append(p);
  const heading=t=>p.append(el('h3','',t));
  const line=t=>p.append(el('p','muted',t));
