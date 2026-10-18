@@ -52,24 +52,6 @@ p,.muted,.post,.content,.formatted-text{overflow-wrap:anywhere}
  #topicFileName{flex:1 1 100%}
 }
 
-
-/* Clear visual separation between community navigation and its content panel. */
-.community-nav{
-  position:relative;
-  gap:10px 12px;
-  padding:0 0 17px;
-  margin:0 0 18px;
-  border-bottom:2px solid #593675;
-}
-.community-nav + .panel{
-  margin-top:0;
-  border-top:2px solid #68418a;
-  box-shadow:0 8px 24px rgba(0,0,0,.16);
-}
-@media(max-width:600px){
-  .community-nav{padding-bottom:14px;margin-bottom:15px;gap:8px}
-}
-
 </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
@@ -417,7 +399,7 @@ async function openCommunity(section='home'){
  if(!user)return msg('Войди в аккаунт, чтобы использовать функции сообщества.',true);
  view={type:'community',section};$('heading').textContent='🎮 PROJECT Z · Сообщество';
  $('content').replaceChildren(back('На форум',loadCategories));renderEditor();
- const nav=el('div','row community-nav');$('content').append(nav);
+ const nav=el('div','row');$('content').append(nav);
  for(const [label,slug] of [['⭐ Избранное','favorites'],['🔔 Уведомления','notifications'],['✉ Сообщения','messages'],['🔎 Поиск','search'],['🏆 Рейтинг','leaderboard'],['🎖 Достижения','achievements'],['📨 Задать вопрос / жалобу','support']]){
  nav.append(communityNav(label,()=>openCommunity(slug)))}
  const p=el('section','panel');$('content').append(p);
