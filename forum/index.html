@@ -390,7 +390,7 @@ async function openAdminPanel(){
 }
 async function adminTab(tab){
  if(currentRole!=='admin')return;
- if(['categories','requests','logs','confirmed','verified_profiles','maintenance'].includes(tab)&&!isProjectOwner())return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
+ if(['categories','requests','logs','confirmed','verified_profiles','maintenance'].includes(tab)&&!isMaintenanceOwner())return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
  view={...view,type:'admin',adminTab:tab};
  document.querySelectorAll('[data-admin-tab]').forEach(n=>n.remove());
  const wrap=el('div');wrap.dataset.adminTab=tab;$('content').append(wrap);
