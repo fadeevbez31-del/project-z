@@ -80,7 +80,7 @@ returns void
 language plpgsql
 security definer
 set search_path = ''
-as $
+as $$
 declare
   v_uid uuid := auth.uid();
 begin
@@ -104,7 +104,7 @@ begin
   insert into public.forum_admin_log(actor_id, action, target, details)
   values (v_uid, 'verification_removed', p_user_id::text, '{}'::jsonb);
 end;
-$;
+$$;
 
 revoke all on function public.forum_owner_remove_verification(uuid) from public;
 grant execute on function public.forum_owner_remove_verification(uuid) to authenticated;
