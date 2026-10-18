@@ -309,7 +309,7 @@ async function openAdminPanel(){
  view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
  const tabs=el('div','row');$('content').append(tabs);
  const ownerOnlyTabs=['categories','requests','logs','confirmed','verified_profiles'];
- for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','🧟 Администраторы сервера'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
+ for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','🧟 Админы сервера'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
   if(ownerOnlyTabs.includes(name)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')continue;
   adminButton(tabs,label,()=>adminTab(name));
  }
@@ -406,7 +406,7 @@ async function adminTab(tab){
    const p=section('');
    const headingRow=el('div','row');headingRow.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px';
    headingRow.append(el('h3','','Подтверждения профилей'));
-   adminButton(headingRow,'🧟 Администраторы сервера',()=>adminTab('verified_profiles'));
+   adminButton(headingRow,'🧟 Админы сервера',()=>adminTab('verified_profiles'));
    p.append(headingRow,el('p','muted','Здесь рассматриваются заявки. После одобрения пользователь должен подтвердить галочку в своём профиле.'));
    const search=el('input');search.placeholder='Поиск по нику или тексту заявки';p.append(search);
    const list=el('div');p.append(list);
@@ -427,14 +427,14 @@ async function adminTab(tab){
       adminButton(row,'Отклонить',async()=>{const {error}=await supabase.rpc('forum_owner_review_support_verification',{p_ticket_id:r.id,p_approve:false});if(error)return err(error);msg('Заявка отклонена.');adminTab(tab)});list.append(row)}
     };search.oninput=draw;draw();
   }else if(tab==='verified_profiles'){
-   const p=section('Администраторы сервера');
-   p.append(el('p','muted','Управление подтверждёнными профилями: можно снять или вернуть галочку. Изменение не удаляет аккаунт, темы или сообщения.'));
+   const p=section('Админы сервера');
+   p.append(el('p','muted','Управление администраторами сервера: здесь можно выдать или убрать статус администратора. Это изменяет значок и подпись в профиле, но не удаляет аккаунт, темы или сообщения.'));
    adminButton(p,'← Назад к подтверждениям профилей',()=>adminTab('confirmed'));
    const search=el('input');search.placeholder='Поиск по нику';p.append(search);
    const list=el('div');p.append(list);
    const {data,error}=await supabase.from('profiles').select('id,nickname,verified,verified_pending').order('nickname').limit(500);
    if(error)return err(error);
-   const draw=()=>{list.replaceChildren();const matches=(data||[]).filter(u=>(u.nickname||'').toLowerCase().includes(search.value.toLowerCase()));if(!matches.length){list.append(el('p','muted','Профилей с активной или ожидающей галочкой не найдено.'));return}for(const u of matches){const row=el('div','admin-entry');const name=el('strong','',u.nickname||u.id);appendVerificationMark(name,!!u.verified,!!u.verified_pending,'6px');row.append(name,el('p','muted',u.verified_pending?'Ожидает подтверждения пользователя':u.verified?'Администратор сервера · галочка активна':'Галочка не активна'));if(u.verified)adminButton(row,'Снять галочку',async()=>{if(!confirm('Снять галочку у '+(u.nickname||u.id)+'? Аккаунт и сообщения останутся.'))return;const {error}=await supabase.rpc('forum_owner_remove_verification',{p_user_id:u.id});if(error)return err(error);msg('Галочка снята');adminTab(tab)});else if(!u.verified_pending)adminButton(row,'Вернуть галочку',async()=>{if(!confirm('Вернуть галочку пользователю '+(u.nickname||u.id)+'?'))return;const {error}=await supabase.rpc('forum_owner_restore_verification',{p_user_id:u.id});if(error)return err(error);msg('Галочка возвращена');adminTab(tab)});list.append(row)}};
+   const draw=()=>{list.replaceChildren();const matches=(data||[]).filter(u=>(u.nickname||'').toLowerCase().includes(search.value.toLowerCase()));if(!matches.length){list.append(el('p','muted','Пользователи не найдены.'));return}for(const u of matches){const row=el('div','admin-entry');const name=el('strong','',u.nickname||u.id);appendVerificationMark(name,!!u.verified,!!u.verified_pending,'6px');row.append(name,el('p','muted',u.verified_pending?'Ожидает подтверждения пользователя':u.verified?'Администрирование активно · отображается значок и подпись «Администратор сервера»':'Администрирование не выдано'));if(u.verified)adminButton(row,'Убрать администрирование',async()=>{if(!confirm('Убрать администрирование у '+(u.nickname||u.id)+'? Значок и подпись администратора исчезнут. Аккаунт и сообщения останутся.'))return;const {error}=await supabase.rpc('forum_owner_remove_verification',{p_user_id:u.id});if(error)return err(error);msg('Администрирование убрано');adminTab(tab)});else if(!u.verified_pending)adminButton(row,'Выдать администрирование',async()=>{if(!confirm('Выдать администрирование пользователю '+(u.nickname||u.id)+'? У него появится значок и подпись «Администратор сервера».'))return;const {error}=await supabase.rpc('forum_owner_restore_verification',{p_user_id:u.id});if(error)return err(error);msg('Администрирование выдано');adminTab(tab)});list.append(row)}};
    search.oninput=draw;draw();
   }else if(tab==='sourcebans'){
   const p=section('SourceBans · игровой сервер');
