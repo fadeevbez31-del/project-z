@@ -70,7 +70,21 @@ function attachmentHtml(a){
   box.style.marginTop='14px';box.style.padding='12px';
   const link=el('a','', '📎 '+a.name+' ('+formatFileSize(a.size||0)+')');
   link.href=a.url;link.target='_blank';link.rel='noopener noreferrer';
-  box.append(link);
+  const isImage = /\\.(png|jpe?g|gif|webp|avif|bmp|svg)$/i.test(a.name||'') || /^image\\//i.test(a.type||'');
+  if(isImage){
+    const preview=el('img','');
+    preview.src=a.url;
+    preview.alt=a.name||'Прикреплённое изображение';
+    preview.loading='lazy';
+    preview.style.cssText='display:block;max-width:100%;max-height:650px;width:auto;height:auto;object-fit:contain;border-radius:9px;margin:0 auto;';
+    const imageLink=el('a','');
+    imageLink.href=a.url;imageLink.target='_blank';imageLink.rel='noopener noreferrer';
+    imageLink.append(preview);
+    box.append(imageLink);
+    preview.onerror=()=>{imageLink.remove();box.append(link)};
+  }else{
+    box.append(link);
+  }
   return box;
 }
 function showAuth(visible){$('authPanel').classList.toggle('hidden',!visible)}
