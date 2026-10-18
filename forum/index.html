@@ -618,7 +618,13 @@ const {data:{session}}=await supabase.auth.getSession();user=session?.user||null
 let savedView=null;try{savedView=JSON.parse(sessionStorage.getItem('pz-forum-view')||'null')}catch{}
 window.addEventListener('beforeunload',()=>{try{sessionStorage.setItem('pz-forum-view',JSON.stringify(view))}catch{}});
 await loadMaintenanceStatus();
-if(new URLSearchParams(location.search).get('login')==='1'){authMode('login');$('email').value=OWNER_EMAIL;showAuth(true);renderMaintenanceOverlay()}
+if(new URLSearchParams(location.search).get('login')==='1'){
+ authMode('login');
+ $('email').value=OWNER_EMAIL;
+ showAuth(true);
+ if(maintenanceEnabled)$('signupTab').classList.add('hidden');
+ renderMaintenanceOverlay();
+}
 setInterval(()=>{if(document.visibilityState!=='hidden')loadMaintenanceStatus()},20000);
 await loadCategories();
 if(savedView&&savedView.type){
