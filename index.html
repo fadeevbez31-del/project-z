@@ -230,6 +230,11 @@
 .hero::after{content:none}
 .layout{position:relative;z-index:3}
 @media(max-width:720px){.hero{height:200px;overflow:hidden}.hero::before{height:100%;aspect-ratio:auto;top:0;transform:none;background-size:cover;background-position:center;-webkit-mask-image:none;mask-image:none}}
+#pzMaintenanceWall{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:20px;background:rgba(8,5,13,.97);text-align:center}
+#pzMaintenanceWall .pz-maintenance-card{max-width:680px;width:100%;padding:clamp(22px,5vw,42px);border:1px solid #8a4eb1;border-radius:18px;background:linear-gradient(145deg,#21132e,#100b17);box-shadow:0 0 45px #a855f744}
+#pzMaintenanceWall h2{margin-top:0;color:#d8a6ff;font-size:clamp(24px,4vw,34px)}
+#pzMaintenanceWall p{line-height:1.7;color:#d3c2e0}
+#pzMaintenanceWall a{display:inline-block;margin-top:10px;padding:12px 18px;border-radius:9px;background:#7135aa;color:white;font-weight:800;text-decoration:none;border:1px solid #b66bff}
 </style>
 </head>
 <body>
@@ -522,6 +527,28 @@ async function loadBans(){
 document.getElementById('banSearch').addEventListener('input',renderBans);
 document.getElementById('banRefresh').addEventListener('click',loadBans);
 loadBans();
+</script>
+<script type="module">
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const maintenanceClient=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
+async function checkProjectMaintenance(){
+ try{
+  const {data,error}=await maintenanceClient.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
+  if(error||!data?.maintenance_enabled)return;
+  let wall=document.getElementById('pzMaintenanceWall');
+  if(!wall){
+   wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
+   const card=document.createElement('section');card.className='pz-maintenance-card';
+   const title=document.createElement('h2');title.textContent='⚠ Технические работы';
+   const message=document.createElement('p');message.textContent=data.maintenance_message||'На сайте проводятся технические работы. Пожалуйста, зайдите позже.';
+   const extra=document.createElement('p');extra.textContent='Команда PROJECT Z работает над улучшением сайта. Спасибо за терпение!';
+   const link=document.createElement('a');link.href='/forum/index.html';link.textContent='Вход для владельца проекта';
+   card.append(title,message,extra,link);wall.append(card);document.body.append(wall);
+  }
+ }catch(e){console.warn('Не удалось проверить режим технических работ.',e)}
+}
+checkProjectMaintenance();
+setInterval(checkProjectMaintenance,20000);
 </script>
 </body></html>
 
