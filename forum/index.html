@@ -335,6 +335,7 @@ async function openAdminPanel(){
  }
  tabs.style.borderBottom='1px solid var(--line)';tabs.style.paddingBottom='14px';tabs.style.marginBottom='14px';
  await adminTab('stats');
+ await refreshModerationApplicationCount();
 }
 async function adminTab(tab){
  if(currentRole!=='admin')return;
