@@ -48,7 +48,7 @@ const restrictedCategoryIds=[1,6];
 function canDelete(authorId,categoryId){return !!user&&(currentRole==='admin'||(user.id===authorId&&!restrictedCategoryIds.includes(Number(categoryId))))}
 function deleteButton(label,handler){const b=el('button','btn secondary',label);b.style.marginLeft='10px';b.style.borderColor='#ad537e';b.onclick=async e=>{e.stopPropagation();if(!confirm('Удалить без возможности восстановления?'))return;b.disabled=true;try{await handler()}finally{b.disabled=false}};return b}
 function canCreateTopic(){return !!user&&view.type==='category'&&(!restrictedCategoryIds.includes(Number(view.id))||currentRole==='admin')}
-async function refreshRole(){currentRole='player';if(user){const {data,error}=await supabase.from('profiles').select('role').eq('id',user.id).maybeSingle();if(!error)currentRole=data?.role||'player'}renderEditor();renderAuth()}
+async function refreshRole(){const id=user?.id;let nextRole='player';if(id){const {data,error}=await supabase.from('profiles').select('role').eq('id',id).maybeSingle();if(error)return;if(user?.id!==id)return;nextRole=data?.role||'player'}if(currentRole!==nextRole){currentRole=nextRole;renderAuth()}else renderEditor()}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n}
 
 // Безопасное форматирование сообщений: только разрешённые BBCode-теги, без HTML.
@@ -147,7 +147,7 @@ $('authForm').onsubmit=async e=>{e.preventDefault();const email=$('email').value
 $('otpForm').onsubmit=async e=>{e.preventDefault();const token=$('otpCode').value.trim();if(!/^\d{6}$/.test(token))return msg('Введи шесть цифр из письма.',true);const button=$('otpSubmit');button.disabled=true;try{const {error}=await supabase.auth.verifyOtp({email:pendingEmail,token,type:'signup'});if(error)throw error;$('otpPanel').classList.add('hidden');msg('Почта подтверждена! Ты вошёл на форум.')}catch(error){err(error)}finally{button.disabled=false}};
 $('otpResend').onclick=async()=>{const button=$('otpResend');button.disabled=true;try{const {error}=await supabase.auth.resend({type:'signup',email:pendingEmail});if(error)throw error;msg('Если повторная отправка разрешена, новый код отправлен.')}catch(error){err(error)}finally{button.disabled=false}};
 $('otpCancel').onclick=()=>{$('otpPanel').classList.add('hidden');pendingEmail='';showAuth(true)};
-supabase.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;currentRole='player';renderAuth();refreshRole();});
+supabase.auth.onAuthStateChange((event,session)=>{const nextUser=session?.user||null;const changed=user?.id!==nextUser?.id;if(!changed)return;user=nextUser;currentRole='player';renderAuth();if(nextUser)queueMicrotask(()=>refreshRole());else{view={type:'categories'};loadCategories()}});
 
 async function openSupportInbox(){
  if(!user||currentRole!=='admin')return msg('Доступ только для администрации',true);
