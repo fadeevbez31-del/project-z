@@ -45,12 +45,12 @@ begin
 end;$$;
 create or replace function public.forum_guard_profile_insert()
 returns trigger language plpgsql security definer set search_path = ''
-as $
+as $$
 begin
  if auth.uid() is not null and new.role is distinct from 'player'
  then raise exception 'New profiles must start as player'; end if;
  return new;
-end;$;
+end;$$;
 drop trigger if exists forum_guard_profile_insert_trigger on public.profiles;
 create trigger forum_guard_profile_insert_trigger before insert on public.profiles
 for each row execute function public.forum_guard_profile_insert();
