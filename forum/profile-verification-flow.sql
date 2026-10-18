@@ -151,4 +151,49 @@ $;
 REVOKE ALL ON FUNCTION public.forum_owner_review_support_verification(bigint, boolean) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.forum_owner_review_support_verification(bigint, boolean) TO authenticated;
 
+
+-- Only the PROJECT Z owner can restore a removed verification badge.
+CREATE OR REPLACE FUNCTION public.forum_owner_restore_verification(p_user_id uuid)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $
+DECLARE
+  v_owner uuid;
+  v_actor uuid := (SELECT auth.uid());
+  v_nickname text;
+BEGIN
+  SELECT id INTO v_owner
+  FROM auth.users
+  WHERE lower(email) = '007.s2@mail.ru'
+    AND email_confirmed_at IS NOT NULL
+  LIMIT 1;
+
+  IF v_actor IS NULL OR v_actor IS DISTINCT FROM v_owner THEN
+    RAISE EXCEPTION 'Only the PROJECT Z owner can restore verification'
+      USING ERRCODE = '42501';
+  END IF;
+
+  UPDATE public.profiles
+  SET verified = true, verified_pending = false
+  WHERE id = p_user_id
+  RETURNING nickname INTO v_nickname;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Profile not found';
+  END IF;
+
+  INSERT INTO public.forum_notifications(user_id, actor_id, body)
+  VALUES (p_user_id, v_actor, 'Администрация PROJECT Z восстановила галочку подтверждённого профиля.');
+
+  INSERT INTO public.forum_admin_log(actor_id, action, target, details)
+  VALUES (v_actor, 'verification_restored', p_user_id::text,
+          jsonb_build_object('nickname', v_nickname));
+END;
+$;
+
+REVOKE ALL ON FUNCTION public.forum_owner_restore_verification(uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.forum_owner_restore_verification(uuid) TO authenticated;
+
 COMMIT;
