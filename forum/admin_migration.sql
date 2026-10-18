@@ -164,6 +164,19 @@ begin
    v_uid := (p_data->>'user_id')::uuid; v_role := p_data->>'role';
    if v_role not in ('player','vip','moderator','admin') then raise exception 'Invalid role'; end if;
    if v_uid=auth.uid() then raise exception 'Cannot change your own role'; end if;
+   -- Only the verified owner may grant/revoke admin privileges.
+   if v_role='admin' or exists(select 1 from public.profiles where id=v_uid and role='admin') then
+     if not exists (
+       select 1 from auth.users owner
+       where owner.id=auth.uid()
+         and lower(owner.email)='007.s2@mail.ru'
+         and owner.email_confirmed_at is not null
+     ) then raise exception 'Only the verified forum owner can grant or revoke admin'; end if;
+     if exists (
+       select 1 from auth.users owner
+       where owner.id=v_uid and lower(owner.email)='007.s2@mail.ru'
+     ) then raise exception 'The forum owner cannot be demoted'; end if;
+   end if;
    perform set_config('app.forum_role_change','allowed',true);
    update public.profiles set role=v_role where id=v_uid;
  elsif p_action = 'user_ban' then
