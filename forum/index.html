@@ -393,8 +393,8 @@ async function openCommunity(section='home'){
   const {data,error}=await supabase.from('forum_map_votes').select('map_name,user_id').limit(1000);if(error)return err(error);const counts={};for(const v of data||[])counts[v.map_name]=(counts[v.map_name]||0)+1;
   Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([name,count])=>p.append(el('p','',name+' · '+count+' голосов')));
  }else if(section==='requests'){
-  heading('Заявка на VIP / Разбан');const kind=el('select');for(const [v,t] of [['vip','VIP'],['unban','Разбан']]){const o=el('option','',t);o.value=v;kind.append(o)}
-  const steam=el('input');steam.placeholder='SteamID';const body=el('textarea');body.placeholder='Опиши заявку (от 10 символов)';p.append(kind,steam,body,communityNav('Отправить заявку',async()=>{if(await communityAction('request',{kind:kind.value,steam_id:steam.value,body:body.value}))openCommunity('requests')}));
+  heading('Заявка на VIP / Разбан');line('После отправки заявка поступит администрации в «Жалобы / вопросы».');const kind=el('select');for(const [v,t] of [['vip','VIP'],['unban','Разбан']]){const o=el('option','',t);o.value=v;kind.append(o)}
+  const steam=el('input');steam.placeholder='SteamID';const body=el('textarea');body.placeholder='Опиши заявку (от 10 символов)';p.append(kind,steam,body,communityNav('Отправить заявку',async()=>{if(await communityAction('request',{kind:kind.value,steam_id:steam.value,body:body.value})){await refreshSupportCount();openCommunity('requests')}}));
   const {data,error}=await supabase.from('forum_requests').select('kind,steam_id,status,created_at').eq('author_id',user.id).order('created_at',{ascending:false}).limit(30);if(error)return err(error);
   for(const r of data||[])line(r.kind.toUpperCase()+' · '+r.steam_id+' · '+r.status);
  }
