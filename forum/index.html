@@ -52,6 +52,11 @@ p,.muted,.post,.content,.formatted-text{overflow-wrap:anywhere}
  #topicFileName{flex:1 1 100%}
 }
 
+#maintenanceOverlay{position:fixed;inset:240px 0 0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(11,9,17,.98);text-align:center}
+#maintenanceOverlay .maintenance-card{max-width:680px;width:100%;padding:32px;border:1px solid #7e42a5;border-radius:16px;background:#171020;box-shadow:0 0 35px #a855f733}
+#maintenanceOverlay h2{color:#d6a2ff;margin-top:0}
+#maintenanceOverlay p{line-height:1.7;color:var(--muted,#c9b8d9)}
+@media(max-width:700px){#maintenanceOverlay{inset-top:260px;top:260px;padding:12px}#maintenanceOverlay .maintenance-card{padding:20px}}
 </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
@@ -68,9 +73,48 @@ p,.muted,.post,.content,.formatted-text{overflow-wrap:anywhere}
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 const supabase=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
 const $=id=>document.getElementById(id);let user=null,mode='login',pendingEmail='',view={type:'categories'},categories=[],profiles={},currentRole='player';
+const OWNER_EMAIL='007.s2@mail.ru';let maintenanceEnabled=false,maintenanceMessage='На сайте проводятся технические работы. Пожалуйста, зайдите позже.',maintenanceReadError='';
 const restrictedCategoryIds=[1,6];
 function canDelete(authorId,categoryId){return !!user&&(currentRole==='admin'||(user.id===authorId&&!restrictedCategoryIds.includes(Number(categoryId))))}
 function deleteButton(label,handler){const b=el('button','btn secondary',label);b.style.marginRight='10px';b.style.borderColor='#ad537e';b.onclick=async e=>{e.stopPropagation();if(!confirm('Удалить без возможности восстановления?'))return;b.disabled=true;try{await handler()}finally{b.disabled=false}};return b}
+function isProjectOwner(){return String(user?.email||'').trim().toLowerCase()===OWNER_EMAIL}
+function renderMaintenanceOverlay(){
+ let overlay=$('maintenanceOverlay');
+ if(!maintenanceEnabled||isProjectOwner()){
+  overlay?.remove();return;
+ }
+ if(!overlay){overlay=el('div');overlay.id='maintenanceOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');document.body.append(overlay)}
+ overlay.replaceChildren();
+ const card=el('section','maintenance-card');
+ card.append(el('h2','','⚠ Технические работы'),el('p','',maintenanceMessage),el('p','muted','Мы обновляем PROJECT Z, чтобы сделать работу сайта стабильнее. Пожалуйста, загляните немного позже.'));
+ const refresh=el('button','btn secondary','↻ Проверить снова');refresh.onclick=async()=>{refresh.disabled=true;await loadMaintenanceStatus();refresh.disabled=false};
+ card.append(refresh);overlay.append(card);
+}
+async function loadMaintenanceStatus(){
+ try{
+  const {data,error}=await supabase.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
+  if(error)throw error;
+  maintenanceReadError='';
+  maintenanceEnabled=!!data?.maintenance_enabled;
+  maintenanceMessage=String(data?.maintenance_message||'На сайте проводятся технические работы. Пожалуйста, зайдите позже.');
+  renderMaintenanceOverlay();
+  return true;
+ }catch(error){
+  maintenanceReadError=error?.message||String(error);
+  console.warn('Maintenance setting is unavailable. Apply supabase/maintenance_mode.sql in Supabase SQL Editor.',error);
+  renderMaintenanceOverlay();
+  return false;
+ }
+}
+async function setMaintenanceMode(enabled){
+ if(!user||!isProjectOwner())throw new Error('Управление техническими работами доступно только 007.s2@mail.ru.');
+ const {data,error}=await supabase.from('forum_site_settings').update({maintenance_enabled:!!enabled,updated_at:new Date().toISOString()}).eq('id',1).select('maintenance_enabled,maintenance_message').maybeSingle();
+ if(error)throw error;
+ if(!data)throw new Error('Настройка не обновлена. Проверь SQL-политику владельца в Supabase.');
+ maintenanceEnabled=!!data.maintenance_enabled;
+ maintenanceMessage=String(data.maintenance_message||maintenanceMessage);
+ renderMaintenanceOverlay();
+}
 function canCreateTopic(){return !!user&&view.type==='category'&&(!restrictedCategoryIds.includes(Number(view.id))||currentRole==='admin')}
 async function refreshRole(){const id=user?.id;let nextRole='player';if(id){const {data,error}=await supabase.from('profiles').select('role').eq('id',id).maybeSingle();if(error)return false;if(user?.id!==id)return false;nextRole=data?.role||'player'}const changed=currentRole!==nextRole;if(changed){currentRole=nextRole;renderAuth()}else renderEditor();return changed}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n}
@@ -335,8 +379,8 @@ async function openAdminPanel(){
  if(!user||currentRole!=='admin')return msg('Доступ только для администраторов.',true);
  view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
  const tabs=el('div','row');$('content').append(tabs);
- const ownerOnlyTabs=['categories','requests','logs','confirmed','verified_profiles'];
- for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','🧟 Админы сервера'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
+ const ownerOnlyTabs=['categories','requests','logs','confirmed','verified_profiles','maintenance'];
+ for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','📨 Подтверждения профилей'],['verified_profiles','🧟 Админы сервера'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans'],['maintenance','❗ Тех. работы']]){
   if(ownerOnlyTabs.includes(name)&&String(user?.email||'').trim().toLowerCase()!=='007.s2@mail.ru')continue;
   const tabButton=adminButton(tabs,label,()=>adminTab(name));if(name==='confirmed')tabButton.id='adminConfirmationsTab';
  }
@@ -346,13 +390,28 @@ async function openAdminPanel(){
 }
 async function adminTab(tab){
  if(currentRole!=='admin')return;
- if(['categories','requests','logs','confirmed','verified_profiles'].includes(tab)&&String(user?.email||'').trim().toLowerCase()!=='007.s2@mail.ru')return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
+ if(['categories','requests','logs','confirmed','verified_profiles','maintenance'].includes(tab)&&!isProjectOwner())return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
  view={...view,type:'admin',adminTab:tab};
  document.querySelectorAll('[data-admin-tab]').forEach(n=>n.remove());
  const wrap=el('div');wrap.dataset.adminTab=tab;$('content').append(wrap);
  const oldContent=$('content');
  const section=(title)=>{const p=el('section','panel');p.append(el('h3','',title));wrap.append(p);return p};
  const addAction=(parent,label,action,data)=>adminButton(parent,label,async()=>{if(await adminAction(action,data))adminTab(tab)});
+ if(tab==='maintenance'){
+  if(!isProjectOwner())return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
+  const p=section('❗ Управление техническими работами');
+  p.append(el('p','muted','Включение режима технических работ временно закрывает форум и главную страницу для посетителей. Аккаунт владельца проекта сохраняет доступ к панели управления.'));
+  const status=el('div','panel',maintenanceEnabled?'⚠ Технические работы ВКЛЮЧЕНЫ':'✓ Технические работы выключены');
+  status.style.cssText='margin:12px 0;padding:14px;border-color:'+(maintenanceEnabled?'#c084fc':'var(--line)')+';font-weight:800';
+  const detail=el('p','muted',maintenanceReadError?'Не удалось прочитать настройку. Выполни SQL-файл supabase/maintenance_mode.sql в Supabase SQL Editor, затем обнови страницу.':maintenanceEnabled?'Посетители увидят уведомление о технических работах.':'Сайт доступен в обычном режиме.');
+  const actions=el('div','row');
+  const toggle=el('button','btn',maintenanceEnabled?'✓ Выключить тех. работы':'⚠ Включить тех. работы');
+  toggle.type='button';toggle.disabled=!!maintenanceReadError;
+  toggle.onclick=async()=>{toggle.disabled=true;try{await setMaintenanceMode(!maintenanceEnabled);msg(maintenanceEnabled?'Технические работы включены.':'Технические работы выключены.');await adminTab('maintenance')}catch(error){msg(error.message||'Не удалось изменить режим технических работ.',true);toggle.disabled=false}};
+  actions.append(toggle);p.append(status,detail,actions);
+  if(maintenanceReadError)p.append(el('p','muted','После выполнения SQL перезагрузи форум сочетанием Ctrl + F5.'));
+  return;
+ }
  if(tab==='support_archive'){const p=section('Архив жалоб и вопросов');const b=el('button','btn','🗃 Открыть архив');b.onclick=()=>openSupportInbox(true);p.append(b)}else if(tab==='stats'){
   const p=section('Статистика форума');
   const tables=['profiles','forum_topics','forum_replies','forum_categories','forum_reports'];
@@ -538,6 +597,8 @@ $('topicForm').onsubmit=async e=>{e.preventDefault();if(!canCreateTopic())return
 const {data:{session}}=await supabase.auth.getSession();user=session?.user||null;renderAuth();if(unreadMessagesTimer)clearInterval(unreadMessagesTimer);if(user)unreadMessagesTimer=setInterval(()=>{if(user&&document.visibilityState!=='hidden')refreshUnreadMessages()},20000);if(moderationApplicationsTimer)clearInterval(moderationApplicationsTimer);if(user)moderationApplicationsTimer=setInterval(()=>{if(user&&document.visibilityState!=='hidden')refreshModerationApplicationCount()},30000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='hidden'){refreshUnreadMessages();refreshModerationApplicationCount()}});const roleTask=refreshRole();const categoriesTask=loadCategories();const roleChanged=await roleTask;await categoriesTask;if(roleChanged&&currentRole==='admin')await loadCategories();
 let savedView=null;try{savedView=JSON.parse(sessionStorage.getItem('pz-forum-view')||'null')}catch{}
 window.addEventListener('beforeunload',()=>{try{sessionStorage.setItem('pz-forum-view',JSON.stringify(view))}catch{}});
+await loadMaintenanceStatus();
+setInterval(()=>{if(document.visibilityState!=='hidden')loadMaintenanceStatus()},20000);
 await loadCategories();
 if(savedView&&savedView.type){
  try{
