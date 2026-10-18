@@ -230,11 +230,25 @@
 .hero::after{content:none}
 .layout{position:relative;z-index:3}
 @media(max-width:720px){.hero{height:200px;overflow:hidden}.hero::before{height:100%;aspect-ratio:auto;top:0;transform:none;background-size:cover;background-position:center;-webkit-mask-image:none;mask-image:none}}
-#pzMaintenanceWall{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:20px;background:rgba(8,5,13,.97);text-align:center}
-#pzMaintenanceWall .pz-maintenance-card{max-width:680px;width:100%;padding:clamp(22px,5vw,42px);border:1px solid #8a4eb1;border-radius:18px;background:linear-gradient(145deg,#21132e,#100b17);box-shadow:0 0 45px #a855f744}
-#pzMaintenanceWall h2{margin-top:0;color:#d8a6ff;font-size:clamp(24px,4vw,34px)}
-#pzMaintenanceWall p{line-height:1.7;color:#d3c2e0}
-#pzMaintenanceWall a{display:inline-block;margin-top:10px;padding:12px 18px;border-radius:9px;background:#7135aa;color:white;font-weight:800;text-decoration:none;border:1px solid #b66bff}
+#pzMaintenanceWall{position:fixed;inset:0;z-index:99999;overflow:auto;display:flex;flex-direction:column;align-items:stretch;background:radial-gradient(ellipse at 50% 45%,#261039 0%,#0b0711 70%);text-align:center}
+#pzMaintenanceWall .pz-maintenance-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,5vw,60px);background:#0d0914;border-bottom:1px solid #6f2e9d}
+#pzMaintenanceWall .pz-brand{font-weight:900;letter-spacing:3px;color:#e2b8ff;font-size:clamp(21px,3vw,32px)}
+#pzMaintenanceWall .pz-header-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#pzMaintenanceWall .pz-header-links span{padding:9px 13px;border:1px solid #4b2a63;border-radius:9px;background:#171020;color:#eadcf7;font-size:13px;font-weight:700}
+#pzMaintenanceWall .pz-ticker{overflow:hidden;white-space:nowrap;border-top:1px solid #ed3ce8;border-bottom:1px solid #ed3ce8;background:#180b22;color:#ff64ed;font-weight:900;letter-spacing:.5px;text-shadow:0 0 9px #ff37e6;padding:12px 0;box-shadow:0 0 18px #d927e544}
+#pzMaintenanceWall .pz-ticker-track{display:inline-flex;gap:24px;min-width:max-content;animation:pzMaintenanceScroll 24s linear infinite}
+#pzMaintenanceWall .pz-ticker-track span{display:inline-block}
+@keyframes pzMaintenanceScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+#pzMaintenanceWall .pz-maintenance-hero{margin:24px clamp(14px,2.5vw,36px) 0;min-height:150px;height:clamp(150px,20vw,245px);display:grid;place-items:center;border:1px solid #5d2b7d;border-radius:16px;background:linear-gradient(90deg,#100817bb,#16091dcc),url('/projectz_banner_new.jpg?v=20261016-3') center/cover no-repeat;box-shadow:inset 0 0 55px #12051f}
+#pzMaintenanceWall .pz-hero-title{font-size:clamp(34px,7vw,76px);font-weight:1000;letter-spacing:clamp(3px,1vw,12px);color:#f0d8ff;text-shadow:0 0 16px #a855f7}
+#pzMaintenanceWall .pz-hero-subtitle{letter-spacing:clamp(2px,.6vw,7px);font-size:clamp(11px,2vw,17px);font-weight:800;color:#e2c9f6}
+#pzMaintenanceWall .pz-maintenance-card{max-width:1280px;width:calc(100% - clamp(28px,10vw,160px));margin:24px auto 30px;padding:clamp(24px,4vw,44px);border:1px solid #a03fe0;border-radius:18px;background:linear-gradient(145deg,#160f22ee,#100b18f2);box-shadow:0 0 35px #a855f744}
+#pzMaintenanceWall .pz-maintenance-icon{font-size:42px;color:#bd63ff;text-shadow:0 0 18px #a855f7}
+#pzMaintenanceWall h2{margin:8px 0 18px;color:#d8a6ff;font-size:clamp(25px,4vw,38px)}
+#pzMaintenanceWall p{line-height:1.7;color:#eee1f8;font-size:clamp(15px,2vw,21px);margin:8px 0}
+#pzMaintenanceWall .pz-maintenance-extra{color:#cbb7da;font-size:clamp(13px,1.5vw,17px)}
+#pzMaintenanceWall .pz-maintenance-footer{padding:22px;color:#b9a2cc}
+@media(max-width:650px){#pzMaintenanceWall .pz-maintenance-header{flex-direction:column}#pzMaintenanceWall .pz-maintenance-hero{margin-top:14px;height:150px}#pzMaintenanceWall .pz-maintenance-card{margin-top:14px;margin-bottom:18px}}
 </style>
 </head>
 <body>
@@ -535,17 +549,24 @@ async function checkProjectMaintenance(){
  try{
   const {data,error}=await maintenanceClient.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
   if(error)return;
-  if(!data?.maintenance_enabled){document.getElementById('pzMaintenanceWall')?.remove();return}
+  const {data:sessionData}=await maintenanceClient.auth.getSession();
+  const activeUser=sessionData?.session?.user;
+  let isSiteAdmin=String(activeUser?.email||'').trim().toLowerCase()==='007.s2@mail.ru';
+  if(activeUser?.id&&!isSiteAdmin){
+   const {data:profile}=await maintenanceClient.from('profiles').select('role').eq('id',activeUser.id).maybeSingle();
+   isSiteAdmin=profile?.role==='admin';
+  }
+  if(!data?.maintenance_enabled||isSiteAdmin){document.getElementById('pzMaintenanceWall')?.remove();return}
   let wall=document.getElementById('pzMaintenanceWall');
   if(!wall){
    wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
-   const card=document.createElement('section');card.className='pz-maintenance-card';
-   const title=document.createElement('h2');title.textContent='⚠ Технические работы';
-   const message=document.createElement('p');message.textContent=data.maintenance_message||'На сайте проводятся технические работы. Пожалуйста, зайдите позже.';
-   const extra=document.createElement('p');extra.textContent='Команда PROJECT Z работает над улучшением сайта. Спасибо за терпение!';
-   const link=document.createElement('a');link.href='/forum/index.html';link.textContent='Вход для владельца проекта';
-   card.append(title,message,extra,link);wall.append(card);document.body.append(wall);
+   wall.innerHTML='<header class="pz-maintenance-header"><div class="pz-brand">☣ PROJECT Z</div><div class="pz-header-links"><span>⌂ На главную</span><span>▣ Форум</span><span>♙ Пользователи</span><span>▣ Правила</span></div></header><div class="pz-ticker" aria-label="Идут технические работы"><div class="pz-ticker-track"></div></div><section class="pz-maintenance-hero"><div><div class="pz-hero-title">PROJECT Z</div><div class="pz-hero-subtitle">ФОРУМ СООБЩЕСТВА</div></div></section><section class="pz-maintenance-card"><div class="pz-maintenance-icon">⚙</div><h2>Идут технические работы!</h2><p class="pz-maintenance-message"></p><p class="pz-maintenance-extra">Пожалуйста, зайдите позже. Мы уже работаем над улучшениями!</p></section><div class="pz-ticker" aria-label="Идут технические работы"><div class="pz-ticker-track"></div></div><footer class="pz-maintenance-footer">© PROJECT Z · Форум сообщества</footer>';
+   const tickerText='⚠ ИДУТ ТЕХ. РАБОТЫ!';
+   wall.querySelectorAll('.pz-ticker-track').forEach(track=>{for(let i=0;i<12;i++){const item=document.createElement('span');item.textContent=tickerText;track.append(item)}for(let i=0;i<12;i++){const item=document.createElement('span');item.textContent=tickerText;track.append(item)}});
+   document.body.append(wall);
   }
+  const message=wall.querySelector('.pz-maintenance-message');
+  if(message)message.textContent=data.maintenance_message||'В данный момент сайт временно недоступен.';
  }catch(e){console.warn('Не удалось проверить режим технических работ.',e)}
 }
 checkProjectMaintenance();
