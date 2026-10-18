@@ -400,7 +400,7 @@ async function openCommunity(section='home'){
  view={type:'community',section};$('heading').textContent='🎮 PROJECT Z · Сообщество';
  $('content').replaceChildren(back('На форум',loadCategories));renderEditor();
  const nav=el('div','row');$('content').append(nav);
- for(const [label,slug] of [['⭐ Избранное','favorites'],['🔔 Уведомления','notifications'],['✉ Сообщения','messages'],['🔎 Поиск','search'],['🏆 Рейтинг','leaderboard'],['🎖 Достижения','achievements'],['📨 Задать вопрос / жалобу','support']]){
+ for(const [label,slug] of [['⭐ Избранное','favorites'],['🔔 Уведомления','notifications'],['🔎 Поиск','search'],['🏆 Рейтинг','leaderboard'],['🎖 Достижения','achievements'],['📨 Задать вопрос / жалобу','support']]){
  nav.append(communityNav(label,()=>openCommunity(slug)))}
  const p=el('section','panel');$('content').append(p);
  const heading=t=>p.append(el('h3','',t));
