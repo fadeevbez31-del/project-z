@@ -74,4 +74,39 @@ $$;
 revoke all on function public.forum_confirm_verification() from public;
 grant execute on function public.forum_confirm_verification() to authenticated;
 
+-- Owner-only removal of a confirmed badge. This revokes verification, not the user's account.
+create or replace function public.forum_owner_remove_verification(p_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $
+declare
+  v_uid uuid := auth.uid();
+begin
+  if v_uid is null
+     or lower(coalesce((select email from auth.users where id = v_uid), '')) <> '007.s2@mail.ru'
+     or not exists (select 1 from public.profiles where id = v_uid and role = 'admin') then
+    raise exception 'Only the project owner can remove verification';
+  end if;
+
+  update public.profiles
+     set verified = false,
+         verified_pending = false,
+         updated_at = now()
+   where id = p_user_id
+     and (verified = true or verified_pending = true);
+
+  if not found then
+    raise exception 'This profile has no verification to remove';
+  end if;
+
+  insert into public.forum_admin_log(actor_id, action, target, details)
+  values (v_uid, 'verification_removed', p_user_id::text, '{}'::jsonb);
+end;
+$;
+
+revoke all on function public.forum_owner_remove_verification(uuid) from public;
+grant execute on function public.forum_owner_remove_verification(uuid) to authenticated;
+
 commit;
