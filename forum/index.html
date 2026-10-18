@@ -462,6 +462,7 @@ if(savedView&&savedView.type){
   else if(savedView.type==='support-form')openSupportForm();
   else if(savedView.type==='support-inbox')await openSupportInbox(false);
   else if(savedView.type==='support-archive')await openSupportInbox(true);
+  else if(savedView.type==='moderation-application')await openModerationApplication();
   else if(savedView.type==='admin'){await openAdminPanel();if(savedView.adminTab&&savedView.adminTab!=='stats')await adminTab(savedView.adminTab)}
  }catch(e){console.warn('Не удалось восстановить открытую вкладку форума:',e)}
 }
