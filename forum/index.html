@@ -84,18 +84,19 @@ function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className
 // Безопасное форматирование сообщений: только разрешённые BBCode-теги, без HTML.
 function formattedText(source){
  const root=el('div','formatted-text'),stack=[{name:'root',node:root}];
- const tokens=String(source||'').split(/(\[\/?(?:b|i|color(?:=#[0-9a-fA-F]{6})?|font(?:=(?:sans|serif|mono))?)\])/gi);
+ const tokens=String(source||'').split(/(\[\/?(?:b|i|color(?:=#[0-9a-fA-F]{6})?|font(?:=(?:sans|serif|mono))?|size(?:=(?:12|13|14|15|16|17|18))?)\])/gi);
  for(const token of tokens){
-  const match=token.match(/^\[(\/)?(b|i|color|font)(?:=(#[0-9a-fA-F]{6}|sans|serif|mono))?\]$/i);
+  const match=token.match(/^\[(\/)?(b|i|color|font|size)(?:=(#[0-9a-fA-F]{6}|sans|serif|mono|12|13|14|15|16|17|18))?\]$/i);
   if(!match){stack[stack.length-1].node.append(document.createTextNode(token));continue}
   const closing=!!match[1],name=match[2].toLowerCase(),value=match[3];
   if(closing){
    if(stack.length>1&&stack[stack.length-1].name===name)stack.pop();
    else stack[stack.length-1].node.append(document.createTextNode(token));
-  }else if(stack.length<12&&(name==='b'||name==='i'||(name==='color'&&value?.startsWith('#'))||(name==='font'&&value))){
+  }else if(stack.length<12&&(name==='b'||name==='i'||(name==='color'&&value?.startsWith('#'))||(name==='font'&&value)||(name==='size'&&value))){
    const node=document.createElement(name==='b'?'strong':name==='i'?'em':'span');
    if(name==='color')node.style.color=value;
    if(name==='font')node.style.fontFamily=({sans:'Arial, sans-serif',serif:'Georgia, serif',mono:'Consolas, monospace'})[value.toLowerCase()];
+   if(name==='size')node.style.fontSize=Math.max(12,Math.min(18,Number(value)))+'px';
    stack[stack.length-1].node.append(node);stack.push({name,node});
   }else stack[stack.length-1].node.append(document.createTextNode(token));
  }
@@ -116,6 +117,7 @@ function formatToolbar(field){
   if(node.nodeType!==1)return '';
   const tag=node.tagName.toLowerCase();if(tag==='br')return '\n';
   let inner=Array.from(node.childNodes).map(serialize).join('');
+  const rawSize=node.style?.fontSize||'';const legacySize=tag==='font'?node.getAttribute('size'):null;const sizeMap={'1':'12','2':'13','3':'14','4':'18','5':'18','6':'18','7':'18'};const size=rawSize.match(/^(\d+(?:\.\d+)?)px$/)?.[1]||sizeMap[legacySize]||null;if(size){const bounded=String(Math.max(12,Math.min(18,Math.round(Number(size)))));inner='[size='+bounded+']'+inner+'[/size]'}
   if(tag==='b'||tag==='strong'||node.style?.fontWeight==='bold')inner='[b]'+inner+'[/b]';
   if(tag==='i'||tag==='em'||node.style?.fontStyle==='italic')inner='[i]'+inner+'[/i]';
   const color=node.style?.color||node.getAttribute('color')||'';
@@ -127,14 +129,19 @@ function formatToolbar(field){
  }
  const sync=()=>{field.value=Array.from(editor.childNodes).map(serialize).join('').replace(/\n+$/,'');preview.replaceChildren(el('div','muted','Предпросмотр оформления:'),formattedText(field.value||'Здесь появится оформленный текст'));field.dispatchEvent(new Event('input',{bubbles:true}))};
  editor.addEventListener('input',()=>{sync();remember()});
- function cmd(name,value){editor.focus();if(savedRange){const s=window.getSelection();s.removeAllRanges();s.addRange(savedRange)}document.execCommand('styleWithCSS',false,true);document.execCommand(name,false,value);sync();remember()}
+ function restoreSavedSelection(){editor.focus();if(savedRange){const selection=window.getSelection();selection.removeAllRanges();selection.addRange(savedRange.cloneRange())}}
+ function cmd(name,value){restoreSavedSelection();document.execCommand('styleWithCSS',false,true);document.execCommand(name,false,value);sync();remember()}
  const make=(label,name)=>{const btn=el('button','btn secondary',label);btn.type='button';btn.onmousedown=e=>e.preventDefault();btn.onclick=()=>cmd(name);bar.append(btn)};
  make('Жирный','bold');make('Курсив','italic');
  const font=el('select');font.setAttribute('aria-label','Шрифт');
  for(const [value,label] of [['','Шрифт'],['Arial','Обычный'],['Georgia','С засечками'],['Consolas','Моноширинный']]){const o=el('option','',label);o.value=value;font.append(o)}
  font.onchange=()=>{if(font.value)cmd('fontName',font.value);font.value=''};bar.append(font);
- const color=el('input');color.type='color';color.value='#c98aff';color.title='Цвет текста';
- const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onmousedown=e=>e.preventDefault();paint.onclick=()=>{if(!savedRange){editor.focus();const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(editor);range.collapse(false);selection.removeAllRanges();selection.addRange(range);savedRange=range.cloneRange()}cmd('foreColor',color.value);editor.focus()};color.onchange=()=>paint.click();bar.append(color,paint);const colorHint=el('span','muted');colorHint.style.cssText='font-size:12px;margin-left:6px';colorHint.append(document.createTextNode('Нажмите на кнопку '));const colorStrong=el('strong','','Цвет');colorHint.append(colorStrong,document.createTextNode(', чтобы писать цветным.'));bar.append(colorHint);
+ const size=el('select');size.setAttribute('aria-label','Размер текста');size.title='Размер текста (максимум 18 px)';
+ for(const [value,label] of [['','Размер'],['1','12 px'],['2','13 px'],['3','14 px'],['4','18 px']]){const option=el('option','',label);option.value=value;size.append(option)}
+ size.onchange=()=>{if(size.value)cmd('fontSize',size.value);size.value=''};bar.append(size);
+ const color=el('input');color.type='color';color.value='#c98aff';color.title='Выбери цвет текста';color.setAttribute('aria-label','Цвет текста');
+ color.addEventListener('mousedown',remember);color.addEventListener('input',()=>{if(savedRange){restoreSavedSelection();document.execCommand('styleWithCSS',false,true);document.execCommand('foreColor',false,color.value);sync();remember()}});
+ const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onmousedown=e=>e.preventDefault();paint.onclick=()=>{restoreSavedSelection();document.execCommand('styleWithCSS',false,true);document.execCommand('foreColor',false,color.value);sync();remember()};bar.append(color,paint);const colorHint=el('span','muted');colorHint.style.cssText='font-size:12px;margin-left:6px';colorHint.append(document.createTextNode('Нажмите на кнопку '));const colorStrong=el('strong','','Цвет');colorHint.append(colorStrong,document.createTextNode(', чтобы писать цветным.'));bar.append(colorHint);
  bar.append(preview,editor);field.richEditor=editor;sync();return bar;
 }
 
