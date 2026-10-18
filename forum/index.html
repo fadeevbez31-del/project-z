@@ -301,8 +301,8 @@ async function openAdminPanel(){
  if(!user||currentRole!=='admin')return msg('Доступ только для администраторов.',true);
  view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
  const tabs=el('div','row');$('content').append(tabs);
- const ownerOnlyTabs=['requests','logs'];
- for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
+ const ownerOnlyTabs=['requests','logs','confirmed'];
+ for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['requests','📨 Заявки'],['bans','⛔ Баны'],['logs','📜 Журнал'],['confirmed','✅ Подтверждённые'],['support_archive','🗃 Архив обращений'],['sourcebans','🎮 SourceBans']]){
   if(ownerOnlyTabs.includes(name)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')continue;
   adminButton(tabs,label,()=>adminTab(name));
  }
@@ -311,7 +311,7 @@ async function openAdminPanel(){
 }
 async function adminTab(tab){
  if(currentRole!=='admin')return;
- if(['requests','logs'].includes(tab)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')return msg('Доступ к журналу и заявкам разрешён только 007.s2@mail.ru.',true);
+ if(['requests','logs','confirmed'].includes(tab)&&user?.email?.toLowerCase()!=='007.s2@mail.ru')return msg('Эта вкладка доступна только 007.s2@mail.ru.',true);
  view={...view,type:'admin',adminTab:tab};
  document.querySelectorAll('[data-admin-tab]').forEach(n=>n.remove());
  const wrap=el('div');wrap.dataset.adminTab=tab;$('content').append(wrap);
@@ -395,6 +395,16 @@ async function adminTab(tab){
   const p=section('Журнал действий');
   const {data,error}=await supabase.from('forum_admin_log').select('actor_id,action,target,created_at').order('created_at',{ascending:false}).limit(100);if(error)return err(error);
   for(const x of data||[])p.append(el('p','muted',new Date(x.created_at).toLocaleString('ru-RU')+' · '+x.action+' · '+(x.target||'')+' · '+(x.actor_id||'')));
+ }else if(tab==='confirmed'){
+  const p=section('Подтверждённые профили');
+  p.append(el('p','muted','Только для владельца проекта. Здесь можно снять галочку с подтверждённого профиля; аккаунт пользователя и его сообщения останутся.'));
+  const search=el('input');search.placeholder='Поиск по нику';p.append(search);
+  const list=el('div');p.append(list);
+  const {data,error}=await supabase.from('profiles').select('id,nickname,verified,verified_pending').eq('verified',true).order('nickname').limit(500);
+  if(error)return err(error);
+  const draw=()=>{list.replaceChildren();const filtered=(data||[]).filter(x=>(x.nickname||'').toLowerCase().includes(search.value.toLowerCase()));if(!filtered.length){list.append(el('p','muted','Подтверждённых профилей не найдено.'));return}
+   for(const u of filtered){const row=el('div','admin-entry');const name=el('strong','',u.nickname||u.id);const badge=el('span','verified-badge',' ✓');badge.style.marginLeft='6px';name.append(badge);row.append(name,el('p','muted','Статус: подтверждён'));adminButton(row,'Снять галочку',async()=>{if(!confirm('Снять подтверждение у '+(u.nickname||u.id)+'? Его аккаунт и сообщения не будут удалены.'))return;const {error}=await supabase.rpc('forum_owner_remove_verification',{p_user_id:u.id});if(error){err(error);return}msg('Подтверждение снято');adminTab(tab)});list.append(row)}
+  };search.oninput=draw;draw();
  }else if(tab==='sourcebans'){
   const p=section('SourceBans · игровой сервер');
   p.append(el('p','muted','Игровые баны хранятся отдельно от блокировок форума. Для управления ими используйте SourceBans; форум не получает пароли MySQL.'));
