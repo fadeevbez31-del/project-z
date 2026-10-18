@@ -534,7 +534,8 @@ const maintenanceClient=createClient('https://projectz-forum-proxy.fadeevbez31.w
 async function checkProjectMaintenance(){
  try{
   const {data,error}=await maintenanceClient.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
-  if(error||!data?.maintenance_enabled)return;
+  if(error)return;
+  if(!data?.maintenance_enabled){document.getElementById('pzMaintenanceWall')?.remove();return}
   let wall=document.getElementById('pzMaintenanceWall');
   if(!wall){
    wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
