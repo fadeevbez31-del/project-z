@@ -133,7 +133,7 @@ async function setMaintenanceMode(enabled){
  renderMaintenanceOverlay();
 }
 function canCreateTopic(){return !!user&&view.type==='category'&&(!restrictedCategoryIds.includes(Number(view.id))||currentRole==='admin')}
-async function refreshRole(){const id=user?.id;let nextRole='player';if(id){const {data,error}=await supabase.from('profiles').select('role').eq('id',id).maybeSingle();if(error)return false;if(user?.id!==id)return false;nextRole=data?.role||'player'}const changed=currentRole!==nextRole;if(changed){currentRole=nextRole;renderAuth()}else renderEditor();return changed}
+async function refreshRole(){const id=user?.id;let nextRole='player';if(id){const {data,error}=await supabase.from('profiles').select('role').eq('id',id).maybeSingle();if(error)return false;if(user?.id!==id)return false;nextRole=data?.role||'player'}const changed=currentRole!==nextRole;if(changed){currentRole=nextRole;renderAuth()}else renderEditor();renderMaintenanceOverlay();return changed}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n}
  const PROJECT_OWNER_ID='4bf6ecb6-2d99-43e5-a26f-5a58cb4b5b98';
  function isProjectOwner(id,nickname=''){return id===PROJECT_OWNER_ID||String(nickname||'').trim().toLowerCase()==='oxygen'||(user?.id===id&&user?.email?.trim().toLowerCase()==='007.s2@mail.ru')}
