@@ -173,6 +173,10 @@ begin
    if not found or (v_topic.author_id<>v_uid and not public.forum_is_admin()) then raise exception 'No permission'; end if;
    v_body:=trim(p_data->>'body');
    if length(v_body) not between 1 and 15000 then raise exception 'Invalid text'; end if;
+   -- Preserve existing attachment metadata when editing text.
+   if position('[[ATTACHMENT]]' in v_topic.body)>0 then
+     v_body:=v_body||E'\\n\\n'||substring(v_topic.body from position('[[ATTACHMENT]]' in v_topic.body));
+   end if;
    update public.forum_topics set body=v_body,edited_at=now() where id=v_topic.id;
  elsif p_action='edit_reply' then
    v_body:=trim(p_data->>'body');
@@ -191,6 +195,12 @@ begin
    insert into public.forum_map_votes(user_id,map_name) values(v_uid,lower(v_body)) on conflict do nothing;
  elsif p_action='map_unvote' then
    delete from public.forum_map_votes where user_id=v_uid and map_name=p_data->>'map_name';
+ elsif p_action='request_status' then
+   if not public.forum_is_admin() then raise exception 'Admin only'; end if;
+   if p_data->>'status' not in ('open','approved','rejected') then raise exception 'Invalid status'; end if;
+   update public.forum_requests set status=p_data->>'status' where id::text=v_id;
+   insert into public.forum_admin_log(actor_id,action,target,details)
+   values(v_uid,'request_status',v_id,p_data);
  elsif p_action='profile' then
    v_body:=trim(coalesce(p_data->>'bio',''));
    if length(v_body)>500 then raise exception 'Bio too long'; end if;
