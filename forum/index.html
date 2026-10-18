@@ -76,34 +76,36 @@ function formatToolbar(field){
  const editor=el('div','rich-editor');editor.contentEditable='true';editor.setAttribute('role','textbox');editor.setAttribute('aria-label','Текст сообщения');editor.dataset.placeholder=field.placeholder||'Напиши сообщение...';
  editor.style.cssText='width:100%;min-height:125px;border:1px solid var(--line);border-radius:8px;background:#100a18;color:var(--text);padding:12px;outline:none;white-space:pre-wrap;overflow-wrap:anywhere;text-align:left';
  field.style.display='none';field.required=false;
+ const preview=el('div','formatted-preview');
+ preview.style.cssText='width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:7px;font-size:13px';
+ let savedRange=null;
+ function remember(){const s=window.getSelection();if(s&&s.rangeCount&&editor.contains(s.anchorNode))savedRange=s.getRangeAt(0).cloneRange()}
+ editor.addEventListener('mouseup',remember);editor.addEventListener('keyup',remember);editor.addEventListener('focus',remember);
  function serialize(node){
   if(node.nodeType===3)return node.nodeValue||'';
   if(node.nodeType!==1)return '';
-  const tag=node.tagName.toLowerCase();
-  if(tag==='br')return '\n';
+  const tag=node.tagName.toLowerCase();if(tag==='br')return '\n';
   let inner=Array.from(node.childNodes).map(serialize).join('');
-  if(tag==='b'||tag==='strong')return '[b]'+inner+'[/b]';
-  if(tag==='i'||tag==='em')return '[i]'+inner+'[/i]';
-  const color=node.style?.color;
-  if(color){const match=color.match(/\d+/g);if(match?.length>=3){const hex='#'+match.slice(0,3).map(x=>Number(x).toString(16).padStart(2,'0')).join('');inner='[color='+hex+']'+inner+'[/color]'}}
-  const family=node.style?.fontFamily?.toLowerCase()||'';
-  const font=family.includes('mono')?'mono':family.includes('georgia')||family.includes('serif')&&!family.includes('sans')?'serif':family.includes('arial')?'sans':null;
+  if(tag==='b'||tag==='strong'||node.style?.fontWeight==='bold')inner='[b]'+inner+'[/b]';
+  if(tag==='i'||tag==='em'||node.style?.fontStyle==='italic')inner='[i]'+inner+'[/i]';
+  const color=node.style?.color||node.getAttribute('color')||'';
+  if(color){let hex=/^#[0-9a-f]{6}$/i.test(color)?color:null;const nums=color.match(/\d+/g);if(!hex&&nums?.length>=3)hex='#'+nums.slice(0,3).map(x=>Number(x).toString(16).padStart(2,'0')).join('');if(hex)inner='[color='+hex+']'+inner+'[/color]'}
+  const family=(node.style?.fontFamily||node.getAttribute('face')||'').toLowerCase();
+  const font=family.includes('consolas')||family.includes('mono')?'mono':family.includes('georgia')||family.includes('serif')&&!family.includes('sans')?'serif':family.includes('arial')?'sans':null;
   if(font)inner='[font='+font+']'+inner+'[/font]';
-  return (tag==='div'||tag==='p')?inner+'\n':inner;
+  return tag==='div'||tag==='p'?inner+'\n':inner;
  }
- const sync=()=>{field.value=Array.from(editor.childNodes).map(serialize).join('').replace(/\n+$/,'');field.dispatchEvent(new Event('input',{bubbles:true}))};
- editor.addEventListener('input',sync);
- function cmd(name,value){editor.focus();document.execCommand(name,false,value);sync()}
- const make=(label,name)=>{const b=el('button','btn secondary',label);b.type='button';b.onmousedown=e=>e.preventDefault();b.onclick=()=>cmd(name);bar.append(b)};
+ const sync=()=>{field.value=Array.from(editor.childNodes).map(serialize).join('').replace(/\n+$/,'');preview.replaceChildren(el('div','muted','Предпросмотр оформления:'),formattedText(field.value||'Здесь появится оформленный текст'));field.dispatchEvent(new Event('input',{bubbles:true}))};
+ editor.addEventListener('input',()=>{sync();remember()});
+ function cmd(name,value){editor.focus();if(savedRange){const s=window.getSelection();s.removeAllRanges();s.addRange(savedRange)}document.execCommand('styleWithCSS',false,true);document.execCommand(name,false,value);sync();remember()}
+ const make=(label,name)=>{const btn=el('button','btn secondary',label);btn.type='button';btn.onmousedown=e=>e.preventDefault();btn.onclick=()=>cmd(name);bar.append(btn)};
  make('Жирный','bold');make('Курсив','italic');
  const font=el('select');font.setAttribute('aria-label','Шрифт');
  for(const [value,label] of [['','Шрифт'],['Arial','Обычный'],['Georgia','С засечками'],['Consolas','Моноширинный']]){const o=el('option','',label);o.value=value;font.append(o)}
  font.onchange=()=>{if(font.value)cmd('fontName',font.value);font.value=''};bar.append(font);
  const color=el('input');color.type='color';color.value='#c98aff';color.title='Цвет текста';
  const paint=el('button','btn secondary','Цвет');paint.type='button';paint.onmousedown=e=>e.preventDefault();paint.onclick=()=>cmd('foreColor',color.value);bar.append(color,paint);
- bar.append(editor);bar.append(field);
- field.richEditor=editor;
- return bar;
+ bar.append(preview,editor);field.richEditor=editor;sync();return bar;
 }
 
 function msg(text,error=false){$('notice').replaceChildren(el('p',error?'error':'success',text));}
