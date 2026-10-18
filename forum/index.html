@@ -28,7 +28,7 @@
         0 0 20px #9333ea,
         0 0 35px #7e22ce;
 }
-</style>
+ .admin-entry{border-top:1px solid var(--line);padding:13px 0}.admin-entry strong{overflow-wrap:anywhere} </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
   <h1>☣ PROJECT Z</h1>
@@ -106,9 +106,9 @@ supabase.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;curr
 function renderAuth(){const bar=$('authBar');bar.replaceChildren();if(user){bar.append(el('span','muted',user.email));const profile=el('button','btn secondary','Мой профиль');profile.onclick=()=>openProfile(user.id);bar.append(profile);if(currentRole==='admin'){const admin=el('button','btn secondary','⚙ Админ-панель');admin.onclick=openAdminPanel;bar.append(admin)}const out=el('button','btn secondary','Выйти');out.onclick=()=>supabase.auth.signOut();bar.append(out)}else{const login=el('button','btn','Войти / Регистрация');login.onclick=()=>showAuth(true);bar.append(login)}renderEditor()}
 function renderEditor(){const allowed=canCreateTopic();$('editor').classList.toggle('hidden',!allowed);if(allowed)$('editorTitle').textContent='Новая тема в разделе «'+(categories.find(c=>c.id===view.id)?.name||'')+'»'}
 function back(label,fn){const b=el('button','btn secondary back','← '+label);b.onclick=fn;return b}
-async function loadCategories(){view={type:'categories'};$('heading').textContent='Разделы форума';$('content').replaceChildren();renderEditor();const {data,error}=await supabase.from('forum_categories').select('id,name,description,icon,sort_order').order('sort_order');if(error)return err(error);categories=data||[];if(!categories.length)$('content').append(el('p','muted','Категорий пока нет.'));for(const c of categories){const card=el('article','category');card.append(el('h3','',`${c.icon||'💬'} ${c.name}`),el('div','muted',c.description||''));card.onclick=()=>openCategory(c.id);$('content').append(card)}}
-async function openCategory(id){view={type:'category',id};const c=categories.find(x=>x.id===id);$('heading').textContent=c?.name||'Темы';$('content').replaceChildren(back('Все разделы',loadCategories));renderEditor();const {data,error}=await supabase.from('forum_topics').select('id,title,body,author_id,created_at,views').eq('category_id',id).order('created_at',{ascending:false}).limit(100);if(error)return err(error);if(!data?.length)$('content').append(el('p','muted','Тем пока нет. Зарегистрируйся и создай первую!'));for(const t of data||[]){const card=el('article','topic');card.append(el('h3','',t.title),el('div','muted',new Date(t.created_at).toLocaleString('ru-RU')+' · 👁 '+(t.views||0)));card.onclick=()=>openTopic(t.id,id);if(canDelete(t.author_id,id)){card.append(deleteButton('Удалить тему',async()=>{const {data,error}=await supabase.from('forum_topics').delete().eq('id',t.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Тема удалена');await openCategory(id)}))}$('content').append(card)}}
-async function openTopic(id,categoryId){view={type:'topic',id,categoryId};$('heading').textContent='Тема форума';$('content').replaceChildren(back('К темам',()=>openCategory(categoryId)));renderEditor();const {data:t,error}=await supabase.from('forum_topics').select('id,title,body,author_id,created_at,views').eq('id',id).single();if(error)return err(error);const viewKey='pz-view-'+id;if(!sessionStorage.getItem(viewKey)){sessionStorage.setItem(viewKey,'1');supabase.rpc('increment_topic_views',{topic_id:id}).then(({error})=>{if(error)console.warn('Счётчик просмотров:',error.message)});} $('heading').textContent=t.title+' · 👁 '+((t.views||0)+(sessionStorage.getItem(viewKey)==='1'?1:0));const panel=el('section','panel');const author=el('button','btn secondary','Профиль автора');author.onclick=()=>openProfile(t.author_id);if(canDelete(t.author_id,categoryId))panel.append(deleteButton('Удалить тему',async()=>{const {data,error}=await supabase.from('forum_topics').delete().eq('id',id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Тема удалена');await openCategory(categoryId)}));let topicBody=t.body||'',attachment=null;
+async function loadCategories(){view={type:'categories'};$('heading').textContent='Разделы форума';$('content').replaceChildren();renderEditor();const {data,error}=await supabase.from('forum_categories').select('id,name,description,icon,sort_order,is_hidden').order('sort_order');if(error)return err(error);categories=data||[];if(!categories.length)$('content').append(el('p','muted','Категорий пока нет.'));for(const c of categories.filter(x=>!x.is_hidden||currentRole==='admin')){const card=el('article','category');card.append(el('h3','',`${c.icon||'💬'} ${c.name}`),el('div','muted',c.description||''));card.onclick=()=>openCategory(c.id);$('content').append(card)}}
+async function openCategory(id){view={type:'category',id};const c=categories.find(x=>x.id===id);$('heading').textContent=c?.name||'Темы';$('content').replaceChildren(back('Все разделы',loadCategories));renderEditor();const {data,error}=await supabase.from('forum_topics').select('id,title,body,author_id,created_at,views,pinned,locked').eq('category_id',id).order('pinned',{ascending:false}).order('created_at',{ascending:false}).limit(100);if(error)return err(error);if(!data?.length)$('content').append(el('p','muted','Тем пока нет. Зарегистрируйся и создай первую!'));for(const t of data||[]){const card=el('article','topic');card.append(el('h3','',(t.pinned?'📌 ':'')+(t.locked?'🔒 ':'')+t.title),el('div','muted',new Date(t.created_at).toLocaleString('ru-RU')+' · 👁 '+(t.views||0)));card.onclick=()=>openTopic(t.id,id);if(canDelete(t.author_id,id)){card.append(deleteButton('Удалить тему',async()=>{const {data,error}=await supabase.from('forum_topics').delete().eq('id',t.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Тема удалена');await openCategory(id)}))}$('content').append(card)}}
+async function openTopic(id,categoryId){view={type:'topic',id,categoryId};$('heading').textContent='Тема форума';$('content').replaceChildren(back('К темам',()=>openCategory(categoryId)));renderEditor();const {data:t,error}=await supabase.from('forum_topics').select('id,title,body,author_id,created_at,views,pinned,locked').eq('id',id).single();if(error)return err(error);const viewKey='pz-view-'+id;if(!sessionStorage.getItem(viewKey)){sessionStorage.setItem(viewKey,'1');supabase.rpc('forum_increment_topic_views',{topic_id:String(id)}).then(({error})=>{if(error)console.warn('Счётчик просмотров:',error.message)});} $('heading').textContent=t.title+' · 👁 '+((t.views||0)+(sessionStorage.getItem(viewKey)==='1'?1:0));const panel=el('section','panel');const author=el('button','btn secondary','Профиль автора');author.onclick=()=>openProfile(t.author_id);if(canDelete(t.author_id,categoryId))panel.append(deleteButton('Удалить тему',async()=>{const {data,error}=await supabase.from('forum_topics').delete().eq('id',id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Тема удалена');await openCategory(categoryId)}));let topicBody=t.body||'',attachment=null;
 const marker='[[ATTACHMENT]]';
 const markerPos=topicBody.lastIndexOf(marker);
 if(markerPos!==-1){
@@ -122,20 +122,88 @@ if(markerPos!==-1){
   }catch(e){console.warn('Не удалось прочитать вложение:',e)}
 }
 panel.append(author,el('p','muted',new Date(t.created_at).toLocaleString('ru-RU')),el('div','content',topicBody));
-const attachmentBox=attachmentHtml(attachment);if(attachmentBox)panel.append(attachmentBox);$('content').append(panel);const replies=el('section','panel');replies.append(el('h3','','Ответы'));$('content').append(replies);const {data:items,error:re}=await supabase.from('forum_replies').select('id,body,author_id,created_at').eq('topic_id',id).order('created_at');if(re)return err(re);for(const r of items||[]){const p=el('div','post');const authorButton=el('button','btn secondary','Автор ответа');authorButton.onclick=()=>openProfile(r.author_id);p.append(authorButton,el('span','muted',' '+new Date(r.created_at).toLocaleString('ru-RU')),el('p','',r.body));if(canDelete(r.author_id,categoryId))p.append(deleteButton('Удалить ответ',async()=>{const {data,error}=await supabase.from('forum_replies').delete().eq('id',r.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Ответ удалён');await openTopic(id,categoryId)}));replies.append(p)}if(user){const form=el('form');const field=el('textarea');field.required=true;field.maxLength=15000;field.placeholder='Напиши ответ...';const submit=el('button','btn','Ответить');form.append(field,submit);form.onsubmit=async e=>{e.preventDefault();submit.disabled=true;const {error}=await supabase.from('forum_replies').insert({topic_id:id,author_id:user.id,body:field.value.trim()});submit.disabled=false;if(error)return err(error);msg('Ответ добавлен');openTopic(id,categoryId)};replies.append(form)}else replies.append(el('p','muted','Войди, чтобы ответить.'))}
+const attachmentBox=attachmentHtml(attachment);if(attachmentBox)panel.append(attachmentBox);$('content').append(panel);const replies=el('section','panel');replies.append(el('h3','','Ответы'+(t.locked?' · 🔒 Тема закрыта':'')));$('content').append(replies);const {data:items,error:re}=await supabase.from('forum_replies').select('id,body,author_id,created_at').eq('topic_id',id).order('created_at');if(re)return err(re);for(const r of items||[]){const p=el('div','post');const authorButton=el('button','btn secondary','Автор ответа');authorButton.onclick=()=>openProfile(r.author_id);p.append(authorButton,el('span','muted',' '+new Date(r.created_at).toLocaleString('ru-RU')),el('p','',r.body));if(canDelete(r.author_id,categoryId))p.append(deleteButton('Удалить ответ',async()=>{const {data,error}=await supabase.from('forum_replies').delete().eq('id',r.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой доступа Supabase.',true);msg('Ответ удалён');await openTopic(id,categoryId)}));replies.append(p)}if(user&&(!t.locked||currentRole==='admin')){const form=el('form');const field=el('textarea');field.required=true;field.maxLength=15000;field.placeholder='Напиши ответ...';const submit=el('button','btn','Ответить');form.append(field,submit);form.onsubmit=async e=>{e.preventDefault();submit.disabled=true;const {error}=await supabase.from('forum_replies').insert({topic_id:id,author_id:user.id,body:field.value.trim()});submit.disabled=false;if(error)return err(error);msg('Ответ добавлен');openTopic(id,categoryId)};replies.append(form)}else replies.append(el('p','muted',t.locked?'Тема закрыта для ответов.':'Войди, чтобы ответить.'));if(user){const report=el('button','btn secondary','🚩 Пожаловаться');report.onclick=async()=>{const reason=prompt('Опиши нарушение (не менее 5 символов):');if(!reason||reason.trim().length<5)return;const {error}=await supabase.from('forum_reports').insert({reporter_id:user.id,topic_id:String(id),reason:reason.trim().slice(0,1000)});if(error)return err(error);msg('Жалоба отправлена администрации')};panel.append(report)}}
+async function adminAction(action,data){
+ const {error}=await supabase.rpc('forum_admin_action',{p_action:action,p_data:data});
+ if(error){err(error);return false}
+ msg('Изменения сохранены');return true;
+}
+function adminButton(parent,label,callback){const b=el('button','btn secondary',label);b.style.margin='4px';b.onclick=callback;parent.append(b)}
+function adminSection(title){const p=el('section','panel');p.append(el('h3','',title));$('content').append(p);return p}
 async function openAdminPanel(){
  if(!user||currentRole!=='admin')return msg('Доступ только для администраторов.',true);
- view={type:'admin'};$('heading').textContent='⚙ Админ-панель';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
- const {data:topics,error}=await supabase.from('forum_topics').select('id,title,category_id,created_at,views').order('created_at',{ascending:false}).limit(100);
- if(error)return err(error);
- const panel=el('section','panel');panel.append(el('h3','','Управление темами'),el('p','muted','Последние 100 тем · всего в списке: '+(topics?.length||0)));
- for(const t of topics||[]){
-  const line=el('div','panel');line.style.padding='12px';line.append(el('strong','',t.title),el('p','muted','👁 '+(t.views||0)+' · '+new Date(t.created_at).toLocaleString('ru-RU')));
-  const open=el('button','btn secondary','Открыть');open.onclick=()=>openTopic(t.id,t.category_id);line.append(open);
-  const rename=el('button','btn secondary','Переименовать');rename.style.marginLeft='8px';rename.onclick=async()=>{const title=prompt('Новое название темы:',t.title);if(!title||!title.trim()||title.trim()===t.title)return;if(title.trim().length>200)return msg('Слишком длинное название.',true);const {error}=await supabase.from('forum_topics').update({title:title.trim()}).eq('id',t.id);if(error)return err(error);msg('Название обновлено');openAdminPanel()};line.append(rename);
-  const del=deleteButton('Удалить',async()=>{const {data,error}=await supabase.from('forum_topics').delete().eq('id',t.id).select('id');if(error)return err(error);if(!data?.length)return msg('Удаление запрещено политикой Supabase.',true);msg('Тема удалена');openAdminPanel()});line.append(del);panel.append(line);
+ view={type:'admin'};$('heading').textContent='⚙ Админ-панель PROJECT Z';$('content').replaceChildren(back('К разделам',loadCategories));renderEditor();
+ const tabs=el('div','row');$('content').append(tabs);
+ for(const [name,label] of [['stats','📊 Статистика'],['topics','📌 Темы'],['users','👥 Пользователи'],['categories','📁 Разделы'],['reports','🚩 Жалобы'],['bans','⛔ Баны'],['logs','📜 Журнал'],['sourcebans','🎮 SourceBans']]){
+  adminButton(tabs,label,()=>adminTab(name));
  }
- $('content').append(panel);
+ await adminTab('stats');
+}
+async function adminTab(tab){
+ if(currentRole!=='admin')return;
+ document.querySelectorAll('[data-admin-tab]').forEach(n=>n.remove());
+ const wrap=el('div');wrap.dataset.adminTab=tab;$('content').append(wrap);
+ const oldContent=$('content');
+ const section=(title)=>{const p=el('section','panel');p.append(el('h3','',title));wrap.append(p);return p};
+ const addAction=(parent,label,action,data)=>adminButton(parent,label,async()=>{if(await adminAction(action,data))adminTab(tab)});
+ if(tab==='stats'){
+  const p=section('Статистика форума');
+  const tables=['profiles','forum_topics','forum_replies','forum_categories','forum_reports'];
+  const names=['Пользователей','Тем','Ответов','Разделов','Жалоб'];
+  for(let i=0;i<tables.length;i++){const {count,error}=await supabase.from(tables[i]).select('*',{count:'exact',head:true});p.append(el('p','',names[i]+': '+(error?'нет доступа':count)))}
+ }else if(tab==='topics'){
+  const p=section('Темы · последние 100');
+  const {data,error}=await supabase.from('forum_topics').select('id,title,category_id,pinned,locked,views').order('created_at',{ascending:false}).limit(100);
+  if(error)return err(error);
+  for(const t of data||[]){const row=el('div','admin-entry');row.append(el('strong','',t.title),el('p','muted','👁 '+(t.views||0)));
+   addAction(row,t.pinned?'Открепить':'📌 Закрепить','topic_pin',{id:String(t.id),value:!t.pinned});
+   addAction(row,t.locked?'Открыть':'🔒 Закрыть','topic_lock',{id:String(t.id),value:!t.locked});
+   adminButton(row,'Переименовать',async()=>{const title=prompt('Новое название',t.title);if(title&&await adminAction('topic_rename',{id:String(t.id),title}))adminTab(tab)});
+   adminButton(row,'Удалить',async()=>{if(confirm('Удалить тему?')&&await adminAction('topic_delete',{id:String(t.id)}))adminTab(tab)});
+   p.append(row);
+  }
+ }else if(tab==='users'){
+  const p=section('Пользователи и роли · до 100');
+  const search=el('input');search.placeholder='Поиск по нику';p.append(search);
+  const list=el('div');p.append(list);
+  const {data,error}=await supabase.from('profiles').select('id,nickname,role').order('nickname').limit(100);
+  if(error)return err(error);
+  const draw=()=>{list.replaceChildren();for(const u of (data||[]).filter(x=>(x.nickname||'').toLowerCase().includes(search.value.toLowerCase()))){
+   const row=el('div','admin-entry');row.append(el('strong','',u.nickname||u.id),el('p','muted','Роль: '+(u.role||'player')));
+   adminButton(row,'Изменить роль',async()=>{const role=prompt('Новая роль: player, vip, moderator, admin',u.role||'player');if(role&&await adminAction('user_role',{user_id:u.id,role:role.trim()}))adminTab(tab)});
+   adminButton(row,'Заблокировать',async()=>{const reason=prompt('Причина блокировки');if(reason&&await adminAction('user_ban',{user_id:u.id,reason}))adminTab(tab)});
+   list.append(row);
+  }};search.oninput=draw;draw();
+ }else if(tab==='categories'){
+  const p=section('Разделы форума');
+  adminButton(p,'+ Новый раздел',async()=>{const name=prompt('Название нового раздела');if(name&&await adminAction('category_create',{name}))adminTab(tab)});
+  const {data,error}=await supabase.from('forum_categories').select('id,name,is_hidden').order('sort_order');if(error)return err(error);
+  for(const c of data||[]){const row=el('div','admin-entry');row.append(el('strong','',c.name));
+   adminButton(row,'Переименовать',async()=>{const name=prompt('Название',c.name);if(name&&await adminAction('category_rename',{id:String(c.id),name}))adminTab(tab)});
+   addAction(row,c.is_hidden?'Показать':'Скрыть','category_hide',{id:String(c.id),value:!c.is_hidden});
+   adminButton(row,'Удалить',async()=>{if(confirm('Удалить пустой раздел?')&&await adminAction('category_delete',{id:String(c.id)}))adminTab(tab)});
+   p.append(row);
+  }
+ }else if(tab==='reports'){
+  const p=section('Жалобы игроков');
+  const {data,error}=await supabase.from('forum_reports').select('id,topic_id,reason,status,created_at').order('created_at',{ascending:false}).limit(100);if(error)return err(error);
+  for(const r of data||[]){const row=el('div','admin-entry');row.append(el('strong','','Тема '+r.topic_id+' · '+r.status),el('p','',r.reason));
+   addAction(row,'Рассмотрено','report_status',{id:String(r.id),status:'resolved'});
+   addAction(row,'Отклонить','report_status',{id:String(r.id),status:'rejected'});p.append(row);
+  }
+ }else if(tab==='bans'){
+  const p=section('Блокировки форума');
+  const {data,error}=await supabase.from('forum_bans').select('user_id,reason,expires_at,created_at').order('created_at',{ascending:false}).limit(100);if(error)return err(error);
+  for(const b of data||[]){const row=el('div','admin-entry');row.append(el('strong','',b.user_id),el('p','',b.reason));addAction(row,'Разблокировать','user_unban',{user_id:b.user_id});p.append(row)}
+ }else if(tab==='logs'){
+  const p=section('Журнал действий');
+  const {data,error}=await supabase.from('forum_admin_log').select('actor_id,action,target,created_at').order('created_at',{ascending:false}).limit(100);if(error)return err(error);
+  for(const x of data||[])p.append(el('p','muted',new Date(x.created_at).toLocaleString('ru-RU')+' · '+x.action+' · '+(x.target||'')+' · '+(x.actor_id||'')));
+ }else if(tab==='sourcebans'){
+  const p=section('SourceBans · игровой сервер');
+  p.append(el('p','muted','Игровые баны хранятся отдельно от блокировок форума. Для управления ими используйте SourceBans; форум не получает пароли MySQL.'));
+  const link=el('a','','Открыть SourceBans ↗');link.href='https://bans.projectz.site/';link.target='_blank';link.rel='noopener noreferrer';p.append(link);
+ }
 }
 async function openProfile(id){const previous={...view};view={type:'profile',id};$('heading').textContent='Профиль игрока';$('content').replaceChildren(back('Назад',()=>previous.type==='topic'?openTopic(previous.id,previous.categoryId):previous.type==='category'?openCategory(previous.id):loadCategories()));renderEditor();const {data,error}=await supabase.from('profiles').select('id,nickname,avatar_url,role').eq('id',id).maybeSingle();if(error)return err(error);if(!data){$('content').append(el('p','muted','Профиль не найден.'));return}const p=el('section','panel');p.append(el('h3','',data.nickname||'Игрок'),el('p','muted','Роль: '+(data.role||'player')));$('content').append(p);if(user?.id===id){const form=el('form');const name=el('input');name.value=data.nickname||'';name.maxLength=40;name.required=true;const save=el('button','btn','Сохранить ник');form.append(el('label','','Изменить ник'),name,save);form.onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('profiles').update({nickname:name.value.trim()}).eq('id',id);if(error)return err(error);msg('Ник сохранён');openProfile(id)};p.append(form)}}
 $('topicFile').onchange=()=>{const f=$('topicFile').files[0];$('topicFileName').textContent=f?'📎 '+f.name+' ('+formatFileSize(f.size)+')':'Файл не выбран'};
