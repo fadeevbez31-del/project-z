@@ -127,22 +127,24 @@ footer{background:#090b0f;border-top:1px solid #242832;padding:35px;color:#929ba
 @media(max-width:600px){#authPanel{padding:14px}#authPanel>.row:first-child{margin-bottom:11px}}
 
 
-/* PROJECT Z: zombie claw emerging from the lower-left edge */
+/* PROJECT Z: more realistic zombie hand emerging from the footer line */
 #projectz-zombie-claw{
-  position:fixed;left:10px;bottom:-34px;width:clamp(150px,17vw,238px);height:auto;
-  z-index:4;pointer-events:none;overflow:visible;opacity:.94;
-  filter:drop-shadow(0 0 7px rgba(133,48,203,.25));
-  transform:translateY(70px) rotate(-5deg);transform-origin:50% 100%;
-  animation:projectzClawReveal 1.9s cubic-bezier(.18,.75,.25,1) .25s forwards;
+ position:fixed;left:12px;bottom:24px;width:clamp(170px,19vw,255px);height:auto;
+ z-index:4;pointer-events:none;overflow:visible;opacity:.97;
+ filter:drop-shadow(0 3px 7px rgba(0,0,0,.7)) drop-shadow(0 0 7px rgba(122,49,169,.18));
+ transform:translateY(24px) rotate(-4deg);transform-origin:50% 100%;
+ animation:projectzClawReveal 1.65s cubic-bezier(.18,.75,.25,1) .2s forwards;
 }
-#projectz-zombie-claw .claw-skin{fill:url(#pzClawSkin);stroke:#32263d;stroke-width:2.6;stroke-linejoin:round}
-#projectz-zombie-claw .claw-edge{fill:none;stroke:#bd8bd7;stroke-width:2;stroke-linecap:round;opacity:.44}
-#projectz-zombie-claw .claw-nail{fill:url(#pzClawNail);stroke:#2b1a35;stroke-width:1.7;stroke-linejoin:round}
-#projectz-zombie-claw .claw-scar{fill:none;stroke:#6d315f;stroke-width:3;stroke-linecap:round;opacity:.8}
-#projectz-zombie-claw .claw-glint{fill:none;stroke:#e0b8ff;stroke-width:1.2;stroke-linecap:round;opacity:.55}
-@keyframes projectzClawReveal{0%{transform:translateY(70px) rotate(-5deg);opacity:0}70%{opacity:.96}100%{transform:translateY(0) rotate(-5deg);opacity:.94}}
-@media(max-width:760px){#projectz-zombie-claw{width:clamp(105px,28vw,165px);left:-10px;bottom:-28px;opacity:.82}}
-@media(prefers-reduced-motion:reduce){#projectz-zombie-claw{animation:none;transform:rotate(-5deg);opacity:.94}}
+#projectz-zombie-claw .claw-skin{fill:url(#pzClawSkin);stroke:#211923;stroke-width:2.8;stroke-linejoin:round}
+#projectz-zombie-claw .claw-shadow{fill:#17131b;opacity:.9}
+#projectz-zombie-claw .claw-nail{fill:url(#pzClawNail);stroke:#211621;stroke-width:1.8;stroke-linejoin:round}
+#projectz-zombie-claw .claw-edge{fill:none;stroke:#a78b9d;stroke-width:1.5;stroke-linecap:round;opacity:.48}
+#projectz-zombie-claw .claw-vein{fill:none;stroke:#58404f;stroke-width:2.5;stroke-linecap:round;opacity:.9}
+#projectz-zombie-claw .claw-scar{fill:none;stroke:#8d465f;stroke-width:2.6;stroke-linecap:round;opacity:.8}
+#projectz-zombie-claw .claw-glint{fill:none;stroke:#d2b9c9;stroke-width:1.1;stroke-linecap:round;opacity:.42}
+@keyframes projectzClawReveal{0%{transform:translateY(46px) rotate(-4deg);opacity:0}70%{opacity:1}100%{transform:translateY(0) rotate(-4deg);opacity:.97}}
+@media(max-width:760px){#projectz-zombie-claw{width:clamp(120px,30vw,175px);left:-6px;bottom:18px;opacity:.86}}
+@media(prefers-reduced-motion:reduce){#projectz-zombie-claw{animation:none;transform:rotate(-4deg);opacity:.97}}
 
 </style>
 </head>
@@ -734,33 +736,37 @@ if(savedView&&savedView.type){
 </div>
 
 
-<svg id="projectz-zombie-claw" viewBox="0 0 240 250" aria-hidden="true" focusable="false">
+<svg id="projectz-zombie-claw" viewBox="0 0 250 270" aria-hidden="true" focusable="false">
  <defs>
-  <linearGradient id="pzClawSkin" x1="0" y1="0" x2="1" y2="1">
-   <stop offset="0" stop-color="#6b5a68"/><stop offset=".34" stop-color="#39313f"/>
-   <stop offset=".68" stop-color="#211d2b"/><stop offset="1" stop-color="#100f18"/>
-  </linearGradient>
-  <linearGradient id="pzClawNail" x1="0" y1="0" x2="1" y2="1">
-   <stop offset="0" stop-color="#d7c4d7"/><stop offset=".45" stop-color="#77617c"/><stop offset="1" stop-color="#241b2b"/>
-  </linearGradient>
-  <radialGradient id="pzClawGlow">
-   <stop offset="0" stop-color="#b45cff" stop-opacity=".5"/><stop offset="1" stop-color="#8b2ed8" stop-opacity="0"/>
-  </radialGradient>
+  <linearGradient id="pzClawSkin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b7a7b"/><stop offset=".22" stop-color="#5a4b53"/><stop offset=".52" stop-color="#39313b"/><stop offset=".78" stop-color="#24202a"/><stop offset="1" stop-color="#121119"/></linearGradient>
+  <linearGradient id="pzClawNail" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#d8c9c8"/><stop offset=".25" stop-color="#98818f"/><stop offset=".65" stop-color="#5b465a"/><stop offset="1" stop-color="#211722"/></linearGradient>
+  <linearGradient id="pzClawWound" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a74b68"/><stop offset="1" stop-color="#38202d"/></linearGradient>
+  <filter id="pzClawTexture"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="11"/><feColorMatrix values=".25 0 0 0 .15 .0 .2 0 0 .1 0 0 .2 0 .12 0 0 0 .2 0"/></filter>
  </defs>
- <ellipse cx="126" cy="218" rx="82" ry="38" fill="url(#pzClawGlow)" opacity=".65"/>
- <!-- Forearm and palm -->
- <path class="claw-skin" d="M65 258 C66 236 70 216 76 198 C79 187 81 174 82 158 L84 137 C85 125 96 122 101 134 L106 160 L109 105 C110 91 123 89 128 103 L130 151 L138 86 C140 72 153 74 157 89 L155 151 L167 109 C171 96 184 101 183 116 L176 164 C186 151 196 146 204 153 C213 161 203 178 194 191 L179 218 L181 258 Z"/>
- <!-- Long, hooked infected claws -->
- <path class="claw-nail" d="M84 140 C79 128 74 114 76 101 C77 94 82 91 85 98 L94 129 L99 139 C93 136 88 137 84 140Z"/>
- <path class="claw-nail" d="M110 107 C107 92 106 76 111 62 C114 54 120 55 122 64 L125 101 L128 111 C121 106 116 105 110 107Z"/>
- <path class="claw-nail" d="M140 87 C139 71 141 57 148 45 C152 39 158 44 157 52 L155 83 L157 94 C151 88 146 86 140 87Z"/>
- <path class="claw-nail" d="M169 112 C171 99 177 88 185 82 C191 78 194 84 190 91 L180 111 L179 122 C175 116 172 114 169 112Z"/>
- <path class="claw-nail" d="M198 157 C208 148 217 143 224 146 C230 149 225 155 218 160 L204 173 L194 178 C197 170 198 163 198 157Z"/>
- <!-- Tendons, knuckles and old wounds -->
- <path class="claw-edge" d="M80 193 C91 184 101 182 111 187 M91 209 C111 198 130 202 143 211 M119 177 C127 183 139 185 150 180 M147 166 C155 171 163 170 171 164"/>
- <path class="claw-edge" d="M91 145 L93 164 M117 119 L119 151 M146 101 L145 142 M173 126 L166 151"/>
- <path class="claw-scar" d="M88 181 l8 -5 m-4 10 l8 -4 M132 193 l9 -5 m-5 10 l7 -4 M155 205 l8 -5 M104 226 l10 -4"/>
- <path class="claw-glint" d="M86 153 l2 11 M115 113 l1 18 M145 93 l-1 15 M174 119 l-4 12"/>
- <path class="claw-scar" d="M76 220 C84 214 91 216 97 221 M145 224 C155 217 163 219 170 224"/>
+ <!-- Wrist and palm rising from the bottom border -->
+ <path class="claw-skin" d="M58 273 C57 247 61 226 70 205 C76 191 80 179 80 163 L78 127 C77 113 85 106 92 116 L103 143 L101 91 C101 76 112 70 119 84 L130 127 L132 66 C133 51 145 48 151 62 L156 126 L167 83 C171 69 183 72 184 86 L179 144 C188 131 199 126 207 135 C215 144 207 159 199 173 L183 204 C179 222 182 246 189 273 Z"/>
+ <!-- Fingers and hooked, worn nails -->
+ <path class="claw-skin" d="M78 133 C72 117 65 99 67 85 C68 76 75 73 80 82 L94 116 L99 141Z"/>
+ <path class="claw-skin" d="M102 94 C98 75 97 56 104 41 C109 31 117 37 119 48 L123 91 L128 131Z"/>
+ <path class="claw-skin" d="M133 69 C131 51 135 33 144 20 C151 11 158 18 156 30 L153 68 L157 127Z"/>
+ <path class="claw-skin" d="M168 86 C171 69 180 54 190 49 C198 46 200 54 194 63 L181 88 L178 145Z"/>
+ <path class="claw-skin" d="M197 139 C207 127 219 120 228 126 C235 131 230 139 221 145 L203 161 L192 177Z"/>
+ <!-- Shadowed joints give the fingers depth -->
+ <path class="claw-shadow" d="M78 118 C83 112 91 114 96 123 L101 145 L91 138Z M105 84 C111 77 119 81 122 91 L126 116 L116 103Z M138 59 C144 53 151 57 154 68 L154 91 L145 76Z M174 80 C180 73 187 77 186 87 L181 108 L173 99Z"/>
+ <!-- Long, irregular keratin tips -->
+ <path class="claw-nail" d="M67 89 C63 77 64 64 69 53 C72 48 77 52 77 59 L77 78 L86 101 L79 104Z"/>
+ <path class="claw-nail" d="M104 45 C103 30 108 17 116 8 C120 4 124 9 121 17 L116 38 L120 53 L112 59Z"/>
+ <path class="claw-nail" d="M144 23 C146 10 153 1 160 0 C166 1 163 10 159 17 L155 35 L151 43 L145 37Z"/>
+ <path class="claw-nail" d="M190 52 C197 40 207 34 213 37 C218 41 210 49 203 56 L190 73 L183 75Z"/>
+ <path class="claw-nail" d="M226 127 C237 121 245 123 248 128 C250 134 239 139 229 144 L213 155 L206 151Z"/>
+ <!-- Knuckles, tendons, wrinkles and veins -->
+ <path class="claw-edge" d="M72 160 Q85 151 99 161 M98 173 Q115 164 132 175 M130 151 Q146 143 162 154 M157 174 Q172 164 186 168 M79 197 Q95 187 108 194 M111 215 Q128 204 145 214 M146 238 Q160 228 174 235"/>
+ <path class="claw-vein" d="M85 184 C91 177 90 169 96 163 M115 195 C121 186 119 179 127 173 M153 204 C160 194 159 185 167 178 M106 232 C113 223 110 217 118 211"/>
+ <path class="claw-edge" d="M82 129 L88 145 M107 100 L112 124 M139 76 L143 104 M176 94 L171 119 M203 143 L194 157"/>
+ <!-- Small torn cuts and bruised patches -->
+ <path fill="url(#pzClawWound)" d="M88 188 l11 -5 7 3 -8 4 -6 5Z M133 205 l12 -5 6 3 -10 6Z M159 185 l8 -4 5 2 -7 5Z M103 241 l10 -5 5 2 -8 5Z"/>
+ <path class="claw-scar" d="M84 188 l8 -3 m-4 8 l9 -4 M133 205 l8 -4 M159 185 l7 -3 M103 241 l8 -4 M145 226 l7 -3"/>
+ <!-- Fine highlights, not neon: the hand should look like part of the dark scene -->
+ <path class="claw-glint" d="M71 86 Q72 75 75 70 M108 44 Q111 31 116 25 M147 22 Q151 12 157 8 M174 88 Q179 76 185 70 M88 151 Q91 157 97 158 M116 130 Q120 139 127 141 M148 129 Q153 137 160 136"/>
 </svg>
 </body></html>
