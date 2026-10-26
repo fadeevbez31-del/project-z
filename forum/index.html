@@ -702,4 +702,33 @@ if(savedView&&savedView.type){
  }catch(e){console.warn('Не удалось восстановить открытую вкладку форума:',e)}
 }
 </script>
+
+<style id="pz-forum-edge-horror">
+/* Декор форума по внешним краям: не закрывает текст и элементы управления */
+.pz-forum-horror{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;contain:layout paint}
+.pz-forum-claws{position:absolute;bottom:-8px;width:clamp(72px,8vw,118px);height:clamp(74px,12vh,122px);opacity:.72;filter:drop-shadow(0 0 8px rgba(137,76,178,.28))}
+.pz-forum-claws.left{left:-5px}
+.pz-forum-claws.right{right:-5px;transform:scaleX(-1)}
+.pz-forum-claws i{position:absolute;bottom:-9px;width:19%;height:79%;border-radius:70% 70% 10% 10%;background:linear-gradient(90deg,#17151c 0%,#38303f 48%,#76627d 66%,#211b28 100%);box-shadow:inset 2px 0 4px #806b88;transform-origin:bottom center;animation:pz-forum-claw 7s ease-in-out infinite}
+.pz-forum-claws i:nth-child(1){left:7%;height:64%;transform:rotate(-25deg);animation-delay:-1s}
+.pz-forum-claws i:nth-child(2){left:28%;height:88%;transform:rotate(-12deg);animation-delay:-2.4s}
+.pz-forum-claws i:nth-child(3){left:49%;height:81%;transform:rotate(3deg);animation-delay:-3.5s}
+.pz-forum-claws i:nth-child(4){left:70%;height:63%;transform:rotate(17deg);animation-delay:-.7s}
+.pz-forum-claws i:before{content:"";position:absolute;top:-10px;left:12%;width:76%;height:21px;background:linear-gradient(180deg,#c4b6c8,#57475e 55%,#201a25);clip-path:polygon(0 100%,17% 35%,32% 100%,50% 0,67% 100%,84% 32%,100% 100%)}
+.pz-forum-eyes{position:absolute;top:48vh;display:flex;gap:12px;opacity:.72;animation:pz-forum-eyes-glow 5.5s ease-in-out infinite}
+.pz-forum-eyes.left{left:2.5%}.pz-forum-eyes.right{right:2.5%}
+.pz-forum-eyes i{display:block;width:12px;height:6px;border-radius:50%;background:#c58aff;box-shadow:0 0 5px 2px #a94dff,0 0 14px 4px rgba(145,50,255,.7)}
+.pz-forum-eyes.right i{transform:rotate(8deg)}.pz-forum-eyes.left i{transform:rotate(-8deg)}
+@keyframes pz-forum-claw{0%,100%{translate:0 6px}50%{translate:0 -4px}}
+@keyframes pz-forum-eyes-glow{0%,100%{opacity:.22;filter:brightness(.7)}45%,60%{opacity:.82;filter:brightness(1.35)}}
+@media(max-width:700px){.pz-forum-claws{width:55px;height:66px;opacity:.4}.pz-forum-eyes{top:58vh;opacity:.38}.pz-forum-eyes.left{left:1%}.pz-forum-eyes.right{right:1%}.pz-forum-eyes i{width:8px;height:4px}}
+@media(prefers-reduced-motion:reduce){.pz-forum-claws i,.pz-forum-eyes{animation:none}}
+</style>
+<div class="pz-forum-horror" aria-hidden="true">
+ <div class="pz-forum-claws left"><i></i><i></i><i></i><i></i></div>
+ <div class="pz-forum-claws right"><i></i><i></i><i></i><i></i></div>
+ <div class="pz-forum-eyes left"><i></i><i></i></div>
+ <div class="pz-forum-eyes right"><i></i><i></i></div>
+</div>
+
 </body></html>
