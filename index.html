@@ -598,16 +598,24 @@ setInterval(checkProjectMaintenance,20000);
 </script>
 <style id="pz-biohazard-effects">
 .pz-biohazard-layer{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;contain:layout paint}
-.pz-biohazard{position:absolute;color:rgba(165,83,221,.28);font-size:var(--size);left:var(--left);top:110vh;text-shadow:0 0 12px rgba(172,77,236,.28);animation:pz-biohazard-float var(--duration) linear infinite;animation-delay:var(--delay);will-change:transform,opacity}
-@keyframes pz-biohazard-float{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}12%{opacity:.7}82%{opacity:.6}100%{transform:translate3d(var(--drift),-135vh,0) rotate(240deg);opacity:0}}
+.pz-biohazard{position:absolute;color:rgba(195,112,255,.68);font-size:var(--size);left:var(--left);top:110vh;text-shadow:0 0 9px rgba(172,77,236,.7),0 0 22px rgba(172,77,236,.45);animation:pz-biohazard-float var(--duration) linear infinite;animation-delay:var(--delay);will-change:transform,opacity}
+@keyframes pz-biohazard-float{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}10%{opacity:.9}18%{opacity:.85}82%{opacity:.8}100%{transform:translate3d(var(--drift),-135vh,0) rotate(240deg);opacity:0}}
 @media(prefers-reduced-motion:reduce){.pz-biohazard{animation:none;display:none}}
 </style><div class="pz-biohazard-layer" aria-hidden="true">
-<span class="pz-biohazard" style="--left:7%;--size:27px;--duration:25s;--delay:-8s;--drift:45px">☣</span>
-<span class="pz-biohazard" style="--left:22%;--size:19px;--duration:33s;--delay:-24s;--drift:-60px">☣</span>
-<span class="pz-biohazard" style="--left:43%;--size:24px;--duration:29s;--delay:-17s;--drift:85px">☣</span>
-<span class="pz-biohazard" style="--left:65%;--size:21px;--duration:36s;--delay:-6s;--drift:-50px">☣</span>
-<span class="pz-biohazard" style="--left:83%;--size:31px;--duration:31s;--delay:-21s;--drift:55px">☣</span>
-<span class="pz-biohazard" style="--left:94%;--size:17px;--duration:27s;--delay:-13s;--drift:-75px">☣</span>
+<span class="pz-biohazard" style="--left:4%;--size:34px;--duration:25s;--delay:-8s;--drift:45px">☣</span>
+<span class="pz-biohazard" style="--left:12%;--size:25px;--duration:31s;--delay:-19s;--drift:-45px">☣</span>
+<span class="pz-biohazard" style="--left:20%;--size:31px;--duration:28s;--delay:-12s;--drift:65px">☣</span>
+<span class="pz-biohazard" style="--left:28%;--size:22px;--duration:34s;--delay:-25s;--drift:-60px">☣</span>
+<span class="pz-biohazard" style="--left:36%;--size:38px;--duration:30s;--delay:-16s;--drift:50px">☣</span>
+<span class="pz-biohazard" style="--left:44%;--size:27px;--duration:26s;--delay:-5s;--drift:-75px">☣</span>
+<span class="pz-biohazard" style="--left:52%;--size:33px;--duration:35s;--delay:-22s;--drift:55px">☣</span>
+<span class="pz-biohazard" style="--left:60%;--size:24px;--duration:29s;--delay:-11s;--drift:-50px">☣</span>
+<span class="pz-biohazard" style="--left:68%;--size:40px;--duration:32s;--delay:-27s;--drift:70px">☣</span>
+<span class="pz-biohazard" style="--left:76%;--size:29px;--duration:27s;--delay:-14s;--drift:-65px">☣</span>
+<span class="pz-biohazard" style="--left:84%;--size:36px;--duration:33s;--delay:-7s;--drift:45px">☣</span>
+<span class="pz-biohazard" style="--left:92%;--size:25px;--duration:30s;--delay:-20s;--drift:-55px">☣</span>
+<span class="pz-biohazard" style="--left:16%;--size:18px;--duration:37s;--delay:-31s;--drift:40px">☣</span>
+<span class="pz-biohazard" style="--left:72%;--size:20px;--duration:24s;--delay:-18s;--drift:-35px">☣</span>
 </div>
 </body></html>
 
