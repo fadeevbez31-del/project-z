@@ -111,6 +111,21 @@ footer{background:#090b0f;border-top:1px solid #242832;padding:35px;color:#929ba
 @media(max-width:700px){header{padding:18px 14px}.projectz-forum-nav{margin-top:15px}.projectz-forum-nav a{padding:10px 12px}.projectz-forum-hero{margin:14px 12px 0;min-height:160px;padding:24px}main{margin-top:14px;padding:0 12px}.toolbar{padding:14px}.panel,.category,.topic{padding:16px}}
 @media(prefers-reduced-motion:reduce){.category,.topic,.btn,.projectz-forum-nav a{transition:none}.category:hover,.topic:hover{transform:none}}
 
+
+/* Compact login / registration alignment */
+#authPanel{padding-top:15px;padding-bottom:18px}
+#authPanel>.row:first-child{margin:0 0 13px;gap:9px;align-items:center}
+#authPanel>.row:first-child .btn{margin:0;min-height:35px;padding:8px 13px}
+#authPanel #authForm label{margin:0 0 8px;line-height:1.35}
+#authPanel #authForm input{margin:6px 0 10px;padding:10px 12px}
+#authPanel #authSubmit{margin-top:0}
+#authPanel #forgotPassword{margin-top:13px!important;margin-bottom:0}
+#authPanel #authHint{margin:12px 0 0;line-height:1.55}
+#otpPanel>.row,#recoveryPanel>.row{align-items:center}
+#otpPanel label,#recoveryPanel label{line-height:1.45}
+#otpPanel input,#recoveryPanel input{margin-top:7px;margin-bottom:12px}
+@media(max-width:600px){#authPanel{padding:14px}#authPanel>.row:first-child{margin-bottom:11px}}
+
 </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
