@@ -74,11 +74,49 @@ p,.muted,.post,.content,.formatted-text{overflow-wrap:anywhere}
 #maintenanceOverlay .maintenance-extra{color:#cbb7da;font-size:clamp(13px,1.5vw,17px)}
 #maintenanceOverlay .maintenance-footer{padding:22px;color:#b9a2cc}
 @media(max-width:650px){#maintenanceOverlay .maintenance-header{flex-direction:column}#maintenanceOverlay .maintenance-hero{margin-top:14px;height:150px}#maintenanceOverlay .maintenance-card{margin-top:14px;margin-bottom:18px}}
+
+/* PROJECT Z forum visual refresh — Echelon-inspired, existing functionality untouched */
+:root{--bg:#0b0d12;--panel:#11141c;--panel2:#191d28;--line:#292e3a;--purple:#fa8744;--text:#f1f3f9;--muted:#9da5b5}
+html{background:#0b0d12}
+body{background:radial-gradient(ellipse 80% 380px at 50% 0,rgba(42,46,64,.42),transparent),#0b0d12;color:var(--text);min-height:100vh}
+header{background:#0e1016;border-bottom:1px solid #242934;padding:23px max(20px,calc((100% - 1220px)/2));box-shadow:0 10px 32px rgba(0,0,0,.24)}
+header .logo-link h1{color:#f8f9fc;letter-spacing:4px;font-size:clamp(26px,3vw,37px);font-weight:950}
+header .logo-link:hover h1{color:#fff;text-shadow:0 0 22px rgba(255,135,68,.32)}
+header p{color:#aab0bf}
+header a{color:#cbd0de}
+.projectz-forum-nav{display:flex;flex-wrap:wrap;gap:5px;margin-top:23px;padding:8px;background:#0a0c10;border:1px solid #20242d;border-radius:11px}
+.projectz-forum-nav a{display:inline-flex;align-items:center;gap:7px;padding:11px 17px;border-radius:7px;text-decoration:none;font-size:12px;font-weight:800;color:#aeb6c5;transition:background-color .18s,color .18s}
+.projectz-forum-nav a:hover,.projectz-forum-nav a.active{background:#1d222c;color:#ff995c}
+.projectz-forum-hero{max-width:1220px;margin:26px auto 0;min-height:190px;padding:36px clamp(22px,4vw,52px);border:1px solid #30313b;border-radius:14px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(90deg,rgba(9,11,16,.91),rgba(9,11,16,.38)),url('/projectz_banner_new.jpg?v=20261016-3') center 43%/cover no-repeat;box-shadow:0 14px 40px rgba(0,0,0,.25)}
+.projectz-forum-hero h2{font-size:clamp(23px,3vw,34px);margin:0 0 9px;color:#fff}
+.projectz-forum-hero p{color:#c6cbd5;margin:0;line-height:1.5}
+main{max-width:1220px;margin:25px auto 40px;padding:0 18px}
+.toolbar{padding:18px 20px;background:#10131a;border:1px solid #252a35;border-radius:12px;margin-bottom:20px}
+#heading{margin:0;font-size:clamp(20px,2vw,25px)}
+.panel,.category,.topic{background:#12151d;border:1px solid #262b36;border-radius:12px;padding:22px;margin-bottom:11px;box-shadow:0 3px 15px rgba(0,0,0,.1)}
+.category,.topic{border-left:3px solid #292e3a;transition:border-color .18s ease,background-color .18s ease,transform .18s ease}
+.category:hover,.topic:hover{border-color:#f58b4d;background:#191c26;transform:translateY(-1px)}
+.category h3,.topic h3{font-size:16px;color:#f4f5fa}
+.muted{color:#9fa7b8}
+.btn{background:#e87538;border:1px solid #f3965e;color:#fff;border-radius:7px;transition:background-color .16s,border-color .16s}
+.btn:hover{background:#f38a49}
+.btn.secondary{background:#1c202a;border-color:#353a48;color:#e1e5ee}
+.btn.secondary:hover{background:#292e3b;border-color:#ef8a4b}
+input,textarea,.format-toolbar select{background:#0c0f15;color:#f5f6fa;border-color:#363c49}
+input:focus,textarea:focus,select:focus{outline:2px solid rgba(244,143,76,.35);outline-offset:1px}
+a{color:#ffab77}
+.post{border-color:#303541}
+.post strong{color:#f8b48a}
+footer{background:#090b0f;border-top:1px solid #242832;padding:35px;color:#929bad}
+@media(max-width:700px){header{padding:18px 14px}.projectz-forum-nav{margin-top:15px}.projectz-forum-nav a{padding:10px 12px}.projectz-forum-hero{margin:14px 12px 0;min-height:160px;padding:24px}main{margin-top:14px;padding:0 12px}.toolbar{padding:14px}.panel,.category,.topic{padding:16px}}
+@media(prefers-reduced-motion:reduce){.category,.topic,.btn,.projectz-forum-nav a{transition:none}.category:hover,.topic:hover{transform:none}}
+
 </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
   <h1>☣ PROJECT Z</h1>
-</a><p>Форум сообщества · <a href="/forum/index.html">На главную</a></p></header>
+</a><p>Форум сообщества · <a href="/forum/index.html">На главную</a></p><nav class="projectz-forum-nav" aria-label="Навигация форума"><a class="active" href="/forum/">🏠 Форум</a><a href="https://projectz.site/#home">🎮 Серверы</a><a href="https://projectz.site/#rules">📜 Правила сервера</a><a href="https://projectz.site/#bans">🚫 Бан-лист</a><a href="https://projectz.site/">🌐 Главная сайта</a></nav></header>
+<section class="projectz-forum-hero"><h2>Сообщество PROJECT Z</h2><p>Новости, общение игроков, жалобы, предложения и команды серверов — всё в одном месте.</p></section>
 <main><div class="toolbar"><h2 id="heading">Форум</h2><div class="row" id="authBar"><button class="btn" id="showLogin">Войти / Регистрация</button></div></div>
 <div id="notice" role="status"></div>
 <section class="panel hidden" id="authPanel"><div class="row"><button class="btn secondary" id="loginTab">Вход</button><button class="btn secondary" id="signupTab">Регистрация</button></div><form id="authForm"><label id="nicknameRow" class="hidden">Ник на форуме<input id="nickname" maxlength="40" autocomplete="nickname"></label><label>Email<input type="email" id="email" required autocomplete="email"></label><label>Пароль<input type="password" id="password" required minlength="8" autocomplete="current-password"></label><button class="btn" id="authSubmit">Войти</button></form><button class="btn secondary" type="button" id="forgotPassword" style="display:block;margin-top:34px">Забыли пароль?</button><p class="muted" id="authHint">Для регистрации выбери вкладку «Регистрация».</p></section>
