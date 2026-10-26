@@ -126,6 +126,24 @@ footer{background:#090b0f;border-top:1px solid #242832;padding:35px;color:#929ba
 #otpPanel input,#recoveryPanel input{margin-top:7px;margin-bottom:12px}
 @media(max-width:600px){#authPanel{padding:14px}#authPanel>.row:first-child{margin-bottom:11px}}
 
+
+/* PROJECT Z: zombie claw emerging from the lower-left edge */
+#projectz-zombie-claw{
+  position:fixed;left:10px;bottom:-34px;width:clamp(150px,17vw,238px);height:auto;
+  z-index:4;pointer-events:none;overflow:visible;opacity:.94;
+  filter:drop-shadow(0 0 7px rgba(133,48,203,.25));
+  transform:translateY(70px) rotate(-5deg);transform-origin:50% 100%;
+  animation:projectzClawReveal 1.9s cubic-bezier(.18,.75,.25,1) .25s forwards;
+}
+#projectz-zombie-claw .claw-skin{fill:url(#pzClawSkin);stroke:#32263d;stroke-width:2.6;stroke-linejoin:round}
+#projectz-zombie-claw .claw-edge{fill:none;stroke:#bd8bd7;stroke-width:2;stroke-linecap:round;opacity:.44}
+#projectz-zombie-claw .claw-nail{fill:url(#pzClawNail);stroke:#2b1a35;stroke-width:1.7;stroke-linejoin:round}
+#projectz-zombie-claw .claw-scar{fill:none;stroke:#6d315f;stroke-width:3;stroke-linecap:round;opacity:.8}
+#projectz-zombie-claw .claw-glint{fill:none;stroke:#e0b8ff;stroke-width:1.2;stroke-linecap:round;opacity:.55}
+@keyframes projectzClawReveal{0%{transform:translateY(70px) rotate(-5deg);opacity:0}70%{opacity:.96}100%{transform:translateY(0) rotate(-5deg);opacity:.94}}
+@media(max-width:760px){#projectz-zombie-claw{width:clamp(105px,28vw,165px);left:-10px;bottom:-28px;opacity:.82}}
+@media(prefers-reduced-motion:reduce){#projectz-zombie-claw{animation:none;transform:rotate(-5deg);opacity:.94}}
+
 </style>
 </head>
 <body><header><a href="https://projectz.site/" class="logo-link">
@@ -715,4 +733,34 @@ if(savedView&&savedView.type){
  <div class="pz-forum-eyes right"><i></i><i></i></div>
 </div>
 
+
+<svg id="projectz-zombie-claw" viewBox="0 0 240 250" aria-hidden="true" focusable="false">
+ <defs>
+  <linearGradient id="pzClawSkin" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#6b5a68"/><stop offset=".34" stop-color="#39313f"/>
+   <stop offset=".68" stop-color="#211d2b"/><stop offset="1" stop-color="#100f18"/>
+  </linearGradient>
+  <linearGradient id="pzClawNail" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#d7c4d7"/><stop offset=".45" stop-color="#77617c"/><stop offset="1" stop-color="#241b2b"/>
+  </linearGradient>
+  <radialGradient id="pzClawGlow">
+   <stop offset="0" stop-color="#b45cff" stop-opacity=".5"/><stop offset="1" stop-color="#8b2ed8" stop-opacity="0"/>
+  </radialGradient>
+ </defs>
+ <ellipse cx="126" cy="218" rx="82" ry="38" fill="url(#pzClawGlow)" opacity=".65"/>
+ <!-- Forearm and palm -->
+ <path class="claw-skin" d="M65 258 C66 236 70 216 76 198 C79 187 81 174 82 158 L84 137 C85 125 96 122 101 134 L106 160 L109 105 C110 91 123 89 128 103 L130 151 L138 86 C140 72 153 74 157 89 L155 151 L167 109 C171 96 184 101 183 116 L176 164 C186 151 196 146 204 153 C213 161 203 178 194 191 L179 218 L181 258 Z"/>
+ <!-- Long, hooked infected claws -->
+ <path class="claw-nail" d="M84 140 C79 128 74 114 76 101 C77 94 82 91 85 98 L94 129 L99 139 C93 136 88 137 84 140Z"/>
+ <path class="claw-nail" d="M110 107 C107 92 106 76 111 62 C114 54 120 55 122 64 L125 101 L128 111 C121 106 116 105 110 107Z"/>
+ <path class="claw-nail" d="M140 87 C139 71 141 57 148 45 C152 39 158 44 157 52 L155 83 L157 94 C151 88 146 86 140 87Z"/>
+ <path class="claw-nail" d="M169 112 C171 99 177 88 185 82 C191 78 194 84 190 91 L180 111 L179 122 C175 116 172 114 169 112Z"/>
+ <path class="claw-nail" d="M198 157 C208 148 217 143 224 146 C230 149 225 155 218 160 L204 173 L194 178 C197 170 198 163 198 157Z"/>
+ <!-- Tendons, knuckles and old wounds -->
+ <path class="claw-edge" d="M80 193 C91 184 101 182 111 187 M91 209 C111 198 130 202 143 211 M119 177 C127 183 139 185 150 180 M147 166 C155 171 163 170 171 164"/>
+ <path class="claw-edge" d="M91 145 L93 164 M117 119 L119 151 M146 101 L145 142 M173 126 L166 151"/>
+ <path class="claw-scar" d="M88 181 l8 -5 m-4 10 l8 -4 M132 193 l9 -5 m-5 10 l7 -4 M155 205 l8 -5 M104 226 l10 -4"/>
+ <path class="claw-glint" d="M86 153 l2 11 M115 113 l1 18 M145 93 l-1 15 M174 119 l-4 12"/>
+ <path class="claw-scar" d="M76 220 C84 214 91 216 97 221 M145 224 C155 217 163 219 170 224"/>
+</svg>
 </body></html>
