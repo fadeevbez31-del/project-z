@@ -704,25 +704,22 @@ if(savedView&&savedView.type){
 </script>
 
 <style id="pz-forum-edge-horror">
-/* Декор форума по внешним краям: не закрывает текст и элементы управления */
+/* Глаза перемещены в пустую область справа от логотипа; декор не перекрывает контент */
 .pz-forum-horror{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;contain:layout paint}
-.pz-forum-claws{position:absolute;bottom:-8px;width:clamp(72px,8vw,118px);height:clamp(74px,12vh,122px);opacity:.72;filter:drop-shadow(0 0 8px rgba(137,76,178,.28))}
-.pz-forum-claws.left{left:-5px}
-.pz-forum-claws.right{right:-5px;transform:scaleX(-1)}
-.pz-forum-claws i{position:absolute;bottom:-9px;width:19%;height:79%;border-radius:70% 70% 10% 10%;background:linear-gradient(90deg,#17151c 0%,#38303f 48%,#76627d 66%,#211b28 100%);box-shadow:inset 2px 0 4px #806b88;transform-origin:bottom center;animation:pz-forum-claw 7s ease-in-out infinite}
-.pz-forum-claws i:nth-child(1){left:7%;height:64%;transform:rotate(-25deg);animation-delay:-1s}
-.pz-forum-claws i:nth-child(2){left:28%;height:88%;transform:rotate(-12deg);animation-delay:-2.4s}
-.pz-forum-claws i:nth-child(3){left:49%;height:81%;transform:rotate(3deg);animation-delay:-3.5s}
-.pz-forum-claws i:nth-child(4){left:70%;height:63%;transform:rotate(17deg);animation-delay:-.7s}
-.pz-forum-claws i:before{content:"";position:absolute;top:-10px;left:12%;width:76%;height:21px;background:linear-gradient(180deg,#c4b6c8,#57475e 55%,#201a25);clip-path:polygon(0 100%,17% 35%,32% 100%,50% 0,67% 100%,84% 32%,100% 100%)}
-.pz-forum-eyes{position:absolute;top:27vh;display:flex;gap:12px;opacity:.92;animation:pz-forum-eyes-glow 4s ease-in-out infinite}
-.pz-forum-eyes.left{left:2.5%}.pz-forum-eyes.right{right:2.5%}
-.pz-forum-eyes i{display:block;width:14px;height:7px;border-radius:50%;background:#f0c8ff;box-shadow:0 0 6px 3px #e34dff,0 0 16px 7px rgba(174,45,255,.95),0 0 30px 10px rgba(125,38,255,.65)}
-.pz-forum-eyes.right i{transform:rotate(8deg)}.pz-forum-eyes.left i{transform:rotate(-8deg)}
-@keyframes pz-forum-claw{0%,100%{translate:0 6px}50%{translate:0 -4px}}
-@keyframes pz-forum-eyes-glow{0%,100%{opacity:.65;filter:brightness(1.1)}45%,60%{opacity:1;filter:brightness(1.9) drop-shadow(0 0 9px #b63cff)}}
-@media(max-width:700px){.pz-forum-claws{width:55px;height:66px;opacity:.4}.pz-forum-eyes{top:25vh;opacity:.7;gap:8px}.pz-forum-eyes.left{left:1%}.pz-forum-eyes.right{right:1%}.pz-forum-eyes i{width:9px;height:5px;box-shadow:0 0 5px 2px #e34dff,0 0 12px 5px rgba(174,45,255,.85)}}
-@media(prefers-reduced-motion:reduce){.pz-forum-claws i,.pz-forum-eyes{animation:none}}
+.pz-forum-claws{display:none!important}
+.pz-forum-eyes{position:absolute;top:16px;right:26%;display:flex;align-items:center;gap:13px;opacity:.98;animation:pz-forum-eyes-glow 3.7s ease-in-out infinite}
+.pz-forum-eyes.left{display:none!important}
+.pz-forum-eyes.right{right:26%;top:16px}
+.pz-forum-eyes i{position:relative;display:block;width:24px;height:13px;border-radius:75% 75% 65% 65%;overflow:hidden;
+ background:radial-gradient(ellipse at 50% 55%,#f4d7ff 0 8%,#dc8bff 18%,#a33bfa 36%,#4d176e 58%,#17101f 76%,#08070c 100%);
+ box-shadow:0 0 2px 1px rgba(255,222,255,.95),0 0 7px 3px rgba(220,94,255,.95),0 0 18px 7px rgba(156,42,255,.72),0 0 30px 11px rgba(116,35,210,.35);
+ transform:rotate(-3deg)}
+.pz-forum-eyes i:before{content:"";position:absolute;left:46%;top:10%;width:3px;height:80%;border-radius:50%;background:#16051f;box-shadow:0 0 2px #07030b}
+.pz-forum-eyes i:after{content:"";position:absolute;left:26%;top:17%;width:5px;height:3px;border-radius:50%;background:#fff7ff;box-shadow:0 0 5px 2px #fff}
+.pz-forum-eyes i:nth-child(2){transform:rotate(3deg)}
+@keyframes pz-forum-eyes-glow{0%,100%{opacity:.82;filter:brightness(1) drop-shadow(0 0 5px #b63cff)}45%,60%{opacity:1;filter:brightness(1.45) drop-shadow(0 0 11px #d05bff)}}
+@media(max-width:700px){.pz-forum-eyes.right{top:18px;right:5%;gap:7px}.pz-forum-eyes i{width:17px;height:9px;box-shadow:0 0 4px 2px #e34dff,0 0 10px 4px rgba(174,45,255,.85)}}
+@media(prefers-reduced-motion:reduce){.pz-forum-eyes{animation:none}}
 </style>
 <div class="pz-forum-horror" aria-hidden="true">
  <div class="pz-forum-claws left"><i></i><i></i><i></i><i></i></div>
