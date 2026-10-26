@@ -598,7 +598,7 @@ setInterval(checkProjectMaintenance,20000);
 </script>
 <style id="pz-biohazard-effects">
 .pz-biohazard-layer{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;contain:layout paint}
-.pz-biohazard{position:absolute;color:rgba(195,112,255,.68);font-size:var(--size);left:var(--left);top:110vh;text-shadow:0 0 9px rgba(172,77,236,.7),0 0 22px rgba(172,77,236,.45);animation:pz-biohazard-float var(--duration) linear infinite;animation-delay:var(--delay);will-change:transform,opacity}
+.pz-biohazard{position:absolute;color:rgba(195,112,255,.55);font-size:var(--size);left:var(--left);top:110vh;text-shadow:0 0 5px rgba(172,77,236,.55),0 0 12px rgba(172,77,236,.3);animation:pz-biohazard-float var(--duration) linear infinite;animation-delay:var(--delay);will-change:transform,opacity}
 @keyframes pz-biohazard-float{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}10%{opacity:.9}18%{opacity:.85}82%{opacity:.8}100%{transform:translate3d(var(--drift),-135vh,0) rotate(240deg);opacity:0}}
 @media(prefers-reduced-motion:reduce){.pz-biohazard{animation:none;display:none}}
 </style><div class="pz-biohazard-layer" aria-hidden="true">
@@ -612,39 +612,39 @@ setInterval(checkProjectMaintenance,20000);
 <span class="pz-biohazard" style="--left:60%;--size:24px;--duration:29s;--delay:-11s;--drift:-50px">☣</span>
 <span class="pz-biohazard" style="--left:68%;--size:40px;--duration:32s;--delay:-27s;--drift:70px">☣</span>
 <span class="pz-biohazard" style="--left:76%;--size:29px;--duration:27s;--delay:-14s;--drift:-65px">☣</span>
-<span class="pz-biohazard" style="--left:84%;--size:36px;--duration:33s;--delay:-7s;--drift:45px">☣</span>
-<span class="pz-biohazard" style="--left:92%;--size:25px;--duration:30s;--delay:-20s;--drift:-55px">☣</span>
-<span class="pz-biohazard" style="--left:16%;--size:18px;--duration:37s;--delay:-31s;--drift:40px">☣</span>
-<span class="pz-biohazard" style="--left:72%;--size:20px;--duration:24s;--delay:-18s;--drift:-35px">☣</span>
+<span class="pz-biohazard" style="--left:84%;--size:22px;--duration:33s;--delay:-7s;--drift:45px">☣</span>
+<span class="pz-biohazard" style="--left:92%;--size:16px;--duration:30s;--delay:-20s;--drift:-55px">☣</span>
+<span class="pz-biohazard" style="--left:16%;--size:12px;--duration:37s;--delay:-31s;--drift:40px">☣</span>
+<span class="pz-biohazard" style="--left:72%;--size:13px;--duration:24s;--delay:-18s;--drift:-35px">☣</span>
 </div>
 
 <style id="pz-edge-claws-eyes">
-/* Декор по краям: не перекрывает логотип, текст или кнопки */
-.pz-edge-horror{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;contain:layout paint}
-.pz-edge-claws{position:absolute;bottom:-10px;width:clamp(88px,10vw,150px);height:clamp(90px,14vh,145px);opacity:.76;filter:drop-shadow(0 0 9px rgba(112,57,160,.25));}
-.pz-edge-claws.left{left:-8px;transform:rotate(-7deg)}
-.pz-edge-claws.right{right:-8px;transform:scaleX(-1) rotate(-7deg)}
-.pz-edge-claws i{position:absolute;bottom:-12px;width:17%;height:82%;border-radius:75% 75% 12% 12%;background:linear-gradient(90deg,#17151c 0%,#39313f 48%,#76627d 65%,#211b28 100%);transform-origin:bottom center;box-shadow:inset 2px 0 4px #8b7190;animation:pz-claw-creep 6s ease-in-out infinite}
-.pz-edge-claws i:nth-child(1){left:8%;height:67%;transform:rotate(-27deg);animation-delay:-1s}
-.pz-edge-claws i:nth-child(2){left:28%;height:91%;transform:rotate(-14deg);animation-delay:-2.2s}
-.pz-edge-claws i:nth-child(3){left:49%;height:83%;transform:rotate(1deg);animation-delay:-3.4s}
-.pz-edge-claws i:nth-child(4){left:69%;height:66%;transform:rotate(17deg);animation-delay:-.6s}
-.pz-edge-claws i:before{content:"";position:absolute;top:-12px;left:13%;width:74%;height:25px;border-radius:60% 60% 15% 15%;background:linear-gradient(180deg,#c4b6c8,#5b4b62 50%,#201a25);clip-path:polygon(0 100%,16% 38%,31% 100%,49% 0,67% 100%,83% 32%,100% 100%)}
-@keyframes pz-claw-creep{0%,100%{translate:0 8px}50%{translate:0 -5px}}
-.pz-zombie-eyes{position:absolute;top:43vh;display:flex;gap:clamp(10px,1.1vw,17px);align-items:center;opacity:.78;animation:pz-eyes-glow 5s ease-in-out infinite}
-.pz-zombie-eyes.left{left:2.2%}
-.pz-zombie-eyes.right{right:2.2%}
-.pz-zombie-eyes i{display:block;width:clamp(10px,1vw,15px);height:clamp(5px,.55vw,8px);border-radius:50%;background:#c58aff;box-shadow:0 0 5px 2px #a94dff,0 0 15px 5px rgba(145,50,255,.72);transform:rotate(-8deg)}
-.pz-zombie-eyes.right i{transform:rotate(8deg)}
-@keyframes pz-eyes-glow{0%,100%{opacity:.28;filter:brightness(.7)}45%,60%{opacity:.9;filter:brightness(1.35)}}
-@media(max-width:700px){.pz-edge-claws{width:74px;height:78px;opacity:.48}.pz-zombie-eyes{top:58vh;opacity:.45}.pz-zombie-eyes.left{left:1%}.pz-zombie-eyes.right{right:1%}}
-@media(prefers-reduced-motion:reduce){.pz-edge-claws i,.pz-zombie-eyes{animation:none}}
+/* Только небольшие светящиеся глаза на фоне баннера; без когтей и боковых глаз */
+.pz-edge-horror{display:none!important}
+.hero{position:relative;isolation:isolate;overflow:hidden}
+/* Восстанавливаем исходное изображение баннера: слой глаз не должен его перекрывать */
+.hero::before{
+ content:"";position:absolute;pointer-events:none;left:0;top:50%;width:100%;height:auto;
+ aspect-ratio:2020/779;transform:translateY(-50%);
+ background:url('/projectz_banner_new.jpg?v=20261016-3') center/100% 100% no-repeat;
+ z-index:1;filter:drop-shadow(0 8px 12px #0009);
+ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);
+ mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);
+}
+.hero::after{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.8;mix-blend-mode:screen;
+ background:
+ radial-gradient(ellipse 8px 5px at 22.8% 22%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.88) 38%,rgba(151,35,255,.4) 63%,transparent 100%),
+ radial-gradient(ellipse 8px 5px at 27.2% 27%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.88) 38%,rgba(151,35,255,.4) 63%,transparent 100%),
+ radial-gradient(ellipse 9px 6px at 84.6% 26%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.9) 38%,rgba(151,35,255,.42) 63%,transparent 100%),
+ radial-gradient(ellipse 9px 6px at 88.8% 25%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.9) 38%,rgba(151,35,255,.42) 63%,transparent 100%);
+ filter:drop-shadow(0 0 8px #bd46ff) drop-shadow(0 0 16px rgba(145,30,255,.85));
+ animation:pz-hero-eyes-pulse 3.8s ease-in-out infinite;
+}
+@keyframes pz-hero-eyes-pulse{0%,100%{opacity:.4;filter:brightness(.85) drop-shadow(0 0 5px rgba(189,70,255,.65))}45%,60%{opacity:1;filter:brightness(1.55) drop-shadow(0 0 10px #bd46ff) drop-shadow(0 0 19px rgba(145,30,255,.9))}}
+@media(max-width:720px){.hero::before{height:100%;aspect-ratio:auto;top:0;transform:none;background-size:cover;background-position:center}.hero::after{opacity:.7}}
+@media(prefers-reduced-motion:reduce){.hero::after{animation:none;opacity:.8}}
 </style>
-<div class="pz-edge-horror" aria-hidden="true">
-  <div class="pz-edge-claws left"><i></i><i></i><i></i><i></i></div>
-  <div class="pz-edge-claws right"><i></i><i></i><i></i><i></i></div>
-  <div class="pz-zombie-eyes left"><i></i><i></i></div>
-  <div class="pz-zombie-eyes right"><i></i><i></i></div>
 </div>
 
 
