@@ -16,18 +16,23 @@
   }
   @media (prefers-reduced-motion: reduce) { .ip { animation: none; } }
 :root{--bg:#0b0911;--panel:#17121f;--purple:#b66bff;--border:#56316e;--text:#f1e9f8}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}a{color:inherit;text-decoration:none}.topbar{position:sticky;top:0;z-index:20;background:rgba(13,9,21,.96);border-bottom:1px solid #63358c;display:flex;align-items:center;gap:22px;justify-content:space-between;padding:15px clamp(16px,4vw,55px);box-shadow:0 6px 25px #0009}.brand{font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:2px;color:#e2b8ff;text-shadow:0 0 18px #a84dff88;white-space:nowrap}.connect{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #d19aff;border-radius:12px;padding:13px 19px;background:linear-gradient(120deg,#6526a0,#9b45e7,#6323a5);font-weight:800;font-size:14px;box-shadow:0 0 16px #b35cff99;animation:glow 2.3s ease-in-out infinite;white-space:nowrap}.connect:hover{filter:brightness(1.2);transform:translateY(-1px)}
-/* Яркий белый неоновый IP основного сервера */
+/* Умеренное белое свечение IP и ссылка подключения */
 .content .ip{
+  display:inline-block;
   color:#fff!important;
   font-weight:900!important;
-  letter-spacing:.35px;
-  text-shadow:0 0 2px #fff,0 0 5px #fff,0 0 10px #fff,0 0 18px #f5eaff,0 0 30px #c084fc!important;
-  animation:ipWhiteGlow 1.8s ease-in-out infinite alternate;
+  letter-spacing:.25px;
+  text-decoration:none;
+  text-shadow:0 0 2px #fff,0 0 5px #fff,0 0 9px #e9d5ff99!important;
+  transition:text-shadow .2s ease,color .2s ease;
 }
-@keyframes ipWhiteGlow{
-  from{text-shadow:0 0 2px #fff,0 0 5px #fff,0 0 10px #fff,0 0 18px #f5eaff,0 0 24px #c084fc}
-  to{text-shadow:0 0 3px #fff,0 0 8px #fff,0 0 15px #fff,0 0 25px #f5eaff,0 0 38px #c084fc}
+.content .ip:hover{
+  color:#fff!important;
+  text-shadow:0 0 3px #fff,0 0 8px #fff,0 0 14px #c084fc!important;
 }
+.ip-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0 12px}
+.ip-direct-link{color:#d9c0f4;font-size:12px;text-decoration:none;border:1px solid #67478b;border-radius:7px;padding:5px 9px}
+.ip-direct-link:hover{color:#fff;border-color:#a56add;text-shadow:0 0 7px #c084fc}
 @keyframes glow{0%,100%{box-shadow:0 0 8px #ae55ff88}50%{box-shadow:0 0 27px #bc70ff,0 0 45px #8e31ec88}}.hero{height:clamp(220px,30vw,430px);background:#140c1c url('projectz_banner.png') center/cover no-repeat;border-bottom:2px solid var(--purple)}.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1400px;margin:auto;gap:24px;padding:26px 20px}.sidebar{background:#120e1b;border:1px solid var(--border);border-radius:15px;padding:15px;align-self:start;position:sticky;top:100px}.navbtn{width:100%;display:flex;align-items:center;gap:12px;text-align:left;color:#e7d9f5;background:#21192c;border:1px solid transparent;border-radius:9px;padding:14px;margin:5px 0;font-size:15px;cursor:pointer}.navbtn:hover,.navbtn.active{background:#512779;border-color:#a56ce3}.content{background:#15101e;border:1px solid #45255c;border-radius:16px;padding:clamp(20px,4vw,42px);min-height:380px}.section{display:none}.section.active{display:block}h1{color:#e2b8ff;margin-top:0}h2{color:#c891ff}.panel{padding:22px;background:#20192c;border:1px solid #4b3560;border-radius:12px;margin:18px 0;line-height:1.8}.ip{font-size:clamp(20px,3vw,29px);color:#ffd06b;font-weight:bold;letter-spacing:1px}.small{color:#c5b4d2}.cta{display:inline-block;padding:12px 18px;background:#7034aa;border-radius:9px;font-weight:bold;margin:8px 5px 8px 0}.cta:hover{background:#9552d0}footer{text-align:center;padding:26px;color:#9f8daf;border-top:1px solid #372245}@media(max-width:720px){.topbar{flex-wrap:wrap;justify-content:center;gap:12px}.connect{font-size:12px;padding:11px 13px}.layout{grid-template-columns:1fr;padding:12px;gap:12px}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.navbtn{margin:0;font-size:13px;padding:11px 7px}.hero{height:220px;background-position:center}.content{min-height:300px}}
 @media(prefers-reduced-motion:reduce){.connect{animation:none}}
   .hero {
@@ -303,7 +308,7 @@
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
 </nav>
 <main class="content">
-<section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip" style="font-size:19px">46.174.54.162:27015</div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Второй сервер · Zombie Mod / Zombie Escape</p><p style="color:#ffd06b;font-weight:700">⏳ Скоро открытие</p><p class="small">Сервер ещё не куплен. IP и подключение появятся после запуска.</p><span style="display:inline-block;padding:10px 15px;border:1px solid #67478b;border-radius:10px;color:#c5b4d2">Подключение пока недоступно</span></div></div><p class="small" style="margin-top:16px">Основной сервер PROJECT Z уже доступен! Подключайтесь по IP 46.174.54.162:27015 или нажмите кнопку «Подключиться». Второй сервер CS:S v34 появится здесь после запуска.</p></div></section>
+<section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip-row"><a class="ip" style="font-size:19px" href="steam://connect/46.174.54.162:27015" title="Нажмите, чтобы подключиться к серверу">46.174.54.162:27015</a><a class="ip-direct-link" href="steam://connect/46.174.54.162:27015">↗ Подключиться по IP</a></div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Второй сервер · Zombie Mod / Zombie Escape</p><p style="color:#ffd06b;font-weight:700">⏳ Скоро открытие</p><p class="small">Сервер ещё не куплен. IP и подключение появятся после запуска.</p><span style="display:inline-block;padding:10px 15px;border:1px solid #67478b;border-radius:10px;color:#c5b4d2">Подключение пока недоступно</span></div></div><p class="small" style="margin-top:16px">Основной сервер PROJECT Z уже доступен! Подключайтесь по IP 46.174.54.162:27015 или нажмите кнопку «Подключиться». Второй сервер CS:S v34 появится здесь после запуска.</p></div></section>
 <section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
   
