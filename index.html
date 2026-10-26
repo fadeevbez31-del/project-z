@@ -217,6 +217,16 @@
     }
 }
 
+/* Подстройка верхней панели: кнопка подключения не должна уходить за край экрана */
+.topbar{flex-wrap:wrap;gap:12px}
+.topbar-left,.topbar-right{min-width:0;flex-wrap:wrap}
+.topbar-right{margin-left:auto;justify-content:flex-end;flex-shrink:0}
+.topbar-right .connect{display:inline-flex!important;max-width:100%}
+@media(max-width:720px){
+  .topbar-left,.topbar-right{width:100%;justify-content:center}
+  .topbar-right .connect{font-size:12px;padding:10px 12px}
+}
+
 /* Кнопки форума и Discord в верхней панели */
 .topbar-left,.topbar-right{display:flex;align-items:center;gap:12px}
 .header-forum,.header-discord{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 15px;border-radius:9px;font-size:14px;font-weight:700;white-space:nowrap;transition:filter .2s,transform .2s}
@@ -280,7 +290,7 @@
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
 </nav>
 <main class="content">
-<section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip" style="font-size:19px">46.174.54.162:27015</div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Второй сервер · Zombie Mod / Zombie Escape</p><p style="color:#ffd06b;font-weight:700">⏳ Скоро открытие</p><p class="small">Сервер ещё не куплен. IP и подключение появятся после запуска.</p><span style="display:inline-block;padding:10px 15px;border:1px solid #67478b;border-radius:10px;color:#c5b4d2">Подключение пока недоступно</span></div></div><p class="small" style="margin-top:16px">Оба сервера будут представлены на сайте PROJECT Z. Общий форум уже доступен для обсуждений, а интеграцию с игровыми серверами настроим после запуска CS:S v34.</p></div></section>
+<section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip" style="font-size:19px">46.174.54.162:27015</div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Второй сервер · Zombie Mod / Zombie Escape</p><p style="color:#ffd06b;font-weight:700">⏳ Скоро открытие</p><p class="small">Сервер ещё не куплен. IP и подключение появятся после запуска.</p><span style="display:inline-block;padding:10px 15px;border:1px solid #67478b;border-radius:10px;color:#c5b4d2">Подключение пока недоступно</span></div></div><p class="small" style="margin-top:16px">Основной сервер PROJECT Z уже доступен! Подключайтесь по IP 46.174.54.162:27015 или нажмите кнопку «Подключиться». Второй сервер CS:S v34 появится здесь после запуска.</p></div></section>
 <section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
   
