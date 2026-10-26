@@ -647,5 +647,28 @@ setInterval(checkProjectMaintenance,20000);
   <div class="pz-zombie-eyes right"><i></i><i></i></div>
 </div>
 
+
+<style id="pz-hero-zombie-eye-glow">
+/* Усиленное фиолетовое свечение глаз именно у зомби на баннере */
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.8;mix-blend-mode:screen;animation:pz-hero-eyes-pulse 3.8s ease-in-out infinite}
+.hero:before{
+ background:
+ radial-gradient(ellipse 9px 6px at 22.8% 22%,rgba(255,190,255,.98) 0 22%,rgba(204,67,255,.95) 38%,rgba(151,35,255,.52) 63%,transparent 100%),
+ radial-gradient(ellipse 9px 6px at 27.2% 27%,rgba(255,190,255,.98) 0 22%,rgba(204,67,255,.95) 38%,rgba(151,35,255,.52) 63%,transparent 100%);
+ filter:drop-shadow(0 0 9px #bd46ff) drop-shadow(0 0 18px rgba(145,30,255,.9));
+}
+.hero:after{
+ background:
+ radial-gradient(ellipse 10px 7px at 84.6% 26%,rgba(255,190,255,.98) 0 22%,rgba(204,67,255,.95) 38%,rgba(151,35,255,.52) 63%,transparent 100%),
+ radial-gradient(ellipse 10px 7px at 88.8% 25%,rgba(255,190,255,.98) 0 22%,rgba(204,67,255,.95) 38%,rgba(151,35,255,.52) 63%,transparent 100%);
+ filter:drop-shadow(0 0 10px #bd46ff) drop-shadow(0 0 20px rgba(145,30,255,.9));
+ animation-delay:-1.9s;
+}
+@keyframes pz-hero-eyes-pulse{0%,100%{opacity:.35;filter:brightness(.8) drop-shadow(0 0 5px rgba(189,70,255,.65))}45%,60%{opacity:1;filter:brightness(1.65) drop-shadow(0 0 12px #bd46ff) drop-shadow(0 0 23px rgba(145,30,255,.95))}}
+@media(max-width:700px){.hero:before,.hero:after{background-size:100% 100%;opacity:.65}}
+@media(prefers-reduced-motion:reduce){.hero:before,.hero:after{animation:none;opacity:.8}}
+</style>
+
 </body></html>
 
