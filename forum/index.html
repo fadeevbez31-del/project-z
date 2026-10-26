@@ -704,22 +704,9 @@ if(savedView&&savedView.type){
 </script>
 
 <style id="pz-forum-edge-horror">
-/* Глаза перемещены в пустую область справа от логотипа; декор не перекрывает контент */
-.pz-forum-horror{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;contain:layout paint}
-.pz-forum-claws{display:none!important}
-.pz-forum-eyes{position:absolute;top:16px;right:26%;display:flex;align-items:center;gap:13px;opacity:.98;animation:pz-forum-eyes-glow 3.7s ease-in-out infinite}
-.pz-forum-eyes.left{display:none!important}
-.pz-forum-eyes.right{right:26%;top:16px}
-.pz-forum-eyes i{position:relative;display:block;width:24px;height:13px;border-radius:75% 75% 65% 65%;overflow:hidden;
- background:radial-gradient(ellipse at 50% 55%,#f4d7ff 0 8%,#dc8bff 18%,#a33bfa 36%,#4d176e 58%,#17101f 76%,#08070c 100%);
- box-shadow:0 0 2px 1px rgba(255,222,255,.95),0 0 7px 3px rgba(220,94,255,.95),0 0 18px 7px rgba(156,42,255,.72),0 0 30px 11px rgba(116,35,210,.35);
- transform:rotate(-3deg)}
-.pz-forum-eyes i:before{content:"";position:absolute;left:46%;top:10%;width:3px;height:80%;border-radius:50%;background:#16051f;box-shadow:0 0 2px #07030b}
-.pz-forum-eyes i:after{content:"";position:absolute;left:26%;top:17%;width:5px;height:3px;border-radius:50%;background:#fff7ff;box-shadow:0 0 5px 2px #fff}
-.pz-forum-eyes i:nth-child(2){transform:rotate(3deg)}
-@keyframes pz-forum-eyes-glow{0%,100%{opacity:.82;filter:brightness(1) drop-shadow(0 0 5px #b63cff)}45%,60%{opacity:1;filter:brightness(1.45) drop-shadow(0 0 11px #d05bff)}}
-@media(max-width:700px){.pz-forum-eyes.right{top:18px;right:5%;gap:7px}.pz-forum-eyes i{width:17px;height:9px;box-shadow:0 0 4px 2px #e34dff,0 0 10px 4px rgba(174,45,255,.85)}}
-@media(prefers-reduced-motion:reduce){.pz-forum-eyes{animation:none}}
+/* Удалён декоративный эффект глаз и когтей форума */
+.pz-forum-horror{display:none!important}
+.pz-forum-eyes,.pz-forum-claws{display:none!important}
 </style>
 <div class="pz-forum-horror" aria-hidden="true">
  <div class="pz-forum-claws left"><i></i><i></i><i></i><i></i></div>
