@@ -617,5 +617,35 @@ setInterval(checkProjectMaintenance,20000);
 <span class="pz-biohazard" style="--left:16%;--size:18px;--duration:37s;--delay:-31s;--drift:40px">☣</span>
 <span class="pz-biohazard" style="--left:72%;--size:20px;--duration:24s;--delay:-18s;--drift:-35px">☣</span>
 </div>
+
+<style id="pz-edge-claws-eyes">
+/* Декор по краям: не перекрывает логотип, текст или кнопки */
+.pz-edge-horror{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;contain:layout paint}
+.pz-edge-claws{position:absolute;bottom:-10px;width:clamp(88px,10vw,150px);height:clamp(90px,14vh,145px);opacity:.76;filter:drop-shadow(0 0 9px rgba(112,57,160,.25));}
+.pz-edge-claws.left{left:-8px;transform:rotate(-7deg)}
+.pz-edge-claws.right{right:-8px;transform:scaleX(-1) rotate(-7deg)}
+.pz-edge-claws i{position:absolute;bottom:-12px;width:17%;height:82%;border-radius:75% 75% 12% 12%;background:linear-gradient(90deg,#17151c 0%,#39313f 48%,#76627d 65%,#211b28 100%);transform-origin:bottom center;box-shadow:inset 2px 0 4px #8b7190;animation:pz-claw-creep 6s ease-in-out infinite}
+.pz-edge-claws i:nth-child(1){left:8%;height:67%;transform:rotate(-27deg);animation-delay:-1s}
+.pz-edge-claws i:nth-child(2){left:28%;height:91%;transform:rotate(-14deg);animation-delay:-2.2s}
+.pz-edge-claws i:nth-child(3){left:49%;height:83%;transform:rotate(1deg);animation-delay:-3.4s}
+.pz-edge-claws i:nth-child(4){left:69%;height:66%;transform:rotate(17deg);animation-delay:-.6s}
+.pz-edge-claws i:before{content:"";position:absolute;top:-12px;left:13%;width:74%;height:25px;border-radius:60% 60% 15% 15%;background:linear-gradient(180deg,#c4b6c8,#5b4b62 50%,#201a25);clip-path:polygon(0 100%,16% 38%,31% 100%,49% 0,67% 100%,83% 32%,100% 100%)}
+@keyframes pz-claw-creep{0%,100%{translate:0 8px}50%{translate:0 -5px}}
+.pz-zombie-eyes{position:absolute;top:43vh;display:flex;gap:clamp(10px,1.1vw,17px);align-items:center;opacity:.78;animation:pz-eyes-glow 5s ease-in-out infinite}
+.pz-zombie-eyes.left{left:2.2%}
+.pz-zombie-eyes.right{right:2.2%}
+.pz-zombie-eyes i{display:block;width:clamp(10px,1vw,15px);height:clamp(5px,.55vw,8px);border-radius:50%;background:#c58aff;box-shadow:0 0 5px 2px #a94dff,0 0 15px 5px rgba(145,50,255,.72);transform:rotate(-8deg)}
+.pz-zombie-eyes.right i{transform:rotate(8deg)}
+@keyframes pz-eyes-glow{0%,100%{opacity:.28;filter:brightness(.7)}45%,60%{opacity:.9;filter:brightness(1.35)}}
+@media(max-width:700px){.pz-edge-claws{width:74px;height:78px;opacity:.48}.pz-zombie-eyes{top:58vh;opacity:.45}.pz-zombie-eyes.left{left:1%}.pz-zombie-eyes.right{right:1%}}
+@media(prefers-reduced-motion:reduce){.pz-edge-claws i,.pz-zombie-eyes{animation:none}}
+</style>
+<div class="pz-edge-horror" aria-hidden="true">
+  <div class="pz-edge-claws left"><i></i><i></i><i></i><i></i></div>
+  <div class="pz-edge-claws right"><i></i><i></i><i></i><i></i></div>
+  <div class="pz-zombie-eyes left"><i></i><i></i></div>
+  <div class="pz-zombie-eyes right"><i></i><i></i></div>
+</div>
+
 </body></html>
 
