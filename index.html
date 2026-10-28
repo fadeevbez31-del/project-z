@@ -311,7 +311,53 @@ h1,h2,h3{color:#d4edff}h2{color:#74c9ff}
 .pz-biohazard{color:#1a96f5!important;opacity:.2!important}
 @media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pz-blue-links{grid-template-columns:1fr}.hero{height:230px}}
 </style>
-</head>
+<style id="pz-ice-layout-v2">
+:root{--bg:#020b15!important;--panel:#041a2d!important;--purple:#168dff!important;--border:#1b5d91!important;--text:#e4f4ff!important}
+html,body{background:#020b15!important;color:#e4f4ff!important}
+body{background-image:radial-gradient(ellipse at center 18%,#0c3552 0%,#020b15 70%)!important}
+.topbar{background:#021323f5!important;border-bottom:1px solid #1467a8!important;padding:11px clamp(14px,3vw,45px)!important}
+.brand{color:#eaf7ff!important;text-shadow:0 0 10px #118dff!important}
+.header-forum,.header-discord{background:#05233c!important;border:1px solid #206394!important}
+.connect,.cta,.telegram-btn{background:linear-gradient(#117fe3,#064d96)!important;border:1px solid #45b7ff!important;color:#fff!important;box-shadow:0 0 12px #0078f477!important}
+.hero{height:clamp(230px,23vw,355px)!important;background:url('/projectz_banner_new.jpg?v=20261016-3') center 48%/cover no-repeat!important;position:relative;isolation:isolate;overflow:hidden;border-bottom:2px solid #128be4!important}
+.hero::before{content:""!important;position:absolute!important;inset:0!important;width:auto!important;height:auto!important;aspect-ratio:auto!important;top:0!important;left:0!important;transform:none!important;background:inherit!important;z-index:0!important;filter:grayscale(1) sepia(1) hue-rotate(165deg) saturate(4) brightness(.86) contrast(1.16)!important;mask-image:none!important;-webkit-mask-image:none!important}
+.hero::after{display:none!important}
+.layout{max-width:1440px!important;grid-template-columns:218px minmax(0,1fr)!important;gap:15px!important;padding:0 18px 22px!important;margin:-1px auto 0!important;position:relative;z-index:2}
+.sidebar{background:#041b2deF!important;border:1px solid #226396!important;border-radius:11px!important;padding:12px!important;top:75px!important}
+.navbtn{background:linear-gradient(180deg,#082943,#041c30)!important;border:1px solid #174a70!important;border-radius:6px!important;color:#dcefff!important;padding:13px!important}
+.navbtn.active,.navbtn:hover{background:linear-gradient(#126ab8,#074a87)!important;border-color:#4db9ff!important;box-shadow:0 0 12px #008bff80!important;color:#fff!important}
+.content{background:linear-gradient(150deg,#041c30,#020f1d)!important;border:1px solid #1b5f91!important;border-radius:11px!important;padding:clamp(18px,2.2vw,30px)!important;min-height:440px!important}
+h1,h2,h3,.vip-list h2,.vip-prices h2,.rule-item h3,.rules-category,.price-value{color:#b8e4ff!important;text-shadow:none!important}
+.panel,.rule-item,.vip-item,.price-item{background:#061e32!important;border:1px solid #20557e!important;color:#e0f0ff!important}
+.vip-item:hover,.price-item:hover{background:#0a3353!important;border-color:#35aaff!important;box-shadow:0 0 13px #0789ed50!important}
+.telegram-label,.wishes-label,.price-note,.price-description,.rules-ending,.rule-item strong{color:#a9d8ff!important}
+.wishes-btn{background:#0a416d!important;color:#e6f5ff!important;border-color:#278bc8!important}
+.wishes-btn:hover,.telegram-btn:hover{color:#fff!important;box-shadow:0 0 14px #098fff!important}
+input,select,textarea{background:#04182b!important;border-color:#28618b!important;color:#eaf5ff!important}
+button{font-family:inherit}
+footer{background:#031625!important;color:#a9cfe9!important;border-color:#174c74!important}
+.pz-biohazard{color:#2c9dff!important;text-shadow:0 0 9px #0077ff!important;opacity:.14!important}
+.pz-home-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 15px;border-bottom:1px solid #205b84;padding-bottom:12px}
+.pz-home-heading h1{font-size:clamp(20px,2.1vw,27px);margin:0;font-weight:900}
+.pz-home-heading em{font-style:normal;color:#18a5ff}
+.pz-home-heading span{font-size:12px;color:#b5d8ef}
+.pz-server-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pz-server-card{border:1px solid #276a9d;border-radius:10px;overflow:hidden;background:#031426;box-shadow:inset 0 0 15px #0c74c622}
+.pz-server-art{padding:12px 14px 8px;min-height:126px;background:linear-gradient(90deg,#031426eb,#03243a44),url('/projectz_banner_new.jpg?v=20261016-3') center/cover;position:relative}
+.pz-server-art::before{content:"";position:absolute;inset:0;background:#006ab733;pointer-events:none}
+.pz-server-art>*{position:relative}
+.pz-server-tag{display:inline-block;background:#096fc4;color:#fff;border:1px solid #37b4ff;border-radius:5px;padding:5px 8px;font-size:10px;font-weight:800;box-shadow:0 0 10px #008eff}
+.pz-server-art h3{font-size:16px!important;margin:13px 0 5px;color:#fff!important}
+.pz-server-art p{font-size:13px;color:#b6dcf6;margin:0}
+.pz-server-bottom{padding:12px 14px}
+.pz-server-bottom .ip{font-size:15px!important;letter-spacing:0!important;text-shadow:0 0 5px #80caff!important;animation:none!important}
+.pz-wide-cta{width:100%;text-align:center;display:block!important;font-size:13px!important;margin:12px 0 0!important;cursor:pointer}
+.pz-favorite-help{font-size:12px;color:#a5d5f4;margin-top:10px}.pz-favorite-help summary{cursor:pointer}
+.pz-home-lower{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.pz-home-widget{background:#051b2e;border:1px solid #215c88;border-radius:10px;padding:16px}
+.pz-home-widget h2{font-size:18px;margin:0 0 12px}.pz-home-widget p{font-size:13px;color:#b0d1e7}.pz-home-widget a{color:#4ebcff;font-weight:700;font-size:13px}
+@media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:10px!important}.sidebar{position:static!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pz-server-grid,.pz-home-lower{grid-template-columns:1fr}.pz-home-heading{display:block}.hero{height:210px!important}}
+</style></head>
 <body>
 <header class="topbar">
   <div class="topbar-left">
@@ -334,7 +380,14 @@ h1,h2,h3{color:#d4edff}h2{color:#74c9ff}
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
 </nav>
 <main class="content">
-<section id="home" class="section active"><div class="pz-blue-kicker">ZOMBIE MOD / ZOMBIE ESCAPE · COUNTER-STRIKE: SOURCE</div><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip-row"><a class="ip" style="font-size:19px" href="steam://connect/46.174.54.162:27015" title="Нажмите, чтобы подключиться к серверу">46.174.54.162:27015</a></div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Сервер CS:S v34 · Zombie Mod / Zombie Escape</p><p class="ip-row"><span class="ip" style="font-size:19px">46.174.54.162:27015</span></p><button class="cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='IP скопирован ✓'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">⭐ Скопировать IP для избранного</button><p class="small" style="margin-top:12px"><strong>Как добавить в избранное в CS:S v34:</strong><br>1. Запусти игру и открой «Найти серверы».<br>2. Перейди во вкладку «Избранное».<br>3. Нажми «Добавить сервер» и вставь IP <strong>46.174.54.162:27015</strong>.<br>4. Обнови список и сохрани сервер в избранном.</p></div></div><p class="small" style="margin-top:16px">PROJECT Z — сообщество Counter-Strike: Source с режимами Zombie Mod и Zombie Escape. Выбирай сервер, подключайся и присоединяйся к игре!</p></div><div class="pz-blue-links"><a href="/forum/">💬 Форум сообщества</a><a href="https://discord.gg/S6RxFh87M" target="_blank" rel="noopener noreferrer">🎮 Наш Discord</a><a href="#rules" onclick="document.querySelector('[data-target=rules]').click()">📖 Правила сервера</a></div><p class="pz-blue-note">Данные о количестве игроков не отображаются без подключения к мониторингу сервера.</p></section>
+<section id="home" class="section active">
+<div class="pz-home-heading"><h1>СЕРВЕРЫ PROJECT <em>Z</em></h1><span>Выбирай сервер и присоединяйся к игре!</span></div>
+<div class="pz-server-grid">
+<article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ОСНОВНОЙ СЕРВЕР</span><h3>PROJECTZ | Последний выживший</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><a class="ip" href="steam://connect/46.174.54.162:27015">⌖ 46.174.54.162:27015</a><a class="cta pz-wide-cta" href="steam://connect/46.174.54.162:27015">🎮 Подключиться →</a></div></article>
+<article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ВТОРОЙ СЕРВЕР · CS:S v34</span><h3>PROJECTZ | Прорыв CS:S v34</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><span class="ip">⌖ 46.174.54.162:27015</span><button class="cta pz-wide-cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='✓ IP скопирован'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">★ Скопировать IP для избранного</button><details class="pz-favorite-help"><summary>Как добавить в избранное CS:S v34</summary><p>В игре открой «Найти серверы» → «Избранное» → «Добавить сервер» и вставь IP.</p></details></div></article>
+</div>
+<div class="pz-home-lower"><section class="pz-home-widget"><h2>▣ Последние новости</h2><p>Обновления PROJECT Z, новые карты и изменения серверов.</p><a href="/forum/">Перейти к новостям →</a></section><section class="pz-home-widget"><h2>▤ Форум сообщества</h2><p>Общение игроков, предложения, жалобы и технические вопросы.</p><a href="/forum/">Перейти на форум →</a></section></div>
+</section>
 <section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
   
