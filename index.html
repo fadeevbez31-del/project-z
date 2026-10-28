@@ -795,5 +795,12 @@ async function pzRefreshOnline(){
  }catch(e){for(const id of ['main','v34']){const el=document.getElementById('pz-online-'+id);if(el)el.textContent='Не удалось получить онлайн';}}
 }
 pzRefreshOnline();setInterval(pzRefreshOnline,60000);
-</script></body></html>
+</script>
+<style id="pz-hero-no-fade-blue-fix">
+/* Единый холодный синий баннер без масок, затемнений и свечения глаз */
+.hero{background:#031728!important;overflow:hidden!important;isolation:isolate!important}
+.hero::before{content:""!important;display:block!important;position:absolute!important;inset:0!important;top:0!important;left:0!important;width:100%!important;height:100%!important;aspect-ratio:auto!important;transform:none!important;background:url('/projectz_banner_new.jpg?v=20261016-3') center center/cover no-repeat!important;filter:hue-rotate(105deg) saturate(1.6) contrast(1.1)!important;opacity:1!important;mask-image:none!important;-webkit-mask-image:none!important;animation:none!important;z-index:0!important}
+.hero::after{content:none!important;display:none!important;animation:none!important}
+</style>
+</body></html>
 
