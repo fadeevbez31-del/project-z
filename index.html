@@ -357,7 +357,20 @@ footer{background:#031625!important;color:#a9cfe9!important;border-color:#174c74
 .pz-home-widget{background:#051b2e;border:1px solid #215c88;border-radius:10px;padding:16px}
 .pz-home-widget h2{font-size:18px;margin:0 0 12px}.pz-home-widget p{font-size:13px;color:#b0d1e7}.pz-home-widget a{color:#4ebcff;font-weight:700;font-size:13px}
 @media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:10px!important}.sidebar{position:static!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pz-server-grid,.pz-home-lower{grid-template-columns:1fr}.pz-home-heading{display:block}.hero{height:210px!important}}
-</style><style>.pz-home-news-only{grid-template-columns:1fr!important}</style></head>
+</style><style>.pz-home-news-only{grid-template-columns:1fr!important}</style><style id="pz-blue-hero-live">
+/* Холодная синяя версия исходного баннера без изменения других изображений */
+.hero{background-image:none!important;background:#021324!important;position:relative!important;overflow:hidden!important}
+.hero::before{content:""!important;display:block!important;position:absolute!important;inset:0!important;background:url('/projectz_banner_new.jpg?v=20261016-3') center 48%/cover no-repeat!important;filter:hue-rotate(95deg) saturate(1.45) brightness(.92)!important;pointer-events:none!important;z-index:0!important}
+.hero::after{content:""!important;display:block!important;position:absolute!important;inset:0!important;background:linear-gradient(90deg,#003c771f,#008dff16,#003b751f)!important;pointer-events:none!important;z-index:1!important}
+.pz-online-panel{margin-top:14px;padding:17px;background:#041b2d;border:1px solid #2374aa;border-radius:11px}
+.pz-online-panel h2{margin:0 0 12px;font-size:19px;color:#bce8ff}
+.pz-online-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pz-online-server{padding:13px;background:#031324;border:1px solid #1e547c;border-radius:9px}
+.pz-online-server strong{display:block;color:#e1f4ff;margin-bottom:7px}
+.pz-online-status{font-size:13px;color:#a8cce5}
+.pz-online-players{margin:8px 0 0;padding-left:19px;font-size:13px;line-height:1.7;max-height:240px;overflow:auto}
+@media(max-width:760px){.pz-online-grid{grid-template-columns:1fr}}
+</style></head>
 <body>
 <header class="topbar">
   <div class="topbar-left">
@@ -386,7 +399,7 @@ footer{background:#031625!important;color:#a9cfe9!important;border-color:#174c74
 <article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ОСНОВНОЙ СЕРВЕР</span><h3>PROJECTZ | Последний выживший</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><a class="ip" href="steam://connect/46.174.54.162:27015">⌖ 46.174.54.162:27015</a><a class="cta pz-wide-cta" href="steam://connect/46.174.54.162:27015">🎮 Подключиться →</a></div></article>
 <article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ВТОРОЙ СЕРВЕР · CS:S v34</span><h3>PROJECTZ | Прорыв CS:S v34</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><span class="ip">⌖ 46.174.54.162:27015</span><button class="cta pz-wide-cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='✓ IP скопирован'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">★ Скопировать IP для избранного</button><details class="pz-favorite-help"><summary>Как добавить в избранное CS:S v34</summary><p>В игре открой «Найти серверы» → «Избранное» → «Добавить сервер» и вставь IP.</p></details></div></article>
 </div>
-<div class="pz-home-lower pz-home-news-only"><section class="pz-home-widget"><h2>▣ Последние новости</h2><p>Обновления PROJECT Z, новые карты и изменения серверов.</p><a href="/forum/">Перейти к новостям →</a></section></div>
+<section class="pz-online-panel" aria-label="Игроки онлайн"><h2>👥 Игроки онлайн на серверах</h2><div class="pz-online-grid"><div class="pz-online-server"><strong>PROJECTZ | Последний выживший</strong><div class="pz-online-status" id="pz-online-main" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-main"></ol></div><div class="pz-online-server"><strong>PROJECTZ | Прорыв CS:S v34</strong><div class="pz-online-status" id="pz-online-v34" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-v34"></ol></div></div></section><div class="pz-home-lower pz-home-news-only"><section class="pz-home-widget"><h2>▣ Последние новости</h2><p>Обновления PROJECT Z, новые карты и изменения серверов.</p><a href="/forum/">Перейти к новостям →</a></section></div>
 </section>
 <section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
@@ -757,5 +770,30 @@ setInterval(checkProjectMaintenance,20000);
 
 
 
-</body></html>
+<script>
+/* Для живого онлайна нужен HTTPS endpoint, опрашивающий серверы через Source Query (UDP).
+   Ожидаемый ответ: {servers:[{id:"main",online:12,maxPlayers:64,players:[{name:"..."}]},{id:"v34",...}]} */
+const PZ_LIVE_STATUS_API='';
+async function pzRefreshOnline(){
+ if(!PZ_LIVE_STATUS_API)return;
+ try{
+  const res=await fetch(PZ_LIVE_STATUS_API,{cache:'no-store'});
+  if(!res.ok)throw new Error('Сервер статуса недоступен');
+  const data=await res.json();
+  for(const id of ['main','v34']){
+   const server=(data.servers||[]).find(x=>x.id===id);
+   const status=document.getElementById('pz-online-'+id);
+   const list=document.getElementById('pz-players-'+id);
+   if(!status||!list)continue;
+   list.replaceChildren();
+   if(!server){status.textContent='Нет данных о сервере';continue}
+   status.textContent='Онлайн: '+Number(server.online||0)+' / '+Number(server.maxPlayers||0);
+   for(const player of (server.players||[])){
+    const li=document.createElement('li');li.textContent=String(player.name||'Игрок');list.append(li);
+   }
+  }
+ }catch(e){for(const id of ['main','v34']){const el=document.getElementById('pz-online-'+id);if(el)el.textContent='Не удалось получить онлайн';}}
+}
+pzRefreshOnline();setInterval(pzRefreshOnline,60000);
+</script></body></html>
 
