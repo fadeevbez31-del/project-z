@@ -417,8 +417,11 @@ footer{background:#001a2b!important;border-color:#17547c!important;color:#acd7f2
 <div class="layout">
 <nav class="sidebar" aria-label="Разделы сайта">
 <button class="navbtn active" data-target="home">⌂ &nbsp; Главная</button>
+<a class="navbtn pz-extra-nav" href="/#home">▣ &nbsp; Серверы</a>
+<a class="navbtn pz-extra-nav" href="/forum/">▤ &nbsp; Форум</a>
 <button class="navbtn" data-target="vip">💎 &nbsp; VIP-привилегии</button>
 <button class="navbtn" data-target="rules">📖 &nbsp; Правила сервера</button>
+<a class="navbtn pz-extra-nav" href="/#commands">⚙ &nbsp; Команды сервера</a>
 <button class="navbtn" data-target="admins">⚔️ &nbsp; Администрация</button>
 <button class="navbtn" data-target="bans">🚫 &nbsp; Бан-лист</button>
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
@@ -849,5 +852,35 @@ pzRefreshOnline();setInterval(pzRefreshOnline,60000);
 .ban-sub{color:#99bed6!important}
 .ban-status{border-color:#3175a5!important}
 #bans,#bans .card,#bans .panel{background-color:#031b2d!important;border-color:#246b9c!important}
+</style><style id="pz-reference-layout-oct2026">
+/* Layout matched to supplied blue concept screenshot */
+body{background:#000d19 radial-gradient(ellipse at 50% 40%,#082a46 0%,#001323 55%,#000a14 100%) fixed!important}
+.topbar{position:relative!important;z-index:20!important;max-width:1920px!important;margin:0 auto!important;min-height:54px!important;padding:8px clamp(14px,2.4vw,46px)!important;background:#00172a!important;border-bottom:1px solid #155f92!important}
+.brand{font-size:clamp(22px,2.3vw,31px)!important;letter-spacing:2px!important}
+.hero{height:clamp(195px,14.2vw,285px)!important;max-width:1920px!important;margin:auto!important;background:#021525 url('/assets/projectz-soldiers-zombies.svg?v=20261029-2') center/cover no-repeat!important;border-bottom:2px solid #157db8!important}
+.hero::before,.hero::after{content:none!important;display:none!important}
+.layout{max-width:1100px!important;margin:0 auto!important;grid-template-columns:185px minmax(0,1fr)!important;gap:16px!important;padding:0 10px 24px!important;align-items:start!important}
+.sidebar{position:static!important;top:auto!important;background:#021b2e!important;border:1px solid #17638e!important;border-radius:0 0 9px 9px!important;padding:11px!important}
+.navbtn{display:flex!important;align-items:center!important;min-height:39px!important;margin:4px 0!important;padding:9px 12px!important;font-size:12px!important;color:#d5efff!important;background:#04223a!important;border:1px solid #145078!important;border-radius:5px!important;text-decoration:none!important}
+.navbtn.active,.navbtn:hover{background:linear-gradient(180deg,#107bc3,#07528b)!important;border-color:#36a6ef!important;box-shadow:0 0 10px #087ad855!important}
+.content{min-width:0!important;background:#001827!important;border:1px solid #145b86!important;border-radius:0 0 8px 8px!important;padding:13px 16px!important;min-height:370px!important}
+.pz-home-heading{padding:0 0 12px!important;margin:0 0 12px!important;border-bottom:1px solid #165e89!important}
+.pz-home-heading h1{font-size:21px!important}
+.pz-home-heading span{font-size:11px!important}
+.pz-server-grid{gap:9px!important}
+.pz-server-card{border-radius:7px!important;background:#00192c!important;border:1px solid #206a9a!important}
+.pz-server-art{min-height:112px!important;background:linear-gradient(90deg,#00182c99,#00182c33),url('/assets/projectz-soldiers-zombies.svg?v=20261029-2') center/cover no-repeat!important;padding:11px 12px 8px!important}
+.pz-server-art::before{display:none!important;content:none!important}
+.pz-server-bottom{padding:8px 11px 11px!important}
+.pz-server-tag{font-size:10px!important}
+.pz-online-panel{margin-top:9px!important;padding:11px 12px!important;border-radius:7px!important}
+.pz-online-panel h2{font-size:15px!important}
+.pz-online-grid{gap:8px!important}
+.pz-online-server{border-color:#1b608b!important;background:#031c2e!important}
+.pz-home-widget{margin-top:7px!important;border-radius:7px!important}
+.pz-home-widget h2{font-size:14px!important}
+#bans .ban-table th,.ban-table th{background:#0a4167!important;color:#d5efff!important}
+#bans .ban-refresh,.ban-refresh{background:linear-gradient(#137cc4,#07538e)!important;border-color:#2c9ddc!important}
+@media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:8px!important}.sidebar{position:static!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}.navbtn{margin:0!important}.content{padding:12px!important}.hero{height:190px!important}.pz-server-grid,.pz-online-grid{grid-template-columns:1fr!important}}
 </style></body></html>
 
