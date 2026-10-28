@@ -283,6 +283,34 @@
 #pzMaintenanceWall .pz-maintenance-footer{padding:22px;color:#b9a2cc}
 @media(max-width:650px){#pzMaintenanceWall .pz-maintenance-header{flex-direction:column}#pzMaintenanceWall .pz-maintenance-hero{margin-top:14px;height:150px}#pzMaintenanceWall .pz-maintenance-card{margin-top:14px;margin-bottom:18px}}
 </style>
+<style id="pz-blue-redesign-2026">
+:root{--bg:#030d19;--panel:#071c30;--purple:#22a9ff;--border:#245579;--text:#e9f5ff}
+body{background:radial-gradient(ellipse at 50% 0%,#123654 0%,#061422 48%,#020914 100%);color:#eaf5ff}
+.topbar{background:rgba(2,15,30,.96);border-bottom:1px solid #2674a7;box-shadow:0 3px 22px #0078df45}
+.brand{color:#c7eaff;text-shadow:0 0 16px #009dff;font-weight:900}
+.header-forum,.header-discord{border-color:#247ab0!important;background:#082844!important;color:#dff3ff!important}
+.connect,.cta{background:linear-gradient(180deg,#188ef0,#07539b)!important;border:1px solid #53bbff!important;color:white!important;box-shadow:0 0 14px #078bff75!important;animation:none!important}
+.connect:hover,.cta:hover{filter:brightness(1.2)}
+.hero{height:clamp(240px,27vw,400px);background-image:linear-gradient(90deg,#00132522,#0063b31a),url('/projectz_banner_new.jpg?v=20261016-3')!important;border-bottom:2px solid #269cff;filter:none}
+.hero::before,.hero::after{display:none!important}
+.layout{max-width:1500px;grid-template-columns:240px minmax(0,1fr);gap:18px}
+.sidebar,.content,.panel{background:linear-gradient(145deg,#071c30ed,#03111feF)!important;border:1px solid #245779!important;box-shadow:inset 0 0 18px #0075d914,0 7px 24px #0005}
+.navbtn{background:#09243b;color:#d7edff;border:1px solid #174466}
+.navbtn:hover,.navbtn.active{background:linear-gradient(100deg,#125ba2,#063d75);border-color:#46baff;box-shadow:0 0 13px #068eff60;color:white}
+h1,h2,h3{color:#d4edff}h2{color:#74c9ff}
+.small{color:#b0cee6}footer{background:#041525;border-top:1px solid #21547d;color:#a7c9e5}
+#home .panel>div[style*="display:grid"]>div{background:linear-gradient(145deg,#0a2a45,#061525)!important;border:1px solid #347fb1!important;box-shadow:0 0 14px #007ce52a}
+#home .panel .ip{color:#fff!important;text-shadow:0 0 5px #a8ddff!important;animation:none!important}
+#home .panel{position:relative}
+#home .panel h2{font-size:23px}
+.pz-blue-kicker{font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#49b9ff;font-size:12px;margin-bottom:8px}
+.pz-blue-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.pz-blue-links a{display:block;background:#08243b;border:1px solid #225c85;border-radius:10px;padding:16px;color:#dcefff;font-weight:700}
+.pz-blue-links a:hover{border-color:#42baff;background:#10416a}
+.pz-blue-note{font-size:13px;color:#9bbfd9}
+.pz-biohazard{color:#1a96f5!important;opacity:.2!important}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pz-blue-links{grid-template-columns:1fr}.hero{height:230px}}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -306,7 +334,7 @@
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
 </nav>
 <main class="content">
-<section id="home" class="section active"><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip-row"><a class="ip" style="font-size:19px" href="steam://connect/46.174.54.162:27015" title="Нажмите, чтобы подключиться к серверу">46.174.54.162:27015</a></div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Сервер CS:S v34 · Zombie Mod / Zombie Escape</p><p class="ip-row"><span class="ip" style="font-size:19px">46.174.54.162:27015</span></p><button class="cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='IP скопирован ✓'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">⭐ Скопировать IP для избранного</button><p class="small" style="margin-top:12px"><strong>Как добавить в избранное в CS:S v34:</strong><br>1. Запусти игру и открой «Найти серверы».<br>2. Перейди во вкладку «Избранное».<br>3. Нажми «Добавить сервер» и вставь IP <strong>46.174.54.162:27015</strong>.<br>4. Обнови список и сохрани сервер в избранном.</p></div></div><p class="small" style="margin-top:16px">PROJECT Z — сообщество Counter-Strike: Source с режимами Zombie Mod и Zombie Escape. Выбирай сервер, подключайся и присоединяйся к игре!</p></div></section>
+<section id="home" class="section active"><div class="pz-blue-kicker">ZOMBIE MOD / ZOMBIE ESCAPE · COUNTER-STRIKE: SOURCE</div><h1>Добро пожаловать на PROJECT Z</h1><p>Зомби-сервер Counter-Strike: Source — Zombie Escape и Zombie Mod.</p><div class="panel" id="servers"><h2>🎮 Серверы PROJECT Z</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>☣ PROJECTZ | Последний выживший</h3><p class="small">Zombie Mod / Zombie Escape · Основной сервер</p><div class="ip-row"><a class="ip" style="font-size:19px" href="steam://connect/46.174.54.162:27015" title="Нажмите, чтобы подключиться к серверу">46.174.54.162:27015</a></div><a class="cta" href="steam://connect/46.174.54.162:27015">Подключиться</a></div><div style="padding:16px;border:1px solid #67478b;border-radius:12px;background:#1c1229"><h3>🧟 PROJECTZ | Прорыв <span style="font-size:.8em;color:#c6a8e8;white-space:nowrap">CS:S v34</span></h3><p class="small">Сервер CS:S v34 · Zombie Mod / Zombie Escape</p><p class="ip-row"><span class="ip" style="font-size:19px">46.174.54.162:27015</span></p><button class="cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='IP скопирован ✓'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">⭐ Скопировать IP для избранного</button><p class="small" style="margin-top:12px"><strong>Как добавить в избранное в CS:S v34:</strong><br>1. Запусти игру и открой «Найти серверы».<br>2. Перейди во вкладку «Избранное».<br>3. Нажми «Добавить сервер» и вставь IP <strong>46.174.54.162:27015</strong>.<br>4. Обнови список и сохрани сервер в избранном.</p></div></div><p class="small" style="margin-top:16px">PROJECT Z — сообщество Counter-Strike: Source с режимами Zombie Mod и Zombie Escape. Выбирай сервер, подключайся и присоединяйся к игре!</p></div><div class="pz-blue-links"><a href="/forum/">💬 Форум сообщества</a><a href="https://discord.gg/S6RxFh87M" target="_blank" rel="noopener noreferrer">🎮 Наш Discord</a><a href="#rules" onclick="document.querySelector('[data-target=rules]').click()">📖 Правила сервера</a></div><p class="pz-blue-note">Данные о количестве игроков не отображаются без подключения к мониторингу сервера.</p></section>
 <section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
   
