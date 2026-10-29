@@ -425,6 +425,8 @@ footer{background:#001a2b!important;border-color:#17547c!important;color:#acd7f2
 <button class="navbtn" data-target="admins">⚔️ &nbsp; Администрация</button>
 <button class="navbtn" data-target="bans">🚫 &nbsp; Бан-лист</button>
 <button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
+<button class="navbtn" data-target="news">📰 &nbsp; Новости проекта</button>
+<button class="navbtn" data-target="account">👤 &nbsp; Личный кабинет</button>
 </nav>
 <main class="content">
 <section id="home" class="section active">
@@ -433,8 +435,10 @@ footer{background:#001a2b!important;border-color:#17547c!important;color:#acd7f2
 <article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ОСНОВНОЙ СЕРВЕР</span><h3>PROJECTZ | Последний выживший</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><a class="ip" href="steam://connect/46.174.54.162:27015">⌖ 46.174.54.162:27015</a><a class="cta pz-wide-cta" href="steam://connect/46.174.54.162:27015">🎮 Подключиться →</a></div></article>
 <article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ВТОРОЙ СЕРВЕР · CS:S v34</span><h3>PROJECTZ | Прорыв CS:S v34</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><span class="ip">⌖ 46.174.54.162:27015</span><button class="cta pz-wide-cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='✓ IP скопирован'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">★ Скопировать IP для избранного</button><details class="pz-favorite-help"><summary>Как добавить в избранное CS:S v34</summary><p>В игре открой «Найти серверы» → «Избранное» → «Добавить сервер» и вставь IP.</p></details></div></article>
 </div>
-<section class="pz-online-panel" aria-label="Игроки онлайн"><h2>👥 Игроки онлайн на серверах</h2><div class="pz-online-grid"><div class="pz-online-server"><strong>PROJECTZ | Последний выживший</strong><div class="pz-online-status" id="pz-online-main" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-main"></ol></div><div class="pz-online-server"><strong>PROJECTZ | Прорыв CS:S v34</strong><div class="pz-online-status" id="pz-online-v34" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-v34"></ol></div></div></section><div class="pz-home-lower pz-home-news-only"><section class="pz-home-widget"><h2>▣ Последние новости</h2><p>Обновления PROJECT Z, новые карты и изменения серверов.</p><a href="/forum/">Перейти к новостям →</a></section></div>
+<section class="pz-online-panel" aria-label="Игроки онлайн"><h2>👥 Игроки онлайн на серверах</h2><div class="pz-online-grid"><div class="pz-online-server"><strong>PROJECTZ | Последний выживший</strong><div class="pz-online-status" id="pz-online-main" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-main"></ol></div><div class="pz-online-server"><strong>PROJECTZ | Прорыв CS:S v34</strong><div class="pz-online-status" id="pz-online-v34" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-v34"></ol></div></div></section><div class="pz-home-lower pz-home-news-only"><section class="pz-home-widget"><h2>▣ Последние новости</h2><div id="pz-home-news-feed">Загрузка новостей…</div><button type="button" class="pz-news-link" data-target="news">Все новости →</button></section></div>
 </section>
+<section id="news" class="section"><h1>📰 Новости PROJECT Z</h1><div class="panel"><div id="pz-news-feed">Загрузка новостей…</div><div id="pz-news-admin" hidden><h2>Опубликовать новость</h2><form id="pz-news-form"><label>Заголовок<input id="pz-news-title" maxlength="180" minlength="3" required placeholder="Название новости"></label><label>Текст новости<textarea id="pz-news-body" rows="7" maxlength="10000" required placeholder="Что нового на серверах PROJECT Z?"></textarea></label><button class="cta" type="submit">Опубликовать</button></form></div><p id="pz-news-message" role="status"></p></div></section>
+<section id="account" class="section"><h1>👤 Личный кабинет PROJECT Z</h1><div class="panel"><p>Один аккаунт для сайта и форума.</p><p id="pz-account-status">Проверка авторизации…</p><form id="pz-login-form"><label>Email<input id="pz-account-email" type="email" autocomplete="email" required></label><label>Пароль<input id="pz-account-password" type="password" autocomplete="current-password" minlength="8" required></label><div class="pz-account-actions"><button class="cta" type="submit" data-mode="login">Войти</button><button class="cta" type="button" id="pz-signup">Зарегистрироваться</button><button class="btn secondary" type="button" id="pz-forgot">Забыли пароль?</button></div></form><button class="btn secondary" type="button" id="pz-logout" hidden>Выйти из аккаунта</button><p id="pz-account-message" role="status"></p></div></section>
 <section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
         <p>Хочешь получить VIP на PROJECT Z?</p>
   
@@ -883,5 +887,42 @@ body{background:#000d19 radial-gradient(ellipse at 50% 40%,#082a46 0%,#001323 55
 #bans .ban-refresh,.ban-refresh{background:linear-gradient(#137cc4,#07538e)!important;border-color:#2c9ddc!important}
 @media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:8px!important}.sidebar{position:static!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}.navbtn{margin:0!important}.content{padding:12px!important}.hero{height:190px!important}.pz-server-grid,.pz-online-grid{grid-template-columns:1fr!important}}
 </style><link rel="stylesheet" href="/assets/projectz-unified-theme.css?v=20261029-1">
-</body></html>
+<script type="module">
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const db=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
+const byId=id=>document.getElementById(id);
+let currentUser=null,canPublish=false;
+const safe=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function refreshSession(){
+ const {data:{user}}=await db.auth.getUser();currentUser=user;
+ canPublish=false;
+ if(user){const {data}=await db.from('profiles').select('role').eq('id',user.id).maybeSingle();canPublish=data?.role==='admin'}
+ byId('pz-account-status').textContent=user?'Вы вошли как '+(user.email||'пользователь'):'Войдите или зарегистрируйтесь, чтобы использовать аккаунт форума.';
+ byId('pz-login-form').hidden=!!user;byId('pz-logout').hidden=!user;
+ byId('pz-news-admin').hidden=!canPublish;
+}
+function newsCard(item,admin=false){
+ const article=document.createElement('article');article.className='pz-news-entry';
+ const h=document.createElement('h3');h.textContent=item.title;article.append(h);
+ const time=document.createElement('small');time.textContent=new Date(item.created_at).toLocaleString('ru-RU');article.append(time);
+ const p=document.createElement('p');p.textContent=item.body;article.append(p);
+ if(admin){const del=document.createElement('button');del.className='btn secondary';del.textContent='Удалить новость';del.addEventListener('click',async()=>{if(!confirm('Удалить эту новость?'))return;const {error}=await db.from('projectz_news').delete().eq('id',item.id);if(error)byId('pz-news-message').textContent=error.message;else loadNews()});article.append(del)}
+ return article;
+}
+async function loadNews(){
+ const {data,error}=await db.from('projectz_news').select('id,title,body,created_at').order('created_at',{ascending:false}).limit(40);
+ for(const id of ['pz-home-news-feed','pz-news-feed']){const el=byId(id);if(!el)continue;el.replaceChildren();if(error){el.textContent='Не удалось загрузить новости: '+error.message;continue}if(!data?.length){el.textContent='Новостей пока нет.';continue}for(const item of (id==='pz-home-news-feed'?data.slice(0,3):data))el.append(newsCard(item,id==='pz-news-feed'&&canPublish))}
+}
+byId('pz-login-form').addEventListener('submit',async e=>{e.preventDefault();const email=byId('pz-account-email').value.trim(),password=byId('pz-account-password').value;const {error}=await db.auth.signInWithPassword({email,password});byId('pz-account-message').textContent=error?error.message:'Вход выполнен';if(!error){await refreshSession();await loadNews()}});
+byId('pz-signup').addEventListener('click',async()=>{const email=byId('pz-account-email').value.trim(),password=byId('pz-account-password').value;if(!email||password.length<8){byId('pz-account-message').textContent='Укажи email и пароль не короче 8 символов';return}const {error}=await db.auth.signUp({email,password,options:{emailRedirectTo:location.origin+'/forum/'}});byId('pz-account-message').textContent=error?error.message:'Регистрация отправлена. Проверь почту для подтверждения.'});
+byId('pz-forgot').addEventListener('click',async()=>{const email=byId('pz-account-email').value.trim();if(!email){byId('pz-account-message').textContent='Сначала укажи email';return}const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/forum/'});byId('pz-account-message').textContent=error?error.message:'Если адрес зарегистрирован, письмо для восстановления отправлено.'});
+byId('pz-logout').addEventListener('click',async()=>{await db.auth.signOut();await refreshSession();await loadNews()});
+byId('pz-news-form').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!canPublish)return;const title=byId('pz-news-title').value.trim(),body=byId('pz-news-body').value.trim();const {error}=await db.from('projectz_news').insert({title,body,author_id:currentUser.id});byId('pz-news-message').textContent=error?error.message:'Новость опубликована!';if(!error){e.target.reset();loadNews()}});
+document.querySelectorAll('[data-target="news"].pz-news-link').forEach(el=>el.addEventListener('click',()=>document.querySelector('.navbtn[data-target="news"]')?.click()));
+db.auth.onAuthStateChange(()=>{setTimeout(()=>{refreshSession().then(loadNews)},0)});
+await refreshSession();await loadNews();
+</script>
+<style id="pz-news-auth-style">
+.pz-news-entry{padding:18px 0;border-bottom:1px solid #34343d}.pz-news-entry:last-child{border-bottom:0}.pz-news-entry h3{margin:0 0 5px;color:#f5f5f7}.pz-news-entry small{color:#ffad62}.pz-news-entry p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.pz-news-link{background:none;border:0;padding:10px 0;color:#ffa044;cursor:pointer;font-weight:700}.pz-account-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}#pz-login-form label,#pz-news-form label{display:block;margin:14px 0}#pz-login-form input,#pz-news-form input,#pz-news-form textarea{display:block;width:100%;margin-top:8px;padding:12px}#pz-news-admin{margin-top:26px;padding-top:18px;border-top:1px solid #333}#pz-news-admin[hidden],#pz-login-form[hidden],#pz-logout[hidden]{display:none!important}
+</style></body></html>
 
