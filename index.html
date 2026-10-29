@@ -918,7 +918,7 @@ byId('pz-signup').addEventListener('click',async()=>{const email=byId('pz-accoun
 byId('pz-forgot').addEventListener('click',async()=>{const email=byId('pz-account-email').value.trim();if(!email){byId('pz-account-message').textContent='Сначала укажи email';return}const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/forum/'});byId('pz-account-message').textContent=error?error.message:'Если адрес зарегистрирован, письмо для восстановления отправлено.'});
 byId('pz-logout').addEventListener('click',async()=>{await db.auth.signOut();await refreshSession();await loadNews()});
 byId('pz-news-form').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!canPublish)return;const title=byId('pz-news-title').value.trim(),body=byId('pz-news-body').value.trim();const {error}=await db.from('projectz_news').insert({title,body,author_id:currentUser.id});byId('pz-news-message').textContent=error?error.message:'Новость опубликована!';if(!error){e.target.reset();loadNews()}});
-document.querySelectorAll('[data-target="news"].pz-news-link').forEach(el=>el.addEventListener('click',()=>document.querySelector('.navbtn[data-target="news"]')?.click()));
+document.querySelectorAll('.pz-news-link').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));document.querySelector('.navbtn[data-target="news"]')?.classList.add('active');document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));byId('news').classList.add('active');location.hash='news'}));
 db.auth.onAuthStateChange(()=>{setTimeout(()=>{refreshSession().then(loadNews)},0)});
 await refreshSession();await loadNews();
 </script>
