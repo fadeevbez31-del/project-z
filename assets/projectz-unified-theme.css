@@ -62,3 +62,8 @@ body.pz-echelontheme.pz-forum .panel.hidden{display:none!important}
 @media(max-width:800px){body.pz-echelontheme .layout{grid-template-columns:1fr!important;gap:12px!important;padding:12px!important}body.pz-echelontheme .sidebar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}body.pz-echelontheme .navbtn{margin:0!important}body.pz-echelontheme .pz-server-grid,body.pz-echelontheme .pz-online-grid{grid-template-columns:1fr!important}body.pz-echelontheme.pz-forum .projectz-forum-hero{margin:12px!important;padding:20px!important}body.pz-echelontheme.pz-forum main{padding:0 12px!important}}
 @media(max-width:480px){body.pz-echelontheme .sidebar{grid-template-columns:1fr!important}body.pz-echelontheme .hero{height:155px!important}body.pz-echelontheme.pz-forum .projectz-forum-nav a{flex:1 1 auto!important;text-align:center!important}}
 @media(prefers-reduced-motion:reduce){body.pz-echelontheme *,body.pz-echelontheme *::before,body.pz-echelontheme *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* New artwork and compact navigation */
+body.pz-echelontheme .hero{background:#0d131b url('/assets/projectz-dark-war-banner.svg?v=20261029') center/cover no-repeat!important}
+body.pz-echelontheme .pz-server-art{background:linear-gradient(90deg,#101218e8,#10121866),url('/assets/projectz-dark-war-banner.svg?v=20261029') center/cover no-repeat!important}
+body.pz-echelontheme.pz-forum .projectz-forum-hero{background:linear-gradient(90deg,#17181eea,#15151a55),url('/assets/projectz-dark-war-banner.svg?v=20261029') center/cover!important}
