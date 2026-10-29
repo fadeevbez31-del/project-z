@@ -1,0 +1,64 @@
+/* PROJECT Z — unified charcoal gaming theme, 2026-10-29.
+   Both home and forum load this stylesheet last. */
+:root{--pz-bg:#0d0e12;--pz-panel:#13151b;--pz-panel2:#191b23;--pz-line:#2b2d37;--pz-orange:#ff9939;--pz-coral:#f05b61;--pz-text:#f4f4f7;--pz-muted:#a3a5b2}
+html{scroll-behavior:smooth}
+body.pz-echelontheme{background:#0e0f14!important;color:var(--pz-text)!important;font-family:Inter,Segoe UI,Arial,sans-serif!important}
+body.pz-echelontheme::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 0,#23232b 0,transparent 62%)}
+body.pz-echelontheme a{transition:color .18s,border-color .18s,background-color .18s}
+body.pz-echelontheme a:hover{color:#ffb16a}
+body.pz-echelontheme button{transition:background .18s,border-color .18s,transform .18s}
+body.pz-echelontheme button:hover{filter:brightness(1.08)}
+/* Shared header and top navigation */
+body.pz-echelontheme .topbar,body.pz-echelontheme>header{background:#111217!important;border-bottom:1px solid #39303a!important;box-shadow:none!important;color:#fff!important}
+body.pz-echelontheme .brand,body.pz-echelontheme>header h1{color:#f5f5f7!important;text-shadow:none!important;letter-spacing:2px!important}
+body.pz-echelontheme .header-forum,body.pz-echelontheme .header-discord,body.pz-echelontheme .projectz-forum-nav a{background:#1b1c23!important;border:1px solid #30313b!important;color:#e8e8ee!important;border-radius:7px!important}
+body.pz-echelontheme .projectz-forum-nav a:hover,body.pz-echelontheme .projectz-forum-nav a.active{border-color:#f48b37!important;color:#ffb16a!important;background:#29211d!important}
+body.pz-echelontheme .connect,body.pz-echelontheme .cta,body.pz-echelontheme .btn:not(.secondary){background:linear-gradient(110deg,#fa982b,#ee605d)!important;border:1px solid #ffb36a!important;color:#161116!important;box-shadow:none!important;animation:none!important;font-weight:750!important;border-radius:8px!important}
+body.pz-echelontheme .btn.secondary{background:#25262f!important;border:1px solid #444550!important;color:#eee!important}
+/* Homepage layout and cards */
+body.pz-echelontheme .hero{border-bottom:2px solid #e88d36!important}
+body.pz-echelontheme .layout{max-width:1300px!important;grid-template-columns:220px minmax(0,1fr)!important;gap:24px!important;padding:24px 20px 50px!important}
+body.pz-echelontheme .sidebar{background:#14151b!important;border:1px solid #2c2d35!important;border-radius:10px!important;padding:12px!important}
+body.pz-echelontheme .navbtn{background:#1b1c23!important;border:1px solid #282a34!important;border-radius:7px!important;color:#d8d8e1!important;padding:12px 14px!important;min-height:44px!important;font-size:13px!important}
+body.pz-echelontheme .navbtn.active,body.pz-echelontheme .navbtn:hover{background:#2d231e!important;border-color:#e18a38!important;color:#ffb56c!important;box-shadow:none!important}
+body.pz-echelontheme .content{background:transparent!important;border:0!important;border-radius:0!important;padding:0!important}
+body.pz-echelontheme .pz-home-heading{border:0!important;border-bottom:1px solid #34343d!important;padding:0 0 15px!important;margin-bottom:16px!important}
+body.pz-echelontheme h1,body.pz-echelontheme h2{color:#f3f3f6!important}
+body.pz-echelontheme .pz-home-heading em{color:#ffa044!important}
+body.pz-echelontheme .pz-server-card,body.pz-echelontheme .pz-online-panel,body.pz-echelontheme .pz-home-widget,body.pz-echelontheme .panel,body.pz-echelontheme .pz-online-server{background:#15161d!important;border:1px solid #30313a!important;border-radius:11px!important;box-shadow:none!important}
+body.pz-echelontheme .pz-server-art{background:linear-gradient(90deg,#101218db,#10121844),url('/assets/projectz-soldiers-zombies.svg?v=20261029-2') center/cover no-repeat!important;min-height:140px!important}
+body.pz-echelontheme .pz-server-art::before{display:none!important}
+body.pz-echelontheme .pz-server-tag{background:#f18e35!important;color:#15151a!important;border:0!important;box-shadow:none!important}
+body.pz-echelontheme .pz-server-bottom{background:#15161d!important}
+body.pz-echelontheme .pz-online-panel{padding:18px!important;margin-top:16px!important}
+body.pz-echelontheme .pz-home-widget{padding:20px!important;margin-top:14px!important}
+body.pz-echelontheme .pz-online-status,body.pz-echelontheme .pz-home-widget p,body.pz-echelontheme .muted{color:#a9abb8!important}
+body.pz-echelontheme .ip{color:#f4f4f7!important;text-shadow:none!important;animation:none!important}
+body.pz-echelontheme .ban-table-wrap{border-color:#30313a!important;background:#16171e!important}
+body.pz-echelontheme .ban-table th{background:#29242a!important;color:#ffc083!important;border-color:#38333b!important}
+body.pz-echelontheme .ban-table td{border-color:#34343c!important}
+body.pz-echelontheme .ban-table tr:nth-child(even){background:#1b1b23!important}
+body.pz-echelontheme .ban-refresh,body.pz-echelontheme .telegram-btn{background:linear-gradient(110deg,#fa982b,#ee605d)!important;border-color:#ffb36a!important;color:#161116!important}
+body.pz-echelontheme input,body.pz-echelontheme textarea,body.pz-echelontheme select{background:#101116!important;border:1px solid #393a44!important;color:#f5f5f7!important;border-radius:8px!important}
+body.pz-echelontheme input:focus,body.pz-echelontheme textarea:focus{outline:2px solid #ef963f!important;outline-offset:1px}
+/* Forum: retain all JS-managed content and permissions */
+body.pz-echelontheme.pz-forum{--bg:#0e0f14;--panel:#17181e;--panel2:#202129;--line:#30313a;--purple:#f49b43;--text:#f4f4f7;--muted:#a6a8b5}
+body.pz-echelontheme.pz-forum>header{padding:22px max(20px,calc((100% - 1220px)/2))!important}
+body.pz-echelontheme.pz-forum>header h1{font-size:clamp(25px,3vw,36px)!important}
+body.pz-echelontheme.pz-forum .projectz-forum-nav{display:flex!important;flex-wrap:wrap!important;gap:9px!important;margin-top:20px!important}
+body.pz-echelontheme.pz-forum .projectz-forum-hero{background:linear-gradient(90deg,#17181eea,#15151a66),url('/assets/projectz-soldiers-zombies.svg?v=20261029-2') center/cover!important;border:1px solid #35343d!important;border-radius:13px!important;max-width:1220px!important;margin:22px auto 0!important;min-height:180px!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important;padding:26px 34px!important}
+body.pz-echelontheme.pz-forum .projectz-forum-hero h2{font-size:clamp(24px,3vw,34px)!important;margin:0 0 6px!important;color:#fff!important;text-shadow:0 2px 12px #000!important}
+body.pz-echelontheme.pz-forum .projectz-forum-hero p{color:#e3e4e9!important;text-shadow:0 1px 8px #000!important}
+body.pz-echelontheme.pz-forum main{max-width:1220px!important;padding:0 20px!important;margin:24px auto 65px!important}
+body.pz-echelontheme.pz-forum .toolbar{background:#15161c!important;border:1px solid #2c2d36!important;border-radius:11px!important;padding:16px 20px!important;margin-bottom:18px!important}
+body.pz-echelontheme.pz-forum .panel,body.pz-echelontheme.pz-forum .category,body.pz-echelontheme.pz-forum .topic{background:#17181f!important;border:1px solid #30313b!important;border-radius:12px!important;box-shadow:none!important}
+body.pz-echelontheme.pz-forum .category:hover,body.pz-echelontheme.pz-forum .topic:hover{border-color:#f3983e!important;background:#1e1d22!important}
+body.pz-echelontheme.pz-forum .category h3,body.pz-echelontheme.pz-forum .topic h3{color:#f6f6f8!important}
+body.pz-echelontheme.pz-forum .btn{box-shadow:none!important}
+body.pz-echelontheme.pz-forum .btn.secondary{color:#eee!important}
+body.pz-echelontheme.pz-forum a{color:inherit}
+body.pz-echelontheme.pz-forum a:hover{color:#ffa34f}
+body.pz-echelontheme.pz-forum .panel.hidden{display:none!important}
+@media(max-width:800px){body.pz-echelontheme .layout{grid-template-columns:1fr!important;gap:12px!important;padding:12px!important}body.pz-echelontheme .sidebar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}body.pz-echelontheme .navbtn{margin:0!important}body.pz-echelontheme .pz-server-grid,body.pz-echelontheme .pz-online-grid{grid-template-columns:1fr!important}body.pz-echelontheme.pz-forum .projectz-forum-hero{margin:12px!important;padding:20px!important}body.pz-echelontheme.pz-forum main{padding:0 12px!important}}
+@media(max-width:480px){body.pz-echelontheme .sidebar{grid-template-columns:1fr!important}body.pz-echelontheme .hero{height:155px!important}body.pz-echelontheme.pz-forum .projectz-forum-nav a{flex:1 1 auto!important;text-align:center!important}}
+@media(prefers-reduced-motion:reduce){body.pz-echelontheme *,body.pz-echelontheme *::before,body.pz-echelontheme *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
