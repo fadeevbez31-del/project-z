@@ -1,928 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PROJECT Z | Зомби сервер CS:S</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
-<style>
-  .ip {
-    color: #fff !important;
-    text-shadow: 0 0 5px rgba(255,255,255,.65), 0 0 13px rgba(221,188,255,.7), 0 0 25px rgba(175,106,255,.55);
-    animation: projectzIpGlow 2.6s ease-in-out infinite alternate;
-  }
-  @keyframes projectzIpGlow {
-    0% { text-shadow: 0 0 3px rgba(255,255,255,.35), 0 0 9px rgba(195,145,255,.3); }
-    100% { text-shadow: 0 0 8px #fff, 0 0 19px rgba(215,175,255,.95), 0 0 34px rgba(160,80,255,.85); }
-  }
-  @media (prefers-reduced-motion: reduce) { .ip { animation: none; } }
-:root{--bg:#0b0911;--panel:#17121f;--purple:#b66bff;--border:#56316e;--text:#f1e9f8}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}a{color:inherit;text-decoration:none}.topbar{position:sticky;top:0;z-index:20;background:rgba(13,9,21,.96);border-bottom:1px solid #63358c;display:flex;align-items:center;gap:22px;justify-content:space-between;padding:15px clamp(16px,4vw,55px);box-shadow:0 6px 25px #0009}.brand{font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:2px;color:#e2b8ff;text-shadow:0 0 18px #a84dff88;white-space:nowrap}.connect{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #d19aff;border-radius:12px;padding:13px 19px;background:linear-gradient(120deg,#6526a0,#9b45e7,#6323a5);font-weight:800;font-size:14px;box-shadow:0 0 16px #b35cff99;animation:glow 2.3s ease-in-out infinite;white-space:nowrap}.connect:hover{filter:brightness(1.2);transform:translateY(-1px)}
-/* Мягкое белое свечение IP основного сервера */
-.content .ip{
-  display:inline-block;
-  color:#fff!important;
-  font-weight:900!important;
-  letter-spacing:.25px;
-  text-decoration:none;
-  text-shadow:0 0 1px #fff,0 0 3px #e9d5ff66!important;
-  transition:text-shadow .2s ease,color .2s ease;
-}
-.content .ip:hover{
-  color:#fff!important;
-  text-shadow:0 0 2px #fff,0 0 5px #e9d5ff99!important;
-}
-.ip-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0 12px}
-@keyframes glow{0%,100%{box-shadow:0 0 8px #ae55ff88}50%{box-shadow:0 0 27px #bc70ff,0 0 45px #8e31ec88}}.hero{height:clamp(220px,30vw,430px);background:#140c1c url('projectz_banner.png') center/cover no-repeat;border-bottom:2px solid var(--purple)}.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1400px;margin:auto;gap:24px;padding:26px 20px}.sidebar{background:#120e1b;border:1px solid var(--border);border-radius:15px;padding:15px;align-self:start;position:sticky;top:100px}.navbtn{width:100%;display:flex;align-items:center;gap:12px;text-align:left;color:#e7d9f5;background:#21192c;border:1px solid transparent;border-radius:9px;padding:14px;margin:5px 0;font-size:15px;cursor:pointer}.navbtn:hover,.navbtn.active{background:#512779;border-color:#a56ce3}.content{background:#15101e;border:1px solid #45255c;border-radius:16px;padding:clamp(20px,4vw,42px);min-height:380px}.section{display:none}.section.active{display:block}h1{color:#e2b8ff;margin-top:0}h2{color:#c891ff}.panel{padding:22px;background:#20192c;border:1px solid #4b3560;border-radius:12px;margin:18px 0;line-height:1.8}.ip{font-size:clamp(20px,3vw,29px);color:#ffd06b;font-weight:bold;letter-spacing:1px}.small{color:#c5b4d2}.cta{display:inline-block;padding:12px 18px;background:#7034aa;border-radius:9px;font-weight:bold;margin:8px 5px 8px 0}.cta:hover{background:#9552d0}footer{text-align:center;padding:26px;color:#9f8daf;border-top:1px solid #372245}@media(max-width:720px){.topbar{flex-wrap:wrap;justify-content:center;gap:12px}.connect{font-size:12px;padding:11px 13px}.layout{grid-template-columns:1fr;padding:12px;gap:12px}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.navbtn{margin:0;font-size:13px;padding:11px 7px}.hero{height:220px;background-position:center}.content{min-height:300px}}
-@media(prefers-reduced-motion:reduce){.connect{animation:none}}
-  .hero {
-    background-image: url('projectz_banner.png?v=3') !important;
-    background-position: center center !important;
-    background-size: cover !important;
-    background-repeat: no-repeat !important;
-}
-.telegram-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 20px;
-}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PROJECT Z — Zombie Mod & Zombie Escape | CS:S v34</title>
+<meta name="description" content="PROJECT Z — игровые серверы Counter-Strike: Source. Zombie Mod и Zombie Escape. Заходи и выживай!" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" href="favicon.png" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
 
-.telegram-btn {
-    background: #7133a8;
-    color: white;
-    border: 1px solid #a45bff;
-    border-radius: 9px;
-    padding: 14px 25px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.telegram-btn:hover {
-    background: #9145d6;
-    box-shadow: 0 0 15px #a855f7, 0 0 25px #9333ea;
-    transform: translateY(-2px);
-}
-
-.telegram-label {
-    color: #d9b3ff;
-}.telegram-btn {
-    display: inline-block;
-    text-decoration: none;
-    text-align: center;
-}
-  .wishes-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 22px;
-}
-
-.wishes-btn {
-    display: inline-block;
-    background: #ffffff;
-    color: #8734cc;
-    padding: 14px 25px;
-    border: 2px solid #b266ff;
-    border-radius: 9px;
-    font-size: 15px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.wishes-btn:hover {
-    background: #ffffff;
-    color: #9333ea;
-    box-shadow:
-        0 0 15px #a855f7,
-        0 0 30px #9333ea;
-    transform: translateY(-2px);
-}
-
-.wishes-label {
-    color: #d9a3ff;
-    font-size: 15px;
-}
-.rules-list {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 20px;
-}
-
-.rule-item {
-    background: #21172f;
-    border: 1px solid #56316e;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: left;
-}
-
-.rule-item h3 {
-    color: #c77dff;
-    margin: 0 0 12px;
-}
-
-.rule-item p {
-    color: #f1e9f8;
-    line-height: 1.7;
-    margin: 8px 0;
-}
-
-.rule-item strong {
-    color: #d6a3ff;
-}
-.rules-category {
-    color: #c77dff;
-    font-size: 22px;
-    margin: 30px 0 15px;
-    text-align: left;
-    text-shadow: 0 0 12px #9333ea88;
-}
-
-.rules-ending {
-    text-align: center;
-    color: #d6a3ff;
-    font-weight: bold;
-    margin-top: 30px;
-}
-
-.vip-list {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.vip-list h2 {
-    color: #d6a3ff;
-    font-size: 23px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 12px #9333ea;
-}
-
-.vip-item {
-    background: #21172f;
-    border: 1px solid #56316e;
-    border-radius: 10px;
-    padding: 14px 18px;
-    color: #f5eaff;
-    transition: 0.3s;
-}
-
-.vip-item:hover {
-    background: #35204d;
-    border-color: #bb66ff;
-    box-shadow: 0 0 15px #9333ea77;
-}
-.vip-prices {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #56316e;
-}
-
-.vip-prices h2 {
-    color: #d6a3ff;
-    font-size: 24px;
-    text-shadow: 0 0 12px #9333ea;
-}
-
-.price-description {
-    color: #c9b5d9;
-    margin-bottom: 20px;
-}
-
-.price-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    background: #21172f;
-    border: 1px solid #56316e;
-    border-radius: 10px;
-    padding: 17px 20px;
-    margin-bottom: 10px;
-    color: white;
-    transition: 0.3s;
-}
-
-.price-item:hover {
-    background: #35204d;
-    border-color: #bb66ff;
-    box-shadow: 0 0 18px #9333ea88;
-}
-
-.price-value {
-    color: #d6a3ff;
-    font-weight: bold;
-    text-shadow: 0 0 8px #9333ea;
-}
-
-.price-note {
-    color: #c9b5d9;
-    margin-top: 20px;
-}
-
-@media (max-width: 500px) {
-    .price-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-/* Подстройка верхней панели: кнопка подключения не должна уходить за край экрана */
-.topbar{flex-wrap:wrap;gap:12px}
-.topbar-left,.topbar-right{min-width:0;flex-wrap:wrap}
-.topbar-right{margin-left:auto;justify-content:flex-end;flex-shrink:0}
-.topbar-right .connect{display:inline-flex!important;max-width:100%}
-@media(max-width:720px){
-  .topbar-left,.topbar-right{width:100%;justify-content:center}
-  .topbar-right .connect{font-size:12px;padding:10px 12px}
-}
-
-/* Кнопки форума и Discord в верхней панели */
-.topbar-left,.topbar-right{display:flex;align-items:center;gap:12px}
-.header-forum,.header-discord{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 15px;border-radius:9px;font-size:14px;font-weight:700;white-space:nowrap;transition:filter .2s,transform .2s}
-.header-forum{background:#38204e;color:#f0d5ff;border:1px solid #613582}
-.header-discord{background:#5865f2;color:#fff;border:1px solid #7681ff}
-.header-forum:hover,.header-discord:hover{filter:brightness(1.18);transform:translateY(-1px)}
-@media(max-width:720px){.topbar-left,.topbar-right{justify-content:center;flex-wrap:wrap}.header-forum,.header-discord{font-size:12px;padding:10px 12px}}
-
-/* PROJECT Z banlist */
-.ban-toolbar{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.ban-search{flex:1;min-width:180px;background:#100b18;color:#f4e9ff;border:1px solid #73439b;border-radius:9px;padding:13px;font:inherit}.ban-refresh{background:#7133a8;color:white;border:1px solid #ad70ee;border-radius:9px;padding:12px 18px;cursor:pointer}.ban-refresh:hover{background:#9145d6}.ban-table-wrap{overflow-x:auto;border:1px solid #56316e;border-radius:12px}.ban-table{width:100%;border-collapse:collapse;min-width:620px}.ban-table th{background:#342046;color:#e6bdff;text-align:left;padding:14px 12px}.ban-table td{padding:14px 12px;border-top:1px solid #49305d;vertical-align:top}.ban-table tr:nth-child(even){background:#21172d}.ban-sub{display:block;color:#bda5d0;font-size:12px;margin-top:5px;overflow-wrap:anywhere}.ban-status{display:inline-block;border-radius:30px;padding:5px 9px;font-size:12px;font-weight:bold;background:#5c2348;color:#ffb8d5}.ban-status.expired{background:#243d33;color:#a8e6c5}.ban-info{color:#c5b4d2;line-height:1.6}.ban-info a{color:#d7a3ff;text-decoration:underline}
-
-/* PROJECT Z: seamless banner with artwork extending beyond its bottom border */
-.hero{position:relative;isolation:isolate;overflow:visible;height:clamp(240px,22vw,370px);background:#100b17 !important;border-bottom:2px solid #9b55d6;z-index:1}
-.hero::before{content:"";position:absolute;pointer-events:none;left:0;top:50%;width:100%;height:auto;aspect-ratio:2020/779;transform:translateY(-50%);background:url('/projectz_banner_new.jpg?v=20261016-3') center/100% 100% no-repeat;z-index:1;filter:drop-shadow(0 8px 12px #0009);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%)}
-.hero::after{content:none}
-.layout{position:relative;z-index:3}
-@media(max-width:720px){.hero{height:200px;overflow:hidden}.hero::before{height:100%;aspect-ratio:auto;top:0;transform:none;background-size:cover;background-position:center;-webkit-mask-image:none;mask-image:none}}
-#pzMaintenanceWall{position:fixed;inset:0;z-index:99999;overflow:auto;display:flex;flex-direction:column;align-items:stretch;background:radial-gradient(ellipse at 50% 45%,#261039 0%,#0b0711 70%);text-align:center}
-#pzMaintenanceWall .pz-maintenance-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,5vw,60px);background:#0d0914;border-bottom:1px solid #6f2e9d}
-#pzMaintenanceWall .pz-brand{font-weight:900;letter-spacing:3px;color:#e2b8ff;font-size:clamp(21px,3vw,32px)}
-#pzMaintenanceWall .pz-header-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-#pzMaintenanceWall .pz-maintenance-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-#pzMaintenanceWall .pz-maintenance-action{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border:1px solid #a855f7;border-radius:9px;background:linear-gradient(120deg,#6526a0,#8b35cf);color:#fff;text-decoration:none;font-size:13px;font-weight:800;white-space:nowrap}
-#pzMaintenanceWall .pz-maintenance-action:hover{filter:brightness(1.15)}
-#pzMaintenanceWall .pz-maintenance-login{background:#21192c;border-color:#6f4b8d}
-#pzMaintenanceWall .pz-ticker{overflow:hidden;white-space:nowrap;border-top:1px solid #ed3ce8;border-bottom:1px solid #ed3ce8;background:#180b22;color:#ff64ed;font-weight:900;letter-spacing:.5px;text-shadow:0 0 9px #ff37e6;padding:12px 0;box-shadow:0 0 18px #d927e544}
-#pzMaintenanceWall .pz-ticker-track{display:inline-flex;gap:24px;min-width:max-content;animation:pzMaintenanceScroll 24s linear infinite}
-#pzMaintenanceWall .pz-ticker-track span{display:inline-block}
-@keyframes pzMaintenanceScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-#pzMaintenanceWall .pz-maintenance-hero{margin:24px clamp(14px,2.5vw,36px) 0;min-height:150px;height:clamp(150px,20vw,245px);display:grid;place-items:center;border:1px solid #5d2b7d;border-radius:16px;background:linear-gradient(90deg,#100817bb,#16091dcc),url('/projectz_banner_new.jpg?v=20261016-3') center/cover no-repeat;box-shadow:inset 0 0 55px #12051f}
-#pzMaintenanceWall .pz-hero-title{font-size:clamp(34px,7vw,76px);font-weight:1000;letter-spacing:clamp(3px,1vw,12px);color:#f0d8ff;text-shadow:0 0 16px #a855f7}
-#pzMaintenanceWall .pz-hero-subtitle{letter-spacing:clamp(2px,.6vw,7px);font-size:clamp(11px,2vw,17px);font-weight:800;color:#e2c9f6}
-#pzMaintenanceWall .pz-maintenance-card{max-width:1280px;width:calc(100% - clamp(28px,10vw,160px));margin:24px auto 30px;padding:clamp(24px,4vw,44px);border:1px solid #a03fe0;border-radius:18px;background:linear-gradient(145deg,#160f22ee,#100b18f2);box-shadow:0 0 35px #a855f744}
-#pzMaintenanceWall .pz-maintenance-icon{font-size:42px;color:#bd63ff;text-shadow:0 0 18px #a855f7}
-#pzMaintenanceWall h2{margin:8px 0 18px;color:#d8a6ff;font-size:clamp(25px,4vw,38px)}
-#pzMaintenanceWall p{line-height:1.7;color:#eee1f8;font-size:clamp(15px,2vw,21px);margin:8px 0}
-#pzMaintenanceWall .pz-maintenance-extra{color:#cbb7da;font-size:clamp(13px,1.5vw,17px)}
-#pzMaintenanceWall .pz-maintenance-footer{padding:22px;color:#b9a2cc}
-@media(max-width:650px){#pzMaintenanceWall .pz-maintenance-header{flex-direction:column}#pzMaintenanceWall .pz-maintenance-hero{margin-top:14px;height:150px}#pzMaintenanceWall .pz-maintenance-card{margin-top:14px;margin-bottom:18px}}
-</style>
-<style id="pz-blue-redesign-2026">
-:root{--bg:#030d19;--panel:#071c30;--purple:#22a9ff;--border:#245579;--text:#e9f5ff}
-body{background:radial-gradient(ellipse at 50% 0%,#123654 0%,#061422 48%,#020914 100%);color:#eaf5ff}
-.topbar{background:rgba(2,15,30,.96);border-bottom:1px solid #2674a7;box-shadow:0 3px 22px #0078df45}
-.brand{color:#c7eaff;text-shadow:0 0 16px #009dff;font-weight:900}
-.header-forum,.header-discord{border-color:#247ab0!important;background:#082844!important;color:#dff3ff!important}
-.connect,.cta{background:linear-gradient(180deg,#188ef0,#07539b)!important;border:1px solid #53bbff!important;color:white!important;box-shadow:0 0 14px #078bff75!important;animation:none!important}
-.connect:hover,.cta:hover{filter:brightness(1.2)}
-.hero{height:clamp(240px,27vw,400px);background-image:linear-gradient(90deg,#00132522,#0063b31a),url('/projectz_banner_new.jpg?v=20261016-3')!important;border-bottom:2px solid #269cff;filter:none}
-.hero::before,.hero::after{display:none!important}
-.layout{max-width:1500px;grid-template-columns:240px minmax(0,1fr);gap:18px}
-.sidebar,.content,.panel{background:linear-gradient(145deg,#071c30ed,#03111feF)!important;border:1px solid #245779!important;box-shadow:inset 0 0 18px #0075d914,0 7px 24px #0005}
-.navbtn{background:#09243b;color:#d7edff;border:1px solid #174466}
-.navbtn:hover,.navbtn.active{background:linear-gradient(100deg,#125ba2,#063d75);border-color:#46baff;box-shadow:0 0 13px #068eff60;color:white}
-h1,h2,h3{color:#d4edff}h2{color:#74c9ff}
-.small{color:#b0cee6}footer{background:#041525;border-top:1px solid #21547d;color:#a7c9e5}
-#home .panel>div[style*="display:grid"]>div{background:linear-gradient(145deg,#0a2a45,#061525)!important;border:1px solid #347fb1!important;box-shadow:0 0 14px #007ce52a}
-#home .panel .ip{color:#fff!important;text-shadow:0 0 5px #a8ddff!important;animation:none!important}
-#home .panel{position:relative}
-#home .panel h2{font-size:23px}
-.pz-blue-kicker{font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#49b9ff;font-size:12px;margin-bottom:8px}
-.pz-blue-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
-.pz-blue-links a{display:block;background:#08243b;border:1px solid #225c85;border-radius:10px;padding:16px;color:#dcefff;font-weight:700}
-.pz-blue-links a:hover{border-color:#42baff;background:#10416a}
-.pz-blue-note{font-size:13px;color:#9bbfd9}
-.pz-biohazard{color:#1a96f5!important;opacity:.2!important}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pz-blue-links{grid-template-columns:1fr}.hero{height:230px}}
-</style>
-<style id="pz-ice-layout-v2">
-:root{--bg:#020b15!important;--panel:#041a2d!important;--purple:#168dff!important;--border:#1b5d91!important;--text:#e4f4ff!important}
-html,body{background:#020b15!important;color:#e4f4ff!important}
-body{background-image:radial-gradient(ellipse at center 18%,#0c3552 0%,#020b15 70%)!important}
-.topbar{background:#021323f5!important;border-bottom:1px solid #1467a8!important;padding:11px clamp(14px,3vw,45px)!important}
-.brand{color:#eaf7ff!important;text-shadow:0 0 10px #118dff!important}
-.header-forum,.header-discord{background:#05233c!important;border:1px solid #206394!important}
-.connect,.cta,.telegram-btn{background:linear-gradient(#117fe3,#064d96)!important;border:1px solid #45b7ff!important;color:#fff!important;box-shadow:0 0 12px #0078f477!important}
-.hero{height:clamp(230px,23vw,355px)!important;background:url('/projectz_banner_new.jpg?v=20261016-3') center 48%/cover no-repeat!important;position:relative;isolation:isolate;overflow:hidden;border-bottom:2px solid #128be4!important}
-.hero::before{content:""!important;position:absolute!important;inset:0!important;width:auto!important;height:auto!important;aspect-ratio:auto!important;top:0!important;left:0!important;transform:none!important;background:inherit!important;z-index:0!important;filter:grayscale(1) sepia(1) hue-rotate(165deg) saturate(4) brightness(.86) contrast(1.16)!important;mask-image:none!important;-webkit-mask-image:none!important}
-.hero::after{display:none!important}
-.layout{max-width:1440px!important;grid-template-columns:218px minmax(0,1fr)!important;gap:15px!important;padding:0 18px 22px!important;margin:-1px auto 0!important;position:relative;z-index:2}
-.sidebar{background:#041b2deF!important;border:1px solid #226396!important;border-radius:11px!important;padding:12px!important;top:75px!important}
-.navbtn{background:linear-gradient(180deg,#082943,#041c30)!important;border:1px solid #174a70!important;border-radius:6px!important;color:#dcefff!important;padding:13px!important}
-.navbtn.active,.navbtn:hover{background:linear-gradient(#126ab8,#074a87)!important;border-color:#4db9ff!important;box-shadow:0 0 12px #008bff80!important;color:#fff!important}
-.content{background:linear-gradient(150deg,#041c30,#020f1d)!important;border:1px solid #1b5f91!important;border-radius:11px!important;padding:clamp(18px,2.2vw,30px)!important;min-height:440px!important}
-h1,h2,h3,.vip-list h2,.vip-prices h2,.rule-item h3,.rules-category,.price-value{color:#b8e4ff!important;text-shadow:none!important}
-.panel,.rule-item,.vip-item,.price-item{background:#061e32!important;border:1px solid #20557e!important;color:#e0f0ff!important}
-.vip-item:hover,.price-item:hover{background:#0a3353!important;border-color:#35aaff!important;box-shadow:0 0 13px #0789ed50!important}
-.telegram-label,.wishes-label,.price-note,.price-description,.rules-ending,.rule-item strong{color:#a9d8ff!important}
-.wishes-btn{background:#0a416d!important;color:#e6f5ff!important;border-color:#278bc8!important}
-.wishes-btn:hover,.telegram-btn:hover{color:#fff!important;box-shadow:0 0 14px #098fff!important}
-input,select,textarea{background:#04182b!important;border-color:#28618b!important;color:#eaf5ff!important}
-button{font-family:inherit}
-footer{background:#031625!important;color:#a9cfe9!important;border-color:#174c74!important}
-.pz-biohazard{color:#2c9dff!important;text-shadow:0 0 9px #0077ff!important;opacity:.14!important}
-.pz-home-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 15px;border-bottom:1px solid #205b84;padding-bottom:12px}
-.pz-home-heading h1{font-size:clamp(20px,2.1vw,27px);margin:0;font-weight:900}
-.pz-home-heading em{font-style:normal;color:#18a5ff}
-.pz-home-heading span{font-size:12px;color:#b5d8ef}
-.pz-server-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.pz-server-card{border:1px solid #276a9d;border-radius:10px;overflow:hidden;background:#031426;box-shadow:inset 0 0 15px #0c74c622}
-.pz-server-art{padding:12px 14px 8px;min-height:126px;background:linear-gradient(90deg,#031426eb,#03243a44),url('/projectz_banner_new.jpg?v=20261016-3') center/cover;position:relative}
-.pz-server-art::before{content:"";position:absolute;inset:0;background:#006ab733;pointer-events:none}
-.pz-server-art>*{position:relative}
-.pz-server-tag{display:inline-block;background:#096fc4;color:#fff;border:1px solid #37b4ff;border-radius:5px;padding:5px 8px;font-size:10px;font-weight:800;box-shadow:0 0 10px #008eff}
-.pz-server-art h3{font-size:16px!important;margin:13px 0 5px;color:#fff!important}
-.pz-server-art p{font-size:13px;color:#b6dcf6;margin:0}
-.pz-server-bottom{padding:12px 14px}
-.pz-server-bottom .ip{font-size:15px!important;letter-spacing:0!important;text-shadow:0 0 5px #80caff!important;animation:none!important}
-.pz-wide-cta{width:100%;text-align:center;display:block!important;font-size:13px!important;margin:12px 0 0!important;cursor:pointer}
-.pz-favorite-help{font-size:12px;color:#a5d5f4;margin-top:10px}.pz-favorite-help summary{cursor:pointer}
-.pz-home-lower{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-.pz-home-widget{background:#051b2e;border:1px solid #215c88;border-radius:10px;padding:16px}
-.pz-home-widget h2{font-size:18px;margin:0 0 12px}.pz-home-widget p{font-size:13px;color:#b0d1e7}.pz-home-widget a{color:#4ebcff;font-weight:700;font-size:13px}
-@media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:10px!important}.sidebar{position:static!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pz-server-grid,.pz-home-lower{grid-template-columns:1fr}.pz-home-heading{display:block}.hero{height:210px!important}}
-</style><style>.pz-home-news-only{grid-template-columns:1fr!important}</style><style id="pz-blue-hero-live">
-/* Холодная синяя версия исходного баннера без изменения других изображений */
-.hero{background-image:none!important;background:#021324!important;position:relative!important;overflow:hidden!important}
-.hero::before{content:""!important;display:block!important;position:absolute!important;inset:0!important;background:url('/projectz_banner_new.jpg?v=20261016-3') center 48%/cover no-repeat!important;filter:hue-rotate(95deg) saturate(1.45) brightness(.92)!important;pointer-events:none!important;z-index:0!important}
-.hero::after{content:""!important;display:block!important;position:absolute!important;inset:0!important;background:linear-gradient(90deg,#003c771f,#008dff16,#003b751f)!important;pointer-events:none!important;z-index:1!important}
-.pz-online-panel{margin-top:14px;padding:17px;background:#041b2d;border:1px solid #2374aa;border-radius:11px}
-.pz-online-panel h2{margin:0 0 12px;font-size:19px;color:#bce8ff}
-.pz-online-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.pz-online-server{padding:13px;background:#031324;border:1px solid #1e547c;border-radius:9px}
-.pz-online-server strong{display:block;color:#e1f4ff;margin-bottom:7px}
-.pz-online-status{font-size:13px;color:#a8cce5}
-.pz-online-players{margin:8px 0 0;padding-left:19px;font-size:13px;line-height:1.7;max-height:240px;overflow:auto}
-@media(max-width:760px){.pz-online-grid{grid-template-columns:1fr}}
-</style><style id="pz-2026-blue-redesign">
-:root{--bg:#00101e!important;--panel:#031b30!important;--purple:#24a9ff!important;--border:#175985!important;--text:#e6f6ff!important}
-body{background:radial-gradient(ellipse at 50% 30%,#052c4b 0%,#00101f 60%,#000c17 100%) fixed!important;color:#e4f4ff!important}
-.topbar{background:#00182beF!important;border-bottom:1px solid #1879b5!important;padding:10px clamp(15px,4vw,60px)!important}
-.brand{color:#eaf8ff!important;text-shadow:0 0 8px #39aaff,0 0 20px #0079da!important}
-.header-forum,.header-discord{background:#05223b!important;border:1px solid #226a98!important;color:#e6f6ff!important}
-.connect,.cta,.pz-wide-cta{background:linear-gradient(#138be7,#07529a)!important;border:1px solid #42b8ff!important;color:white!important;box-shadow:0 0 12px #008cff66,inset 0 1px 0 #b4e7ff55!important;animation:none!important}
-.hero{height:clamp(230px,19vw,330px)!important;border-bottom:2px solid #1488d0!important}
-.hero::before{background:url('/projectz_banner_new.jpg?v=20261016-3') center 48%/cover no-repeat!important;filter:grayscale(1) sepia(1) saturate(4) hue-rotate(168deg) brightness(.92) contrast(1.16)!important}
-.hero::after{display:none!important;content:none!important}
-.layout{max-width:1320px!important;grid-template-columns:200px minmax(0,1fr)!important;gap:15px!important;padding:14px 16px 28px!important}
-.sidebar{background:#031b30f5!important;border:1px solid #20628e!important;border-radius:10px!important;padding:10px!important;top:75px!important}
-.navbtn{background:#05253d!important;border:1px solid #174e74!important;color:#d7edff!important;border-radius:6px!important;padding:12px!important;margin:4px 0!important}
-.navbtn:hover,.navbtn.active{background:linear-gradient(#107cc7,#07518e)!important;border-color:#36b3ff!important;box-shadow:0 0 12px #0099ff55!important}
-.content{background:#02192c!important;border:1px solid #226b9b!important;border-radius:10px!important;padding:22px!important;min-height:340px!important}
-h1,h2,h3{color:#c5eaff!important}
-.pz-home-heading{border-color:#21628b!important}
-.pz-server-card,.pz-online-panel,.pz-home-widget,.panel{background:#031c30!important;border:1px solid #236a9c!important;box-shadow:inset 0 0 16px #0068b41a!important}
-.pz-server-art{background:linear-gradient(90deg,#00182d88,#00182d22),url('/projectz_banner_new.jpg?v=20261016-3') center/cover!important;filter:none!important}
-.pz-server-art::before{background:#0060ad18!important}
-.pz-server-bottom{background:#001323!important}
-.pz-online-server{background:#001526!important;border-color:#1a5a83!important}
-.pz-home-widget a{color:#39b8ff!important}
-footer{background:#001a2b!important;border-color:#17547c!important;color:#acd7f2!important}
-@media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:10px!important}.hero{height:200px!important}.sidebar{position:static!important}.content{padding:14px!important}}
-</style><style id="pz-actual-new-banner-2026">
-/* New actual SVG artwork; no old banner, no masks or overlays */
-.hero{background:#031626 url('/assets/projectz-soldiers-zombies.svg?v=2') center center/cover no-repeat!important;position:relative!important;overflow:hidden!important;filter:none!important}
-.hero::before,.hero::after{content:none!important;display:none!important;background:none!important;filter:none!important;opacity:0!important;animation:none!important}
-.pz-server-art{background:linear-gradient(90deg,#00182cd9,#00182c55),url('/assets/projectz-soldiers-zombies.svg?v=2') center/cover no-repeat!important}
-.pz-server-art::before{background:transparent!important}
-</style></head>
-<body class="pz-echelontheme">
+<!-- ================= HEADER ================= -->
 <header class="topbar">
-  <div class="topbar-left">
-    <div class="brand">☣ PROJECT Z</div>
-    <a class="header-forum" href="/forum/">▢ ФОРУМ</a>
-  </div>
-  <div class="topbar-right">
-    <a class="header-discord" href="https://discord.gg/S6RxFh87M" target="_blank" rel="noopener noreferrer" aria-label="Discord PROJECT Z"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="currentColor"><path d="M19.73 5.32A18.9 18.9 0 0 0 15.1 3.9l-.56 1.16a17.4 17.4 0 0 0-5.08 0L8.9 3.9a18.9 18.9 0 0 0-4.63 1.42C1.34 9.64.55 13.85.95 18a19 19 0 0 0 5.67 2.87l1.22-1.98a12 12 0 0 1-1.89-.93l.46-.35c3.65 1.72 7.53 1.72 11.14 0l.46.35c-.6.36-1.23.67-1.89.93l1.22 1.98A19 19 0 0 0 23.01 18c.47-4.81-.8-8.98-3.28-12.68ZM8.48 15.46c-1.1 0-2-.99-2-2.2s.88-2.2 2-2.2c1.13 0 2.02.99 2 2.2 0 1.21-.88 2.2-2 2.2Zm7.04 0c-1.1 0-2-.99-2-2.2s.88-2.2 2-2.2c1.13 0 2.02.99 2 2.2 0 1.21-.88 2.2-2 2.2Z"/></svg> DISCORD</a>
-    <a class="connect" href="steam://connect/46.174.54.162:27015" title="Открыть сервер в Steam">🎮 ПОДКЛЮЧИТЬСЯ <span aria-hidden="true">✦</span></a>
+  <div class="wrap topbar-inner">
+    <a href="#top" class="brand">
+      <span class="brand-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2a3 3 0 0 1 3 3c0 .8-.3 1.5-.8 2 .5.5 1.3.9 2.1 1 .7.1 1.4 0 2-.3a5 5 0 0 1-2.5 4.3c.4.6.6 1.3.6 2 0 .6-.1 1.2-.4 1.7.6.3 1.3.4 2 .3-.9 1.6-2.5 2.6-4.3 2.6a3 3 0 0 1-2.9-2.2 3 3 0 0 1-5.8 0A3 3 0 0 1 4 18c-1.8 0-3.4-1-4.3-2.6.7.1 1.4 0 2-.3-.3-.5-.4-1.1-.4-1.7 0-.7.2-1.4.6-2A5 5 0 0 1-.6 7.1c.6.3 1.3.4 2 .3.8-.1 1.6-.5 2.1-1A2.9 2.9 0 0 1 4.9 5 3 3 0 0 1 8 2c.8 0 1.5.3 2 .8.5-.5 1.2-.8 2-.8z" transform="translate(3 1) scale(.75)"/></svg>
+      </span>
+      <span class="brand-txt">PROJECT&nbsp;<b>Z</b></span>
+      <a href="https://projectz.site/forum.html" class="forum-pill">▣ ФОРУМ</a>
+    </a>
+
+    <nav class="topnav">
+      <button class="icon-btn" aria-label="Поиск" id="searchBtn">🔍</button>
+      <a class="btn btn-discord" href="#contacts">✦ DISCORD</a>
+      <a class="btn btn-ghost" href="#login">⮕ Войти</a>
+      <a class="btn btn-accent" href="#login">✚ Регистрация</a>
+    </nav>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
   </div>
 </header>
-<div class="hero" role="img" aria-label="Баннер PROJECT Z"></div>
-<div class="layout">
-<nav class="sidebar" aria-label="Разделы сайта">
-<button class="navbtn active" data-target="home">⌂ &nbsp; Главная</button>
-<a class="navbtn pz-extra-nav" href="/#home">▣ &nbsp; Серверы</a>
-<a class="navbtn pz-extra-nav" href="/forum/">▤ &nbsp; Форум</a>
-<button class="navbtn" data-target="vip">💎 &nbsp; VIP-привилегии</button>
-<button class="navbtn" data-target="rules">📖 &nbsp; Правила сервера</button>
-<a class="navbtn pz-extra-nav" href="/#commands">⚙ &nbsp; Команды сервера</a>
-<button class="navbtn" data-target="admins">⚔️ &nbsp; Администрация</button>
-<button class="navbtn" data-target="bans">🚫 &nbsp; Бан-лист</button>
-<button class="navbtn" data-target="contacts">✉ &nbsp; Контакты</button>
-<button class="navbtn" data-target="news">📰 &nbsp; Новости проекта</button>
-<button class="navbtn" data-target="account">👤 &nbsp; Личный кабинет</button>
-</nav>
-<main class="content">
-<section id="home" class="section active">
-<div class="pz-home-heading"><h1>СЕРВЕРЫ PROJECT <em>Z</em></h1><span>Выбирай сервер и присоединяйся к игре!</span></div>
-<div class="pz-server-grid">
-<article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ОСНОВНОЙ СЕРВЕР</span><h3>PROJECTZ | Последний выживший</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><a class="ip" href="steam://connect/46.174.54.162:27015">⌖ 46.174.54.162:27015</a><a class="cta pz-wide-cta" href="steam://connect/46.174.54.162:27015">🎮 Подключиться →</a></div></article>
-<article class="pz-server-card"><div class="pz-server-art"><span class="pz-server-tag">ВТОРОЙ СЕРВЕР · CS:S v34</span><h3>PROJECTZ | Прорыв CS:S v34</h3><p>Zombie Mod / Zombie Escape</p></div><div class="pz-server-bottom"><span class="ip">⌖ 46.174.54.162:27015</span><button class="cta pz-wide-cta" type="button" onclick="navigator.clipboard.writeText('46.174.54.162:27015').then(()=>{this.textContent='✓ IP скопирован'}).catch(()=>window.prompt('Скопируй IP сервера:','46.174.54.162:27015'))">★ Скопировать IP для избранного</button><details class="pz-favorite-help"><summary>Как добавить в избранное CS:S v34</summary><p>В игре открой «Найти серверы» → «Избранное» → «Добавить сервер» и вставь IP.</p></details></div></article>
-</div>
-<section class="pz-online-panel" aria-label="Игроки онлайн"><h2>👥 Игроки онлайн на серверах</h2><div class="pz-online-grid"><div class="pz-online-server"><strong>PROJECTZ | Последний выживший</strong><div class="pz-online-status" id="pz-online-main" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-main"></ol></div><div class="pz-online-server"><strong>PROJECTZ | Прорыв CS:S v34</strong><div class="pz-online-status" id="pz-online-v34" role="status">Данные об игроках пока недоступны</div><ol class="pz-online-players" id="pz-players-v34"></ol></div></div></section><div class="pz-home-lower pz-home-news-only"><section class="pz-home-widget"><h2>▣ Последние новости</h2><div id="pz-home-news-feed">Загрузка новостей…</div><button type="button" class="pz-news-link" data-target="news">Все новости →</button></section></div>
+
+<!-- ================= BANNER ================= -->
+<section class="banner" id="top">
+  <div class="wrap banner-inner">
+    <div class="banner-glow"></div>
+    <h1 class="banner-title">PROJECT<span>Z</span></h1>
+    <p class="banner-sub">ZOMBIE&nbsp;MOD <i>•</i> ZOMBIE&nbsp;ESCAPE</p>
+  </div>
 </section>
-<section id="news" class="section"><h1>📰 Новости PROJECT Z</h1><div class="panel"><div id="pz-news-feed">Загрузка новостей…</div><div id="pz-news-admin" hidden><h2>Опубликовать новость</h2><form id="pz-news-form"><label>Заголовок<input id="pz-news-title" maxlength="180" minlength="3" required placeholder="Название новости"></label><label>Текст новости<textarea id="pz-news-body" rows="7" maxlength="10000" required placeholder="Что нового на серверах PROJECT Z?"></textarea></label><button class="cta" type="submit">Опубликовать</button></form></div><p id="pz-news-message" role="status"></p></div></section>
-<section id="account" class="section"><h1>👤 Личный кабинет PROJECT Z</h1><div class="panel"><p>Один аккаунт для сайта и форума.</p><p id="pz-account-status">Проверка авторизации…</p><form id="pz-login-form"><label>Email<input id="pz-account-email" type="email" autocomplete="email" required></label><label>Пароль<input id="pz-account-password" type="password" autocomplete="current-password" minlength="8" required></label><div class="pz-account-actions"><button class="cta" type="submit" data-mode="login">Войти</button><button class="cta" type="button" id="pz-signup">Зарегистрироваться</button><button class="btn secondary" type="button" id="pz-forgot">Забыли пароль?</button></div></form><button class="btn secondary" type="button" id="pz-logout" hidden>Выйти из аккаунта</button><p id="pz-account-message" role="status"></p></div></section>
-<section id="vip" class="section"><h1>💎 VIP-привилегии</h1><div class="panel">
-        <p>Хочешь получить VIP на PROJECT Z?</p>
-  
-        <p>Свяжись с администрацией через Telegram. Список возможностей и цену узнавай у администрации.</p>
 
-        <div class="vip-list">
-            <h2>💎 Общее для всех VIP:</h2>
+<!-- ================= LAYOUT ================= -->
+<div class="wrap layout">
 
-            <div class="vip-item">💜 +Здоровье — 120 HP (вместо 100)</div>
-            <div class="vip-item">💜 +Броня — 100 брони на спавне</div>
-            <div class="vip-item">💜 Регенерация HP в бою</div>
-            <div class="vip-item">💜 Ночное зрение (NV)</div>
-            <div class="vip-item">💜 Максимум денег — 16000 на раунд</div>
-            <div class="vip-item">💜 Высокий прыжок</div>
-            <div class="vip-item">💜 Ускорение передвижения</div>
-            <div class="vip-item">💜 VIP-префикс [VIP] в чате + выбор цвета ника (!color)</div>
-            <div class="vip-item">💜 Выбор личного скина — команда !skin (Люди: Вас, P.Diddy, ЗаяцGrl и т.д)</div>
-            <div class="vip-item">💜 Скин «Вас» выдаётся по умолчанию</div>
-            <div class="vip-item">💜 Эксклюзивные ZR-классы (человек Vergil, зомби Bolter)</div>
-                  <div class="vip-list">                    
-<div class="vip-prices">
-    <h2>💰 Прайс на услуги</h2>
-    <p class="price-description">
-        🛒Стоимость привилегий на сервере PROJECT Z🛒
-      Сейчас действуют скидки 20%.ЦЕНА БЕЗ СКИДКИ/СО СКИДКОЙ
-    </p>
-  
-   <div class="price-item">
-        <span>👑 Скин(Любой Ваш)</span>
-        <span class="price-value">750/600 рублей.навсегда</span>
-    </div>
+  <!-- ---- LEFT SIDEBAR ---- -->
+  <aside class="side-nav" id="sideNav">
+    <a href="#top"      class="snav active"><span>🏠</span> Главная</a>
+    <a href="#servers"  class="snav"><span>🖥️</span> Серверы</a>
+    <a href="#news"     class="snav"><span>📰</span> Новости</a>
+    <a href="https://projectz.site/forum.html" class="snav"><span>💬</span> Форум</a>
+    <a href="#support"  class="snav"><span>🔓</span> Заявки на разбан</a>
+    <a href="#support"  class="snav"><span>⚠️</span> Жалобы</a>
+    <a href="#support"  class="snav"><span>❓</span> Помощь по игре</a>
+    <a href="#vip"      class="snav"><span>⭐</span> VIP-привилегии</a>
+    <a href="#ban"      class="snav"><span>⛔</span> Бан-лист</a>
+    <a href="#contacts" class="snav"><span>✉️</span> Контакты</a>
+  </aside>
 
-    <div class="price-item">
-        <span>💳 VIP на 30 дней</span>
-        <span class="price-value">500/350 рублей</span>
-    </div>
+  <!-- ---- CENTER ---- -->
+  <main class="content">
 
-    <div class="price-item">
-        <span>💳 VIP на 90 дней</span>
-        <span class="price-value">950/800 рублей</span>
-    </div>
+    <!-- SERVERS -->
+    <section id="servers" class="block">
+      <div class="block-head">
+        <h2>СЕРВЕРЫ <span>PROJECT Z</span></h2>
+        <p class="hint">Выбирай сервер и присоединяйся к игре!</p>
+      </div>
 
-    <div class="price-item">
-        <span>💳 VIP навсегда</span>
-        <span class="price-value">1150/10000 рублей</span>
-    </div>
-
-    <p class="price-note">
-        Для покупки VIP свяжитесь с администрацией.
-    </p>
-</div>
+      <div class="servers">
+        <!-- server 1 -->
+        <div class="server-card">
+          <span class="s-badge">ОСНОВНОЙ СЕРВЕР</span>
+          <h3>PROJECTZ | Последний выживший</h3>
+          <p class="s-mode">Zombie Mod / Zombie Escape</p>
+          <div class="s-row">
+            <span class="s-ip">◈ <b data-ip>46.174.54.162:27015</b></span>
+            <span class="s-players"><i class="dot"></i> <b>37</b> / 64 <span class="bars">▂▄▆</span></span>
+          </div>
+          <a class="btn btn-accent full" href="steam://connect/46.174.54.162:27015">🎮 Подключиться →</a>
         </div>
+
+        <!-- server 2 -->
+        <div class="server-card">
+          <span class="s-badge blue">ВТОРОЙ СЕРВЕР · CS:S v34</span>
+          <h3>PROJECTZ | Прорыв CS:S v34</h3>
+          <p class="s-mode">Zombie Mod / Zombie Escape</p>
+          <div class="s-row">
+            <span class="s-ip">◈ <b data-ip>46.174.54.162:27015</b></span>
+            <span class="s-players"><i class="dot"></i> <b>26</b> / 64 <span class="bars">▂▄▅</span></span>
+          </div>
+          <button class="btn btn-ghost full" data-copy="46.174.54.162:27015">★ Скопировать IP для избранного</button>
+          <a class="mini-link" href="#contacts">▸ Как добавить в избранное CS:S v34</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWS -->
+    <section id="news" class="block">
+      <div class="block-head row">
+        <h2>📰 Последние новости</h2>
+        <a href="#news" class="all-link">Все новости →</a>
+      </div>
+
+      <div class="news">
+        <article class="news-card">
+          <div class="news-img g1"><span class="tag">ОБНОВЛЕНИЕ</span></div>
+          <div class="news-body">
+            <h4>Обновление карт и серверов</h4>
+            <p>Добавлены новые карты, улучшена стабильность серверов и исправлены ошибки.</p>
+            <div class="news-foot"><span>👥 Команда PROJECT Z</span><span>📅 28 окт 2024</span><span>💬 12</span></div>
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-img g2"><span class="tag">МЕРОПРИЯТИЕ</span></div>
+          <div class="news-body">
+            <h4>Новая система наград</h4>
+            <p>Добавлены новые награды за активность. Участвуйте и получайте уникальные скины!</p>
+            <div class="news-foot"><span>👥 Команда PROJECT Z</span><span>📅 25 окт 2024</span><span>💬 8</span></div>
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-img g3"><span class="tag">ИНФОРМАЦИЯ</span></div>
+          <div class="news-body">
+            <h4>График технических работ</h4>
+            <p>Завтра с 10:00 до 12:00 (МСК) будут проводиться технические работы на обоих серверах.</p>
+            <div class="news-foot"><span>👥 Команда PROJECT Z</span><span>📅 22 окт 2024</span><span>💬 5</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- VIP -->
+    <section id="vip" class="block">
+      <div class="block-head"><h2>⭐ VIP-привилегии</h2><p class="hint">Поддержи проект и получи бонусы на серверах</p></div>
+      <div class="perks">
+        <div class="perk"><b>🎨 Смена цвета ника</b><span>Меню <code>!vip</code> / <code>!color</code></span></div>
+        <div class="perk"><b>💰 Бонус денег</b><span>$16000 на старте раунда</span></div>
+        <div class="perk"><b>🏷️ Цветной префикс</b><span>Статусный тег в чате</span></div>
+        <div class="perk"><b>🪑 Резерв-слот</b><span>Всегда зайдёшь на полный сервер</span></div>
+        <div class="perk"><b>🔫 Магазин оружия</b><span><code>!buy</code> — ганы, гранаты, броня</span></div>
+        <div class="perk"><b>🧊 Огонь / Лёд гранаты</b><span>Особые эффекты</span></div>
+      </div>
+    </section>
+
+    <!-- SUPPORT / ACTIONS -->
+    <section id="support" class="block">
+      <div class="block-head"><h2>🧰 Поддержка игроков</h2><p class="hint">Выбери нужное — заявка откроется в Discord</p></div>
+      <div class="support-grid">
+        <a class="sbtn blue" href="#contacts">
+          <span class="sbtn-ico">🔓</span>
+          <span class="sbtn-t">Заявка на разбан</span>
+          <span class="sbtn-d">Оспорить блокировку</span>
+        </a>
+        <a class="sbtn red" href="#contacts">
+          <span class="sbtn-ico">⚠️</span>
+          <span class="sbtn-t">Жалоба на игрока</span>
+          <span class="sbtn-d">Читер / нарушение правил</span>
+        </a>
+        <a class="sbtn green" href="#contacts">
+          <span class="sbtn-ico">❓</span>
+          <span class="sbtn-t">Помощь по игре</span>
+          <span class="sbtn-d">Вопросы и поддержка</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- BAN -->
+    <section id="ban" class="block">
+      <div class="block-head"><h2>⛔ Бан-лист</h2></div>
+      <p class="muted-box">Публичный бан-лист появится здесь. По вопросам разбана — в Discord.</p>
+    </section>
+
+  </main>
+
+  <!-- ---- RIGHT SIDEBAR ---- -->
+  <aside class="right">
+
+    <div class="card login" id="login">
+      <h3 class="card-t">👤 Вход на сайт</h3>
+      <form onsubmit="return false">
+        <input type="text" placeholder="Логин или Email" autocomplete="username" />
+        <div class="pw">
+          <input type="password" placeholder="Пароль" id="pw" autocomplete="current-password" />
+          <button type="button" class="eye" id="eye" aria-label="Показать">👁️</button>
+        </div>
+        <div class="login-row">
+          <label><input type="checkbox" /> Запомнить меня</label>
+          <a href="#">Забыли пароль?</a>
+        </div>
+        <button class="btn btn-accent full">Войти</button>
+        <p class="reg">Нет аккаунта? <a href="#">Зарегистрироваться</a></p>
+      </form>
     </div>
-</section>
-<section id="rules" class="section"><h1>📖 Правила сервера</h1><div class="panel"><p>Ознакомься с правилами перед игрой.</p><p class="small">
-  <div class="rules-list">
-  <div class="rule-item">
-    <h3>1. Запрещённые программы и читы</h3>
-    <p>Использование читов, скриптов, эксплойтов и стороннего программного обеспечения, предоставляющего нечестное преимущество, строго запрещено.</p>
-    <p><strong>Наказание:</strong> блокировка от 10 дней до постоянной.</p>
+
+    <a class="card discord" id="contacts" href="#">
+      <span class="dico">✦</span>
+      <span class="dtxt"><b>Наш Discord</b><small>Общение, новости, поддержка</small></span>
+      <span class="darr">›</span>
+    </a>
+
+    <div class="card stats">
+      <h3 class="card-t">📊 Статистика сайта</h3>
+      <div class="stat-grid">
+        <div><b>1,5 тыс</b><span>Сообщений</span></div>
+        <div><b>352</b><span>Тем</span></div>
+        <div><b>474</b><span>Пользователей</span></div>
+        <div><b>18</b><span>Заблокировано</span></div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>© 2024 PROJECT Z — Counter-Strike: Source · Zombie Mod / Zombie Escape</span>
+    <span class="f-ip">IP: <b data-ip>46.174.54.162:27015</b></span>
   </div>
+</footer>
 
-  <div class="rule-item">
-    <h3>2. Использование ошибок игры</h3>
-    <p>Запрещено намеренно использовать недоработки карт, плагинов и игрового движка для получения преимущества или нарушения игрового процесса.</p>
-    <p><strong>Наказание:</strong> предупреждение или блокировка от 10 минут до 30 дней.</p>
-  </div>
+<div class="toast" id="toast">IP скопирован!</div>
 
-  <div class="rule-item">
-    <h3>3. Реклама сторонних ресурсов</h3>
-    <p>Запрещено рекламировать другие серверы, сайты, сообщества и сторонние проекты без разрешения администрации.</p>
-    <p><strong>Наказание:</strong> мут от 1 часа до 30 дней либо блокировка при повторных нарушениях.</p>
-  </div>
-</div>
-<div class="rules-list">
-  <div class="rule-item">
-    <h3>1. Запрещённые программы и читы</h3>
-    <p>Использование читов, скриптов, эксплойтов и стороннего программного обеспечения, предоставляющего нечестное преимущество, строго запрещено.</p>
-    <p><strong>Наказание:</strong> блокировка от 10 дней до постоянной.</p>
-  </div>
-
-  <div class="rule-item">
-    <h3>2. Использование ошибок игры</h3>
-    <p>Запрещено намеренно использовать недоработки карт, плагинов и игрового движка для получения преимущества или нарушения игрового процесса.</p>
-    <p><strong>Наказание:</strong> предупреждение или блокировка от 10 минут до 30 дней.</p>
-  </div>
-
-  <div class="rule-item">
-    <h3>3. Реклама сторонних ресурсов</h3>
-    <p>Запрещено рекламировать другие серверы, сайты, сообщества и сторонние проекты без разрешения администрации.</p>
-    <p><strong>Наказание:</strong> мут от 1 часа до 30 дней либо блокировка при повторных нарушениях.</p>
-
-  <div class="rule-item">
-  <h3>4. Оскорбительные никнеймы</h3>
-  <p>Не допускаются имена игроков, содержащие оскорбления, нецензурные выражения, провокации или дискриминационные высказывания.</p>
-  <p><strong>Наказание:</strong> требование сменить ник, затем кик или блокировка до навсегда.</p>
-</div>
-
-<div class="rule-item">
-  <h3>5. Выдача себя за администрацию</h3>
-  <p>Запрещено использовать никнеймы, теги или другие способы представляться администратором либо официальным представителем PROJECTZ без соответствующих полномочий.</p>
-  <p><strong>Наказание:</strong> предупреждение или блокировка от 1 часа до 7 дней.</p>
-</div>
-
-<h2 class="rules-category">ОБЩЕНИЕ И ПОВЕДЕНИЕ</h2>
-
-<div class="rule-item">
-  <h3>6. Микрофон и голосовой чат</h3>
-  <p>Запрещено создавать чрезмерный шум, кричать, намеренно мешать общению или постоянно перебивать других игроков.</p>
-  <p><strong>Наказание:</strong> предупреждение или голосовой мут от 15 минут до 7 дней.</p>
-</div>
-
-<div class="rule-item">
-  <h3>7. Уважение к игрокам</h3>
-  <p>Оскорбления, травля, угрозы и унижение участников сервера недопустимы. Конфликты необходимо решать без агрессии.</p>
-  <p><strong>Наказание:</strong> мут от 1 часа до 30 дней, при серьёзных нарушениях — блокировка.</p>
-</div>
-
-<div class="rule-item">
-  <h3>8. Препятствование работе сервера</h3>
-  <p>Запрещено намеренно создавать помехи игровому процессу, злоупотреблять командами или провоцировать массовый выход игроков.</p>
-  <p><strong>Наказание:</strong> предупреждение, кик или блокировка от 10 минут до 30 дня.</p>
-</div>
-    
-<div class="rule-item">
-  <h3>9. Использование звуков и музыки</h3>
-  <p>Воспроизведение музыки и звуков через микрофон допускается только в разумных пределах, если это не мешает другим игрокам и командной игре.</p>
-  <p><strong>Наказание:</strong> предупреждение или голосовой мут от 10 минут до 30 дня.</p>
-</div>
-
-<div class="rule-item">
-  <h3>10. Ненормативная лексика</h3>
-  <p>Чрезмерное употребление грубых выражений, направленная на игроков нецензурная брань и провокации запрещены.</p>
-  <p><strong>Наказание:</strong> предупреждение или мут от 10 минут до 30 дня.</p>
-</div>
-
-<div class="rule-item">
-  <h3>11. Политические и религиозные конфликты</h3>
-  <p>Запрещены провокации, разжигание ненависти и агрессивные споры на политические или религиозные темы, нарушающие спокойную атмосферу сервера.</p>
-  <p><strong>Наказание:</strong> предупреждение или мут от 30 минут до 30 дня.</p>
-</div>
-
-<h2 class="rules-category">ПРАВИЛА PROJECTZ</h2>
-
-<div class="rule-item">
-  <h3>12. Участие в игровом процессе</h3>
-  <p>Каждый игрок обязан участвовать в раунде. Намеренный отказ от заражения, побега, обороны или выполнения целей карты запрещён.</p>
-  <p><strong>Наказание:</strong> предупреждение, slay или блокировка до 30 дня.</p>
-</div>
-
-<div class="rule-item">
-  <h3>13. Намеренное введение команды в заблуждение</h3>
-  <p>Запрещено сознательно сообщать ложную информацию, давать вредные указания или обманывать союзников с целью проигрыша команды.</p>
-  <p><strong>Наказание:</strong> предупреждение, мут или блокировка до 1 дня.</p>
-</div>
-    
-    <div class="rule-item">
-    <h3>14. Запрет на искусственное ускорение зомби</h3>
-    <p>Запрещено намеренно помогать зомби получать преимущество с помощью запрещённых способов ускорения, включая бустинг, нарушающий баланс или правила карты.</p>
-    <p><strong>Наказание:</strong> предупреждение, slay или блокировка до 7 дней.</p>
-</div>
-
-<div class="rule-item">
-    <h3>15. Запрет на вредоносное использование объектов</h3>
-    <p>Нельзя перемещать, выбрасывать или использовать игровые предметы таким образом, чтобы намеренно мешать команде либо создавать препятствия для прохождения карты.</p>
-    <p><strong>Наказание:</strong> Entity Ban от 30 минут до 30 дней.</p>
-</div>
-
-<div class="rule-item">
-    <h3>16. Бессмысленное использование игровых предметов</h3>
-    <p>Запрещено забирать важные для прохождения предметы и удерживать их без необходимости, отказываться использовать их по назначению или лишать команду возможности завершить этап карты.</p>
-    <p><strong>Наказание:</strong> Entity Ban от 30 минут до 30 дней.</p>
-</div>
-
-<div class="rule-item">
-    <h3>17. Умышленное уничтожение команды</h3>
-    <p>Запрещено применять игровые предметы, механизмы и способности таким образом, чтобы намеренно привести к гибели союзников, срыву обороны или массовому заражению.</p>
-    <p><strong>Наказание:</strong> Entity Ban от 1 часа до 30 дней либо блокировка сервера.</p>
-</div>
-
-<h2 class="rules-category">ДОПОЛНИТЕЛЬНЫЕ ПОЛОЖЕНИЯ</h2>
-
-<div class="rule-item">
-    <p>Администрация вправе выбирать наказание с учётом тяжести нарушения, доказательств и истории игрока.</p>
-
-    <p>Повторные нарушения могут привести к увеличению срока наказания.</p>
-
-    <p>Правила распространяются на обычных игроков, VIP и представителей Администрации.</p>
-
-    <p>При возникновении спорной ситуации игрок может обратиться к старшей администрации.</p>
-
-    <p>Администрация PROJECT-Z может обновлять правила с публикацией изменений.</p>
-</div>
-
-<p class="rules-ending">
-    PROJECT-Z — играй честно, уважай других и выживай!
-</p>
-    
-  </div>
-</div></p></div></section>
-<section id="admins" class="section"><h1>⚔️ Администрация</h1><div class="panel"><p>Раздел команды PROJECT-Z.</p><p class="small"> 🧑‍💻1.Oxygen(Основатель) </p></div></section>
-<section id="bans" class="section">
-<h1>🚫 Бан-лист PROJECT Z</h1>
-<p class="ban-info">Список блокировок игроков сервера PROJECT Z. Поиск по нику и SteamID.</p>
-<div class="ban-toolbar"><input class="ban-search" id="banSearch" type="search" placeholder="Поиск по нику или SteamID" aria-label="Поиск банов"><button class="ban-refresh" id="banRefresh" type="button">↻ Обновить</button></div>
-<p class="ban-info" id="banMessage" role="status">Загрузка бан-листа...</p>
-<div class="ban-table-wrap"><table class="ban-table"><thead><tr><th>Игрок</th><th>Причина</th><th>Администратор</th><th>Срок / статус</th></tr></thead><tbody id="banRows"></tbody></table></div>
-
-</section>
-<section id="contacts" class="section">
-<h1>✉ Контакты</h1>
-<div class="panel">
-<p>По вопросам сервера, VIP и администрации обращайся к команде PROJECT Z.</p>
-
-<div class="telegram-row">
-    <a class="telegram-btn"
-   href="https://t.me/AyavaskA31"
-   target="_blank"
-   rel="noopener noreferrer">
-   ✈ Telegram
-</a>
-    <span class="telegram-label">(Администрация)</span>
-</div>
-
-</div>
-</section>
-</main></div><footer>© PROJECT-Z — Counter-Strike: Source</footer>
-<script>
-const buttons=document.querySelectorAll('.navbtn');const sections=document.querySelectorAll('.section');function showSection(id){if(!document.getElementById(id))return;buttons.forEach(b=>{const active=b.dataset.target===id;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});sections.forEach(s=>s.classList.toggle('active',s.id===id));history.replaceState(null,'','#'+id)}buttons.forEach(b=>b.addEventListener('click',()=>showSection(b.dataset.target)));if(location.hash)showSection(location.hash.slice(1));
-
-const BAN_API='https://bans.projectz.site/api/bans.php';
-let banData=[];
-const banRows=document.getElementById('banRows');
-const banMessage=document.getElementById('banMessage');
-function banCell(text, className){const el=document.createElement('td');if(className)el.className=className;el.textContent=String(text??'—');return el;}
-function renderBans(){
- const q=document.getElementById('banSearch').value.trim().toLowerCase();
- const filtered=banData.filter(b=>(String(b.player||'')+' '+String(b.steamid||'')).toLowerCase().includes(q));
- banRows.replaceChildren();
- for(const b of filtered){
-  const tr=document.createElement('tr');
-  const player=banCell(b.player||'Неизвестно');
-  const steam=document.createElement('span');steam.className='ban-sub';steam.textContent=b.steamid||'';player.appendChild(steam);tr.appendChild(player);
-  tr.appendChild(banCell(b.reason||'Не указана'));
-  tr.appendChild(banCell(b.admin||'Неизвестно'));
-  const status=banCell(b.duration||'—');
-  const tag=document.createElement('span');tag.className='ban-status'+(b.active?'':' expired');tag.textContent=b.active?'Активен':'Истёк / снят';
-  const line=document.createElement('div');line.style.marginTop='8px';line.appendChild(tag);status.appendChild(line);tr.appendChild(status);
-  banRows.appendChild(tr);
- }
- banMessage.textContent=filtered.length?'Найдено банов: '+filtered.length:'Баны не найдены';
-}
-async function loadBans(){
- banMessage.textContent='Загрузка бан-листа...';
- try{
-  const res=await fetch(BAN_API,{cache:'no-store'});
-  if(!res.ok)throw new Error('HTTP '+res.status);
-  const data=await res.json();
-  if(data && data.success === false)throw new Error(data.error || 'Ошибка API');
-  const bans = Array.isArray(data) ? data : data?.bans;
-  if(!Array.isArray(bans))throw new Error('Неверный формат ответа API');
-  banData=bans;renderBans();
- }catch(e){banRows.replaceChildren();banMessage.textContent='Не удалось загрузить баны. Проверь подключение API на MyArena. ('+e.message+')';}
-}
-document.getElementById('banSearch').addEventListener('input',renderBans);
-document.getElementById('banRefresh').addEventListener('click',loadBans);
-loadBans();
-</script>
-<script type="module">
-import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-const maintenanceClient=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
-async function checkProjectMaintenance(){
- try{
-  const {data:setting,error}=await maintenanceClient.from('forum_site_settings').select('maintenance_enabled,maintenance_message').eq('id',1).maybeSingle();
-  if(error)return;
-  if(!setting?.maintenance_enabled){document.getElementById('pzMaintenanceWall')?.remove();return}
-  const {data:{session}}=await maintenanceClient.auth.getSession();
-  const account=session?.user||null;
-  let role='';
-  if(account?.id){
-   const {data:profile}=await maintenanceClient.from('profiles').select('role').eq('id',account.id).maybeSingle();
-   role=String(profile?.role||'').toLowerCase();
-  }
-  const isAdmin=String(account?.email||'').trim().toLowerCase()==='007.s2@mail.ru'||role==='admin';
-  if(isAdmin){document.getElementById('pzMaintenanceWall')?.remove();return}
-  let wall=document.getElementById('pzMaintenanceWall');
-  if(wall){
-   const currentMessage=wall.querySelector('.pz-maintenance-message');
-   if(currentMessage)currentMessage.textContent=setting.maintenance_message||'В данный момент сайт временно недоступен.';
-   return;
-  }
-  wall=document.createElement('div');wall.id='pzMaintenanceWall';wall.setAttribute('role','dialog');wall.setAttribute('aria-modal','true');
-  const header=document.createElement('div');header.className='pz-maintenance-header';
-  const brand=document.createElement('div');brand.className='pz-brand';brand.textContent='☣ PROJECT Z';
-  const actions=document.createElement('div');actions.className='pz-maintenance-actions';
-  const connect=document.createElement('a');connect.className='pz-maintenance-action';connect.href='steam://connect/46.174.54.162:27015';connect.textContent='🎮 Подключиться';
-  const login=document.createElement('a');login.className='pz-maintenance-action pz-maintenance-login';login.href='/forum/?login=1';login.textContent='Вход';
-  actions.append(connect,login);header.append(brand,actions);
-  const makeTicker=()=>{const ticker=document.createElement('div');ticker.className='pz-ticker';const track=document.createElement('div');track.className='pz-ticker-track';for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}for(let i=0;i<16;i++){const item=document.createElement('span');item.textContent='⚠ ИДУТ ТЕХ. РАБОТЫ!';track.append(item)}ticker.append(track);return ticker};
-  const hero=document.createElement('div');hero.className='pz-maintenance-hero';
-  const heroText=document.createElement('div');const heroTitle=document.createElement('div');heroTitle.className='pz-hero-title';heroTitle.textContent='PROJECT Z';heroText.append(heroTitle);hero.append(heroText);
-  const card=document.createElement('section');card.className='pz-maintenance-card';
-  const icon=document.createElement('div');icon.className='pz-maintenance-icon';icon.textContent='⚙';
-  const title=document.createElement('h2');title.textContent='Идут технические работы!';
-  const message=document.createElement('p');message.className='pz-maintenance-message';message.textContent=setting.maintenance_message||'В данный момент сайт временно недоступен.';
-  const extra=document.createElement('p');extra.className='pz-maintenance-extra';extra.textContent='Пожалуйста, зайдите позже. Мы уже работаем над улучшениями!';
-  card.append(icon,title,message,extra);
-  const footer=document.createElement('div');footer.className='pz-maintenance-footer';footer.textContent='© PROJECT Z — Counter-Strike: Source';
-  wall.append(header,makeTicker(),hero,card,makeTicker(),footer);
-  if(!wall.isConnected)document.body.append(wall);
- }catch(e){console.warn('Не удалось проверить режим технических работ.',e)}
-}
-checkProjectMaintenance();
-setInterval(checkProjectMaintenance,20000);
-</script>
-<style id="pz-biohazard-effects">
-.pz-biohazard-layer{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;contain:layout paint}
-.pz-biohazard{position:absolute;color:rgba(195,112,255,.55);font-size:var(--size);left:var(--left);top:110vh;text-shadow:0 0 5px rgba(172,77,236,.55),0 0 12px rgba(172,77,236,.3);animation:pz-biohazard-float var(--duration) linear infinite;animation-delay:var(--delay);will-change:transform,opacity}
-@keyframes pz-biohazard-float{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}10%{opacity:.9}18%{opacity:.85}82%{opacity:.8}100%{transform:translate3d(var(--drift),-135vh,0) rotate(240deg);opacity:0}}
-@media(prefers-reduced-motion:reduce){.pz-biohazard{animation:none;display:none}}
-</style><div class="pz-biohazard-layer" aria-hidden="true">
-<span class="pz-biohazard" style="--left:4%;--size:34px;--duration:25s;--delay:-8s;--drift:45px">☣</span>
-<span class="pz-biohazard" style="--left:12%;--size:25px;--duration:31s;--delay:-19s;--drift:-45px">☣</span>
-<span class="pz-biohazard" style="--left:20%;--size:31px;--duration:28s;--delay:-12s;--drift:65px">☣</span>
-<span class="pz-biohazard" style="--left:28%;--size:22px;--duration:34s;--delay:-25s;--drift:-60px">☣</span>
-<span class="pz-biohazard" style="--left:36%;--size:38px;--duration:30s;--delay:-16s;--drift:50px">☣</span>
-<span class="pz-biohazard" style="--left:44%;--size:27px;--duration:26s;--delay:-5s;--drift:-75px">☣</span>
-<span class="pz-biohazard" style="--left:52%;--size:33px;--duration:35s;--delay:-22s;--drift:55px">☣</span>
-<span class="pz-biohazard" style="--left:60%;--size:24px;--duration:29s;--delay:-11s;--drift:-50px">☣</span>
-<span class="pz-biohazard" style="--left:68%;--size:40px;--duration:32s;--delay:-27s;--drift:70px">☣</span>
-<span class="pz-biohazard" style="--left:76%;--size:29px;--duration:27s;--delay:-14s;--drift:-65px">☣</span>
-<span class="pz-biohazard" style="--left:84%;--size:22px;--duration:33s;--delay:-7s;--drift:45px">☣</span>
-<span class="pz-biohazard" style="--left:92%;--size:16px;--duration:30s;--delay:-20s;--drift:-55px">☣</span>
-<span class="pz-biohazard" style="--left:16%;--size:12px;--duration:37s;--delay:-31s;--drift:40px">☣</span>
-<span class="pz-biohazard" style="--left:72%;--size:13px;--duration:24s;--delay:-18s;--drift:-35px">☣</span>
-</div>
-
-<style id="pz-edge-claws-eyes">
-/* Только небольшие светящиеся глаза на фоне баннера; без когтей и боковых глаз */
-.pz-edge-horror{display:none!important}
-.hero{position:relative;isolation:isolate;overflow:hidden}
-/* Восстанавливаем исходное изображение баннера: слой глаз не должен его перекрывать */
-.hero::before{
- content:"";position:absolute;pointer-events:none;left:0;top:50%;width:100%;height:auto;
- aspect-ratio:2020/779;transform:translateY(-50%);
- background:url('/projectz_banner_new.jpg?v=20261016-3') center/100% 100% no-repeat;
- z-index:1;filter:drop-shadow(0 8px 12px #0009);
- -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);
- mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 96%);
-}
-.hero::after{
- content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.8;mix-blend-mode:screen;
- background:
- radial-gradient(ellipse 8px 5px at 22.8% 22%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.88) 38%,rgba(151,35,255,.4) 63%,transparent 100%),
- radial-gradient(ellipse 8px 5px at 27.2% 27%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.88) 38%,rgba(151,35,255,.4) 63%,transparent 100%),
- radial-gradient(ellipse 9px 6px at 84.6% 26%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.9) 38%,rgba(151,35,255,.42) 63%,transparent 100%),
- radial-gradient(ellipse 9px 6px at 88.8% 25%,rgba(255,205,255,.98) 0 20%,rgba(204,67,255,.9) 38%,rgba(151,35,255,.42) 63%,transparent 100%);
- filter:drop-shadow(0 0 8px #bd46ff) drop-shadow(0 0 16px rgba(145,30,255,.85));
- animation:pz-hero-eyes-pulse 3.8s ease-in-out infinite;
-}
-@keyframes pz-hero-eyes-pulse{0%,100%{opacity:.4;filter:brightness(.85) drop-shadow(0 0 5px rgba(189,70,255,.65))}45%,60%{opacity:1;filter:brightness(1.55) drop-shadow(0 0 10px #bd46ff) drop-shadow(0 0 19px rgba(145,30,255,.9))}}
-@media(max-width:720px){.hero::before{height:100%;aspect-ratio:auto;top:0;transform:none;background-size:cover;background-position:center}.hero::after{opacity:.7}}
-@media(prefers-reduced-motion:reduce){.hero::after{animation:none;opacity:.8}}
-</style>
-</div>
-
-
-
-
-<script>
-/* Для живого онлайна нужен HTTPS endpoint, опрашивающий серверы через Source Query (UDP).
-   Ожидаемый ответ: {servers:[{id:"main",online:12,maxPlayers:64,players:[{name:"..."}]},{id:"v34",...}]} */
-const PZ_LIVE_STATUS_API='';
-async function pzRefreshOnline(){
- if(!PZ_LIVE_STATUS_API)return;
- try{
-  const res=await fetch(PZ_LIVE_STATUS_API,{cache:'no-store'});
-  if(!res.ok)throw new Error('Сервер статуса недоступен');
-  const data=await res.json();
-  for(const id of ['main','v34']){
-   const server=(data.servers||[]).find(x=>x.id===id);
-   const status=document.getElementById('pz-online-'+id);
-   const list=document.getElementById('pz-players-'+id);
-   if(!status||!list)continue;
-   list.replaceChildren();
-   if(!server){status.textContent='Нет данных о сервере';continue}
-   status.textContent='Онлайн: '+Number(server.online||0)+' / '+Number(server.maxPlayers||0);
-   for(const player of (server.players||[])){
-    const li=document.createElement('li');li.textContent=String(player.name||'Игрок');list.append(li);
-   }
-  }
- }catch(e){for(const id of ['main','v34']){const el=document.getElementById('pz-online-'+id);if(el)el.textContent='Не удалось получить онлайн';}}
-}
-pzRefreshOnline();setInterval(pzRefreshOnline,60000);
-</script>
-<style id="pz-hero-no-fade-blue-fix">
-/* Единый холодный синий баннер без масок, затемнений и свечения глаз */
-.hero{background:#031728!important;overflow:hidden!important;isolation:isolate!important}
-.hero::before{content:""!important;display:block!important;position:absolute!important;inset:0!important;top:0!important;left:0!important;width:100%!important;height:100%!important;aspect-ratio:auto!important;transform:none!important;background:url('/projectz_banner_new.jpg?v=20261016-3') center center/cover no-repeat!important;filter:hue-rotate(105deg) saturate(1.6) contrast(1.1)!important;opacity:1!important;mask-image:none!important;-webkit-mask-image:none!important;animation:none!important;z-index:0!important}
-.hero::after{content:none!important;display:none!important;animation:none!important}
-</style>
-<style id="pz-final-2026-complete-fix">
-:root{--bg:#00111e!important;--panel:#041e32!important;--purple:#168cde!important;--border:#246b9c!important;--text:#d9efff!important}
-.hero{background:#031626 url('/assets/projectz-soldiers-zombies.svg?v=20261029') center/cover no-repeat!important;filter:none!important;isolation:isolate!important}
-.hero::before,.hero::after{content:none!important;display:none!important;background:none!important;filter:none!important;animation:none!important}
-.pz-server-art{background:linear-gradient(90deg,#031426d9,#03243a55),url('/assets/projectz-soldiers-zombies.svg?v=20261029') center/cover no-repeat!important}
-.pz-server-art::before{content:none!important;display:none!important}
-.ban-search,.ban-search-input,input.ban-search{background:#03192b!important;border:1px solid #2777a9!important;color:#d9efff!important}
-.ban-refresh,.telegram-btn{background:linear-gradient(#1378bd,#07508d)!important;border:1px solid #3ba4e6!important;color:white!important}
-.ban-refresh:hover,.telegram-btn:hover{background:#126eac!important}
-.ban-table-wrap{border-color:#246b9c!important;background:#041a2b!important}
-.ban-table th{background:#0a3c60!important;color:#d6efff!important;border-color:#246b9c!important}
-.ban-table td{border-color:#235479!important;color:#d9efff!important}
-.ban-table tr:nth-child(even){background:#06243b!important}
-.ban-sub{color:#99bed6!important}
-.ban-status{border-color:#3175a5!important}
-#bans,#bans .card,#bans .panel{background-color:#031b2d!important;border-color:#246b9c!important}
-</style><style id="pz-reference-layout-oct2026">
-/* Layout matched to supplied blue concept screenshot */
-body{background:#000d19 radial-gradient(ellipse at 50% 40%,#082a46 0%,#001323 55%,#000a14 100%) fixed!important}
-.topbar{position:relative!important;z-index:20!important;max-width:1920px!important;margin:0 auto!important;min-height:54px!important;padding:8px clamp(14px,2.4vw,46px)!important;background:#00172a!important;border-bottom:1px solid #155f92!important}
-.brand{font-size:clamp(22px,2.3vw,31px)!important;letter-spacing:2px!important}
-.hero{height:clamp(195px,14.2vw,285px)!important;max-width:1920px!important;margin:auto!important;background:#021525 url('/assets/projectz-soldiers-zombies.svg?v=20261029-2') center/cover no-repeat!important;border-bottom:2px solid #157db8!important}
-.hero::before,.hero::after{content:none!important;display:none!important}
-.layout{max-width:1100px!important;margin:0 auto!important;grid-template-columns:185px minmax(0,1fr)!important;gap:16px!important;padding:0 10px 24px!important;align-items:start!important}
-.sidebar{position:static!important;top:auto!important;background:#021b2e!important;border:1px solid #17638e!important;border-radius:0 0 9px 9px!important;padding:11px!important}
-.navbtn{display:flex!important;align-items:center!important;min-height:39px!important;margin:4px 0!important;padding:9px 12px!important;font-size:12px!important;color:#d5efff!important;background:#04223a!important;border:1px solid #145078!important;border-radius:5px!important;text-decoration:none!important}
-.navbtn.active,.navbtn:hover{background:linear-gradient(180deg,#107bc3,#07528b)!important;border-color:#36a6ef!important;box-shadow:0 0 10px #087ad855!important}
-.content{min-width:0!important;background:#001827!important;border:1px solid #145b86!important;border-radius:0 0 8px 8px!important;padding:13px 16px!important;min-height:370px!important}
-.pz-home-heading{padding:0 0 12px!important;margin:0 0 12px!important;border-bottom:1px solid #165e89!important}
-.pz-home-heading h1{font-size:21px!important}
-.pz-home-heading span{font-size:11px!important}
-.pz-server-grid{gap:9px!important}
-.pz-server-card{border-radius:7px!important;background:#00192c!important;border:1px solid #206a9a!important}
-.pz-server-art{min-height:112px!important;background:linear-gradient(90deg,#00182c99,#00182c33),url('/assets/projectz-soldiers-zombies.svg?v=20261029-2') center/cover no-repeat!important;padding:11px 12px 8px!important}
-.pz-server-art::before{display:none!important;content:none!important}
-.pz-server-bottom{padding:8px 11px 11px!important}
-.pz-server-tag{font-size:10px!important}
-.pz-online-panel{margin-top:9px!important;padding:11px 12px!important;border-radius:7px!important}
-.pz-online-panel h2{font-size:15px!important}
-.pz-online-grid{gap:8px!important}
-.pz-online-server{border-color:#1b608b!important;background:#031c2e!important}
-.pz-home-widget{margin-top:7px!important;border-radius:7px!important}
-.pz-home-widget h2{font-size:14px!important}
-#bans .ban-table th,.ban-table th{background:#0a4167!important;color:#d5efff!important}
-#bans .ban-refresh,.ban-refresh{background:linear-gradient(#137cc4,#07538e)!important;border-color:#2c9ddc!important}
-@media(max-width:760px){.layout{grid-template-columns:1fr!important;padding:8px!important}.sidebar{position:static!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}.navbtn{margin:0!important}.content{padding:12px!important}.hero{height:190px!important}.pz-server-grid,.pz-online-grid{grid-template-columns:1fr!important}}
-</style><link rel="stylesheet" href="/assets/projectz-unified-theme.css?v=20261029-2">
-<script type="module">
-import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-const db=createClient('https://projectz-forum-proxy.fadeevbez31.workers.dev','sb_publishable_lYozlUVzBX5DOXG6q3i71A_IN8ASSHP');
-const byId=id=>document.getElementById(id);
-let currentUser=null,canPublish=false;
-const safe=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-async function refreshSession(){
- const {data:{user}}=await db.auth.getUser();currentUser=user;
- canPublish=false;
- if(user){const {data}=await db.from('profiles').select('role').eq('id',user.id).maybeSingle();canPublish=data?.role==='admin'}
- byId('pz-account-status').textContent=user?'Вы вошли как '+(user.email||'пользователь'):'Войдите или зарегистрируйтесь, чтобы использовать аккаунт форума.';
- byId('pz-login-form').hidden=!!user;byId('pz-logout').hidden=!user;
- byId('pz-news-admin').hidden=!canPublish;
-}
-function newsCard(item,admin=false){
- const article=document.createElement('article');article.className='pz-news-entry';
- const h=document.createElement('h3');h.textContent=item.title;article.append(h);
- const time=document.createElement('small');time.textContent=new Date(item.created_at).toLocaleString('ru-RU');article.append(time);
- const p=document.createElement('p');p.textContent=item.body;article.append(p);
- if(admin){const del=document.createElement('button');del.className='btn secondary';del.textContent='Удалить новость';del.addEventListener('click',async()=>{if(!confirm('Удалить эту новость?'))return;const {error}=await db.from('projectz_news').delete().eq('id',item.id);if(error)byId('pz-news-message').textContent=error.message;else loadNews()});article.append(del)}
- return article;
-}
-async function loadNews(){
- const {data,error}=await db.from('projectz_news').select('id,title,body,created_at').order('created_at',{ascending:false}).limit(40);
- for(const id of ['pz-home-news-feed','pz-news-feed']){const el=byId(id);if(!el)continue;el.replaceChildren();if(error){el.textContent='Не удалось загрузить новости: '+error.message;continue}if(!data?.length){el.textContent='Новостей пока нет.';continue}for(const item of (id==='pz-home-news-feed'?data.slice(0,3):data))el.append(newsCard(item,id==='pz-news-feed'&&canPublish))}
-}
-byId('pz-login-form').addEventListener('submit',async e=>{e.preventDefault();const email=byId('pz-account-email').value.trim(),password=byId('pz-account-password').value;const {error}=await db.auth.signInWithPassword({email,password});byId('pz-account-message').textContent=error?error.message:'Вход выполнен';if(!error){await refreshSession();await loadNews()}});
-byId('pz-signup').addEventListener('click',async()=>{const email=byId('pz-account-email').value.trim(),password=byId('pz-account-password').value;if(!email||password.length<8){byId('pz-account-message').textContent='Укажи email и пароль не короче 8 символов';return}const {error}=await db.auth.signUp({email,password,options:{emailRedirectTo:location.origin+'/forum/'}});byId('pz-account-message').textContent=error?error.message:'Регистрация отправлена. Проверь почту для подтверждения.'});
-byId('pz-forgot').addEventListener('click',async()=>{const email=byId('pz-account-email').value.trim();if(!email){byId('pz-account-message').textContent='Сначала укажи email';return}const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/forum/'});byId('pz-account-message').textContent=error?error.message:'Если адрес зарегистрирован, письмо для восстановления отправлено.'});
-byId('pz-logout').addEventListener('click',async()=>{await db.auth.signOut();await refreshSession();await loadNews()});
-byId('pz-news-form').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!canPublish)return;const title=byId('pz-news-title').value.trim(),body=byId('pz-news-body').value.trim();const {error}=await db.from('projectz_news').insert({title,body,author_id:currentUser.id});byId('pz-news-message').textContent=error?error.message:'Новость опубликована!';if(!error){e.target.reset();loadNews()}});
-document.querySelectorAll('.pz-news-link').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));document.querySelector('.navbtn[data-target="news"]')?.classList.add('active');document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));byId('news').classList.add('active');location.hash='news'}));
-db.auth.onAuthStateChange(()=>{setTimeout(()=>{refreshSession().then(loadNews)},0)});
-await refreshSession();await loadNews();
-</script>
-<style id="pz-news-auth-style">
-.pz-news-entry{padding:18px 0;border-bottom:1px solid #34343d}.pz-news-entry:last-child{border-bottom:0}.pz-news-entry h3{margin:0 0 5px;color:#f5f5f7}.pz-news-entry small{color:#ffad62}.pz-news-entry p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.pz-news-link{background:none;border:0;padding:10px 0;color:#ffa044;cursor:pointer;font-weight:700}.pz-account-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}#pz-login-form label,#pz-news-form label{display:block;margin:14px 0}#pz-login-form input,#pz-news-form input,#pz-news-form textarea{display:block;width:100%;margin-top:8px;padding:12px}#pz-news-admin{margin-top:26px;padding-top:18px;border-top:1px solid #333}#pz-news-admin[hidden],#pz-login-form[hidden],#pz-logout[hidden]{display:none!important}
-</style></body></html>
-
+<script src="js/main.js"></script>
+</body>
+</html>
